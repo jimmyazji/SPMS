@@ -1,7 +1,3 @@
-<menu type="context" id="menu">
-    <menuitem label="refresh" onclick="">
-    </menuitem>
-</menu>
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight px-4">
@@ -15,7 +11,7 @@
                 <div class="bg-white border-b border-gray-200">
                     <div class="p-8 bg-white text-gray-800">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Project's Files</h2>
-                        <div class="bg-gray-50 rounded-lg border border-gray-400 mt-6" contextmenu="menu">
+                        <div class="bg-gray-50 rounded-lg border border-gray-400 mt-6">
                             <x-directory :name=" __('Directory 1') " class="border-b border-gray-200">
                                 <x-directory :name=" __('Directory 3') ">
                                     <x-directory :name=" __('Directory 4') ">
