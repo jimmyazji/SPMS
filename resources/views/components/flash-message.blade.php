@@ -1,8 +1,8 @@
 @if ($errors->any())
-<div class="alert flex flex-row items-center bg-red-200 p-5 rounded-lg my-5 mb-4" x-data="{ show: false }" x-init="() => {
+<div class="alert flex flex-row items-center bg-red-200 p-5 rounded-lg my-5 mb-4" x-data="{ show: false }" @keydown.escape="show = false" x-init="() => {
     setTimeout(() => show = true, 500);
     setTimeout(() => show = false, 50000);
-  }" x-show="show" x-description="Notification panel, show/hide based on alert state." @click.away="show = false"
+  }" x-show="show" x-description="Notification panel, show/hide based on alert state."
     x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-90"
     x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-300"
     x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-90">
@@ -33,7 +33,7 @@
     x-data="{ show: false }" x-init="() => {
       setTimeout(() => show = true, 500);
       setTimeout(() => show = false, 5000);
-    }" x-show="show" x-description="Notification panel, show/hide based on alert state." @click.away="show = false"
+    }" x-show="show" x-description="Notification panel, show/hide based on alert state." @keydown.escape="show = false"
     x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-90"
     x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-300"
     x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-90">
