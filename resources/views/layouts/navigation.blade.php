@@ -37,12 +37,11 @@
                     @endcan
                 </div>
             </div>
-            <!-- Notifications Dropdown-->
-            
 
-            <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
-                <x-notification-dropdown/>
+                <!-- Notifications Dropdown-->
+                <x-notification-dropdown />
+                <!-- Settings Dropdown -->
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
@@ -73,8 +72,10 @@
                 </x-dropdown>
             </div>
 
-            <!-- Hamburger -->
             <div class="mr-2 flex items-center sm:hidden">
+                <!-- Notifications Dropdown-->
+                <x-notification-dropdown />
+                <!-- Hamburger -->
                 <button @click="open = ! open"
                     class="inline-flex items-center justify-center p-2 rounded-md text-gray-200 hover:text-gray-500 hover:bg-gray-100 focus:outline-none transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
