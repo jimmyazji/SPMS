@@ -50,8 +50,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
-                                    @if (!count($roles) == 0)
-                                    @foreach ($roles as $key => $role)
+                                    @forelse ($roles as $key => $role)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                             {{ $role->name }}
@@ -63,8 +62,7 @@
                                             @endcan
                                         </td>
                                     </tr>
-                                    @endforeach
-                                    @else
+                                    @empty
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 
@@ -72,7 +70,7 @@
                                         </td>
                                         <td></td>
                                     </tr>
-                                    @endif
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>

@@ -59,8 +59,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
-                                    @if (!count($users) == 0)
-                                    @foreach ($users as $user)
+                                    @forelse ($users as $user)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             <div class="flex items-center">
@@ -96,10 +95,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500">
                                             @if(!empty($user->getRoleNames()))
                                             @foreach($user->getRoleNames() as $v)
-                                            <label class="">{{ $v }}</label>
+                                            <label class="px-1 py-0.5 bg-gray-100 rounded-full border border-gray-300">{{ $v }}</label>
                                             @endforeach
                                             @endif
                                         </td>
@@ -108,10 +107,7 @@
                                                 class="text-indigo-600 hover:text-indigo-900">Edit</a>
                                         </td>
                                     </tr>
-
-                                    @endforeach
-                                    @else
-
+                                    @empty
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 
@@ -121,7 +117,7 @@
                                         <td></td>
                                         <td></td>
                                     </tr>
-                                    @endif
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>

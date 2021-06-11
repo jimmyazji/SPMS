@@ -66,8 +66,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white">
-                                    @if (!count($groups) == 0)
-                                    @foreach ($groups as $group)
+                                    @forelse ($groups as $group)
                                     <tr class="border-b border-gray-200">
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><a
                                                 href="{{ route('groups.show',$group->id) }}">
@@ -100,8 +99,7 @@
                                                 class="text-indigo-600 hover:text-indigo-900">Edit</a>
                                         </td>
                                     </tr>
-                                    @endforeach
-                                    @else
+                                    @empty
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             No Results found
@@ -112,7 +110,7 @@
                                         <td></td>
                                         <td></td>
                                     </tr>
-                                    @endif
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
