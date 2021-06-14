@@ -14,7 +14,8 @@
         x-transition:enter="transition ease-out duration-200"
         x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100"
         x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100"
-        x-transition:leave-end="transform opacity-0 scale-95">
+        x-transition:leave-end="transform opacity-0 scale-95"
+        style="display: none;">
         <div class="py-2">
             <a href="#" class="flex items-center px-4 py-3 hover:bg-gray-100 -mx-2">
                 <img class="h-8 w-8 rounded-full object-cover mx-1"

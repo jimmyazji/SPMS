@@ -1,5 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
+        @can('user-edit')
+        <a href="{{ route('users.edit',$user->id) }}" class="flex justify-end">
+            <x-button type="button">
+                {{ __('Edit User') }}
+            </x-button>
+        </a>
+        @endcan
     </x-slot>
     <div class="py-12 flex flex-col md:flex-row container justify-center gap-6">
         <div class="max-w-7xl">
@@ -15,7 +22,7 @@
                             <div class="container flex flex-row justify-between md:w-40">
                                 <div>
                                     Last login:
-                                </div> 
+                                </div>
                                 <div>
                                     @if($user->last_login_at)
                                     {{ $user->last_login_at->diffForHumans() }}
@@ -27,7 +34,7 @@
                             <div class="container flex flex-row justify-between md:w-40">
                                 <div>
                                     From IP:
-                                </div> 
+                                </div>
                                 <div>
                                     @if($user->last_login_ip)
                                     {{ $user->last_login_ip }}
@@ -62,9 +69,9 @@
                             </div>
                             <div class="text-sm text-gray-500">
                                 @if($user->group)
-                                    <a href="{{ route('groups.show',$user->group_id) }}">#{{ $user->group->id }}</a>
+                                <a href="{{ route('groups.show',$user->group_id) }}">#{{ $user->group->id }}</a>
                                 @else
-                                    none
+                                none
                                 @endif
                             </div>
                         </div>
@@ -83,13 +90,13 @@
                             </div>
                             <div class="text-sm text-gray-500">
                                 @if($user->group)
-                                    @if ($user->group->project)
-                                        {{ $user->group->project->title }}
-                                    @else
-                                        none
-                                    @endif
+                                @if ($user->group->project)
+                                {{ $user->group->project->title }}
                                 @else
-                                    none
+                                none
+                                @endif
+                                @else
+                                none
                                 @endif
                             </div>
                         </div>
@@ -114,7 +121,7 @@
                                 @endforeach
                                 @endif
                                 @else
-                                    none
+                                none
                                 @endif
                             </div>
                         </div>
