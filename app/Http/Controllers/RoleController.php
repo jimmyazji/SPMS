@@ -39,7 +39,7 @@ class RoleController extends Controller
                 }
             }]
         ])
-        ->orderBy('id','DESC')->paginate(5)->withQueryString();;
+        ->orderBy('id','DESC')->paginate(15)->withQueryString();;
         return view('roles.index',compact('roles'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }

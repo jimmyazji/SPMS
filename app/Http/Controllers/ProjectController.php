@@ -34,7 +34,7 @@ class ProjectController extends Controller
                                 ->orWhere('description', 'LIKE', '%' . $term . '%')->get();
                         }
                     }]
-                ])->latest()->paginate(8)->withQueryString();
+                ])->latest()->paginate(15)->withQueryString();
         } else {
             $term1 = $user->dept_id;
             $groups = Project::with('dept')->where('dept_id', '=', $term1)->latest()->paginate(5)->withQueryString();
