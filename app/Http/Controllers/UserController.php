@@ -22,7 +22,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::with('dept')->latest()->filter(request(['search']))
-            ->paginate(8)->withQueryString();
+            ->paginate(15)->withQueryString();
         return view('users.index', compact('users'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -58,12 +58,13 @@ class UserController extends Controller
         ]);
 
         $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
+            'first_name' => ucfirst($request->first_name),
+            'last_name' => ucfirst($request->last_name),
             'stdsn' => $request->serial_number,
             'dept_id' => $request->department,
-            'email' => $request->email,
+            'email' => strtolower($request->email),
             'password' => Hash::make($request->password),
+            'avatar' => 'default.jpg'
         ]);
         $user->assignRole(explode(',',$request->input('roles')));
 
