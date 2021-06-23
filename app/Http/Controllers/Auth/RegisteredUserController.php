@@ -38,18 +38,18 @@ class RegisteredUserController extends Controller
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'serial_number' => 'digits:7',
+            'serial_number' => 'digits:7|nullable',
             'department'=> 'required',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name'=> $request->last_name,
+            'first_name' => ucfirst($request->first_name),
+            'last_name'=> ucfirst($request->last_name),
             'stdsn'=> $request->serial_number,
             'dept_id'=> $request->department,
-            'email' => $request->email,
+            'email' => strtolower($request->email),
             'password' => Hash::make($request->password),
             'avatar' => 'default.jpg'
         ]);
