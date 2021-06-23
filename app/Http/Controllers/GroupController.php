@@ -43,7 +43,7 @@ class GroupController extends Controller
                         ->orWhere('name' , 'LIKE' , '%' . $term . '%')->load('users')->get();
                     }
                 }]
-            ])->latest()->paginate(15)->withQueryString();;
+            ])->latest()->paginate(15)->withQueryString();
         }
         else
         {
@@ -56,7 +56,7 @@ class GroupController extends Controller
                         $query->orWhere('id' , '=', $term)->load('users')->get();
                     }
                 }]
-            ])->latest()->paginate(15)->withQueryString();;
+            ])->latest()->paginate(15)->withQueryString();
         }
         return view('groups.index',compact('groups'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
