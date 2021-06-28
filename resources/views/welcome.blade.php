@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>PMS</title>
+    <title>SPMS</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -29,7 +29,6 @@
     </div>
     @endif
     <div id="app" class="flex items-center bg-gray-100 min-h-screen">
-        <home />
     </div>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
