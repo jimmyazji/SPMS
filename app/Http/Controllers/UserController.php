@@ -59,7 +59,7 @@ class UserController extends Controller
         $this->validate($request, [
             'first_name' => 'required',
             'last_name' => 'required',
-            'serial_number' => 'digits:7|unique:users,stdsn',
+            'serial_number' => 'nullable|digits:7|unique:users,stdsn',
             'email' => 'required|email|unique:users,email',
             'password' => 'min:8|same:confirm-password',
             'department' => 'required'
