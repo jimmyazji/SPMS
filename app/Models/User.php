@@ -67,4 +67,7 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Group::class, 'group_id');
     }
+    public function groupRequests(){
+        return $this->hasMany(GroupRequest::class,'id','sender_id');
+    }
 }

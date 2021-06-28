@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Group;
 use App\Models\User;
+use App\Models\Group;
 use App\Models\Project;
+use App\Models\GroupRequest;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -95,7 +97,6 @@ class GroupController extends Controller
         $this->validate($request, [
             'status' => 'required',
         ]);
-
         $user = $request->user();
         $dept_id = $user->dept_id;
         $group = Group::create([
@@ -115,10 +116,11 @@ class GroupController extends Controller
      * @param  \App\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $group = Group::find($id);
-        return view('groups.show',compact('group'));
+    public function show(Group $group)
+    {   
+        $groupRequests = GroupRequest::get()->where('group_id',$group->id);
+        $requested = $groupRequests->where('sender_id',Auth::id());
+        return view('groups.show',compact('group','groupRequests','requested'));
     }
 
     /**
