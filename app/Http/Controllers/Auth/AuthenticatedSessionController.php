@@ -37,7 +37,7 @@ class AuthenticatedSessionController extends Controller
         Auth::user()->last_login_ip = $request->getClientIp();
         Auth::user()->save();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect()->intended(RouteServiceProvider::HOME)->with('success','Logged in successfully');
     }
 
     /**

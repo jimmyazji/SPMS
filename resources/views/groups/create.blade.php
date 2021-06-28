@@ -19,7 +19,7 @@
                                     <x-label for="status" :value="__('Select Status')" />
                                     <select id="status" name="status"
                                         class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:text-sm">
-                                        <option value="">Select Status</option>
+                                        <option selected disabled value="">Select Status</option>
                                         <option value="Looking for members">Looking for members</option>
                                         <option value="Full">Full</option>
                                     </select>
@@ -28,7 +28,7 @@
                                     <x-label for="project_id" :value="__('Project')" />
                                     <select id="project_id" name="project_id"
                                         class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:text-sm">
-                                        <option value="">Select project</option>
+                                        <option selected disabled value="">Select project</option>
                                         @foreach($projects as $project)
                                         <option value="{{ $project->id }}">{{ $project->title }}</option>
                                         @endforeach
@@ -39,7 +39,7 @@
                                 <x-label for="invite_members" :value="__('Invite Members')" />
                                 <select id="invite_members" name="invite_members"
                                     class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:text-sm">
-                                    <option>Invite members</option>
+                                    <option selected disabled>Invite members</option>
                                     @foreach($users as $user)
                                         <option value="{{ $user->id }}">{{ $user->first_name }} {{ $user->last_name }}</option>
                                         @endforeach

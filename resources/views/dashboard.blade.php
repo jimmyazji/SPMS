@@ -4,23 +4,23 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <x-flash-message />
             <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
+                <div class="p-6 bg-white border-b border-gray-200"> 
                     @forelse ($notifications as $notification)
                     <a href="{{ route('users.show',$notification->data['user']['id']) }}">
                         <div
-                            class="mt-1 flex justify-between items-center p-4 rounded-lg border border-gray-300 @if(!$notification->read_at) bg-gray-100 @endif">
+                        class="mt-1 flex justify-between items-center p-4 rounded-lg border border-gray-300 @if(!$notification->read_at) bg-gray-100 @endif">
                             <div class="text-xs text-gray-800 flex flex-row">
                                 <img class="h-10 w-10 rounded-full border border-gray-300"
                                     src="/uploads/avatars/{{ $notification->data['user']['avatar'] }}" alt="profile">
                                 <div class="ml-2 flex items-center text-indigo-700">
                                     {{ $notification->data['user']['first_name'] }}
                                     {{ $notification->data['user']['last_name'] }}
-                                    <div class="text-gray-700 ml-1">
-                                        {{ __('Just Registered')}}
+                                    <div class="text-gray-700 ml-1"> 
+                                        {{ __('Just Registered') }}
                                     </div>
                                 </div>
                             </div>

@@ -5,7 +5,7 @@
                 {{ __('Roles') }}
             </h2>
             <div>
-                <div class="flex flex-col md:flex-row container">
+                <div class="flex flex-col md:flex-row container items-center">
                     <div class="relative mt-2 md:mt-0">
                         <form action="{{ route('roles.index') }}" method="GET" role="search">
                             <x-input name="term" id="term" type="text"

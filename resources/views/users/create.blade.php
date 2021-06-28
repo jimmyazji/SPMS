@@ -11,7 +11,7 @@
             <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <x-flash-message class="mb-4" :errors="$errors" />
-                    <form method="POST" action="{{ route('users.store') }}" enctype="multipart/formdata">
+                    <form method="POST" action="{{ route('users.store') }}">
                         @csrf
                         <div class="grid grid-row-2 gap-6 mt-4">
                             <div class="grid grid-cols-2 gap-6">
@@ -63,14 +63,14 @@
                                         <x-slot name="options">
                                             @foreach ($roles as $role)
                                             <option value="{{ $role }}" {{ $role==old('roles') ? 'selected' : '' }}>
-                                            {{ $role }}</option>
+                                                {{ $role }}</option>
                                             @endforeach
                                         </x-slot>
                                     </x-multi-select-dropdown>
                                 </div>
                             </div>
                         </div>
-                        <div class="grid grid-row-2 gap-6 mt-4">
+                        <div class="grid grid-row-2 gap-6">
                             <div class="grid grid-cols-2 gap-6">
                                 <div>
                                     <x-label for="password" :value="__('New password')" />

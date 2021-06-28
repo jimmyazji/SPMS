@@ -69,7 +69,7 @@
                                     @forelse ($groups as $group)
                                     <tr class="border-b border-gray-200">
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><a
-                                                href="{{ route('groups.show',$group->id) }}">
+                                                href="{{ route('groups.show',$group) }}">
                                                 {{ $group->id }}</a>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

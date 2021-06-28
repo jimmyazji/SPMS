@@ -1,19 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="container mx-auto flex flex-col md:flex-row items-start md:items-center md:justify-between">
+        <div class="container mx-auto flex flex-row items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('My Profile') }}
             </h2>
-            <div>
-                <div class="flex flex-col md:flex-row container mt-2 md:mt-0 ">
-                    <div class="flex flex-row">
-                        <a href="{{ route('profile.edit') }}">
-                            <x-button type="button">
-                                {{ __('Edit Profile') }}
-                            </x-button>
-                        </a>
-                    </div>
-                </div>
+            <div class="mt-2">
+                <a href="{{ route('profile.update') }}">
+                    <x-button type="button">
+                        {{ __('Edit Profile') }}
+                    </x-button>
+                </a>
             </div>
     </x-slot>
 
@@ -22,7 +18,7 @@
             <div class="bg-white overflow-hidden shadow-lg rounded-3xl">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <img src="/uploads/avatars/{{ $user->avatar }}"
-                        class="h-70 w-70 rounded-full border-2 border-gray-300">
+                        class="w-full md:h-96 md:w-96 rounded-full border-2 border-gray-300">
                     <div class="flex flex-col md:flex-row container justify-between border-b border-gray-300 py-4">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight mt-2 flex items-center">
                             {{ $user->first_name }} {{ $user->last_name }}
@@ -66,7 +62,7 @@
                         </h2>
                         <div class="flex flex-col md:flex-row justify-between py-4 border-b border-gray-300">
                             <div class="text-sm text-gray-800">
-                                Current group:
+                                Current group
                             </div>
                             <div class="text-sm text-gray-500">
                                 @if($user->group)
@@ -87,7 +83,7 @@
                         </h2>
                         <div class="flex flex-col md:flex-row justify-between py-4 border-b border-gray-300">
                             <div class="text-sm text-gray-800">
-                                Current project:
+                                Current project
                             </div>
                             <div class="text-sm text-gray-500">
                                 @if($user->group)

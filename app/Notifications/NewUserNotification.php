@@ -41,6 +41,9 @@ class NewUserNotification extends Notification
     {
         return [
             'user' => $this->user,
+            'notify' => 'just registered',
+            'action' => 'view profile',
+            'link' => route('users.show', $this->user->id),
         ];
     }
 }

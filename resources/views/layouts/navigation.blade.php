@@ -58,7 +58,7 @@
                     <x-slot name="content">
                         <!-- Authentication -->
 
-                        <x-dropdown-link :href="route('profile.edit')">
+                        <x-dropdown-link :href="route('profile.show')">
                             {{ __('My Profile') }}
                         </x-dropdown-link>
                         <form method="POST" action="{{ route('logout') }}">
@@ -121,7 +121,7 @@
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
-                <a href="route('profile.edit')">
+                <a href="route('profile.show')">
                     <div class="font-medium text-base text-gray-200">{{ Auth::user()->first_name }}
                         {{ Auth::user()->last_name }}</div>
                     <div class="font-medium text-sm text-gray-400">{{ Auth::user()->email }}</div>

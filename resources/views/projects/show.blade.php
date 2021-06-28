@@ -59,7 +59,7 @@
                             @foreach ($project->users as $user)
                             <a href="{{ route('users.show',$user->id) }}">
                                 <div
-                                    class="mt-1 bg-gray-50 px-1 py-1 rounded-lg border border-gray-300 hover:bg-gray-300 hover:border-gray-100">
+                                    class="mt-1 bg-gray-50 px-1 py-1 rounded-lg border border-gray-300 hover:bg-gray-100">
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 h-8 w-8">
                                             <img class="h-8 w-8 rounded-full border border-gray-300"
@@ -77,6 +77,22 @@
                                 </div>
                             </a>
                             @endforeach
+                            @if ($project->group_id)
+                            @if(auth()->user()->group_id == $project->group->id)
+                            <a href=""
+                                class="mt-1 py-2 bg-gray-50 px-2 flex justify-center rounded-lg font-semibold text-red-700 border border-red-700">
+                                Leave group
+                            </a>
+                            @else
+                            <a href="#"
+                                class="mt-1 py-2 bg-gray-50 px-2 flex justify-center rounded-lg font-semibold text-blue-700 border border-gray-300">Send
+                                Join Request</a>
+                            @endif
+                            @else
+                            <a href="#"
+                                class="mt-1 py-2 bg-gray-50 px-2 flex justify-center rounded-lg font-semibold text-blue-700 border border-gray-300">Assign
+                                group to project</a>
+                            @endif
                         </div>
                     </div>
                 </div>

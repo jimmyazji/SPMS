@@ -5,7 +5,7 @@
                 {{ __('Users') }}
             </h2>
             <div>
-                <div class="flex flex-col md:flex-row container">
+                <div class="flex flex-col md:flex-row container items-center">
                     <div class="relative mt-2 md:mt-0">
                         <form action="{{ route('users.index') }}" method="GET" role="search">
                             <x-input name="search" id="search" type="text"
@@ -66,7 +66,7 @@
                                                 <div class="flex items-center">
                                                     <div class="flex-shrink-0 h-10 w-10">
                                                         <a href="{{ route('users.show',$user->id) }}">
-                                                            <img class="h-10 w-10 rounded-full"
+                                                            <img class="h-10 w-10 rounded-full border border-gray-300"
                                                                 src="/uploads/avatars/{{ $user->avatar }}"
                                                                 alt="profile">
                                                         </a>

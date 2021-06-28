@@ -5,8 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\GroupRequestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UserNotificationController;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,10 +30,12 @@ Route::get('/', function () {
 Route::group(['middleware' => ['auth']], function () {
     Route::get('dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
-    Route::post('/mark-as-read', [DashboardController::class, 'markNotification'])->name('markNotification');
-    Route::get('profile', [ProfileController::class, 'show'])->name('profile');
-    Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'edit'])
-        ->name('profile.edit');
+    Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::post('profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('markAllRead', [UserNotificationController::class, 'markAllRead'])->name('markAllRead');
+    Route::get('notifications/{id}', [UserNotificationController::class, 'show'])->name('notifications.show');
+    Route::get('groupRequests/{group:id}',[GroupRequestController::class,'store'])->name('groupRequests.store');
+    Route::delete('groupRequests/{group:id}',[GroupRequestController::class,'destroy'])->name('groupRequests.destroy');
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('groups', GroupController::class);
