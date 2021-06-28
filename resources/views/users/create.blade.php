@@ -32,8 +32,8 @@
                                 <div>
                                     <x-label for="serial_number" :value="__('Serial Number')" />
                                     <x-input id="serial_number" class="block mt-1 w-full" type="number"
-                                        name="serial_number" placeholder="Serial Number" :value="old('serial_number')"
-                                        required />
+                                        name="serial_number" placeholder="Serial Number"
+                                        :value="old('serial_number')" />
                                 </div>
                                 <div>
                                     <x-label for="email" :value="__('Email')" />
