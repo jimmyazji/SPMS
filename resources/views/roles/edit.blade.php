@@ -37,33 +37,33 @@
                         <div class="ml-2 mt-2">
                             <div>
                                 <x-label for="name" class="text-lg" :value="__('Role Name')" />
-                                <x-input id="name"  class="w-full block mt-3 font-size-small" type="text"
-                                    name="name" value="{{ $role->name }}" />
+                                <x-input id="name" class="w-full block mt-3 font-size-small" type="text" name="name"
+                                    value="{{ $role->name }}" />
                             </div>
                             <div class="mt-3">
                                 <x-label for="permission" class="text-lg" :value="__('Role Permissons')" />
                                 @foreach($permissions->chunk(3) as $chunk)
-                                <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
-                                    @foreach ($chunk as $permission)
-                                    <div>
-                                        <label class="inline-flex items-center mt-2">
-                                            <input name="permission[]"  type="checkbox"
-                                                 value="{{ $permission->id }}"
-                                                class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                                @if(in_array($permission->id, $rolePermissions) ? true : false)
-                                            checked @endif>
-                                            <span class="ml-2 text-sm text-gray-600">{{ ($permission->name) }}
-                                            </span>
-                                        </label>
+                                <div class="grid grid-row-3 gap-2 mt-4">
+                                    <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                                        @foreach ($chunk as $permission)
+                                        <div>
+                                            <label class="inline-flex items-center mt-2">
+                                                <input name="permission[]" type="checkbox" value="{{ $permission->id }}"
+                                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                    {{ in_array($permission->id,$rolePermissions) ? 'checked' : '' }}>
+                                                <span class="ml-2 text-sm text-gray-600">{{ ($permission->name) }}
+                                                </span>
+                                            </label>
+                                        </div>
+                                        @endforeach
                                     </div>
                                     @endforeach
                                 </div>
-                                @endforeach
-                            </div>
-                            <div class="flex items-center justify-end mt-4">
-                                <x-button type="submit">
-                                    Update
-                                </x-button>
+                                <div class="flex items-center justify-end mt-4">
+                                    <x-button type="submit">
+                                        Update
+                                    </x-button>
+                                </div>
                             </div>
                         </div>
                     </form>
