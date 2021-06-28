@@ -4,7 +4,9 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Edit Role') }}
             </h2>
-            <form method="DELETE" action="{{ route('roles.destroy',$role->id) }}">
+            <form method="POST" action="{{ route('roles.destroy',$role->id) }}">
+                @csrf
+                @method('DELETE')
                 <x-delete-modal>
                     <x-slot name="trigger">
                         <x-button type="button" class="bg-red-600 hover:bg-red-500" @click="showModal = true"
