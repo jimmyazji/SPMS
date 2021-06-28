@@ -8,7 +8,7 @@
             <form method="POST" action="{{route('groups.destroy', $group->id)}}">
                 @csrf
                 @method('DELETE')
-                <x-delete-modal>
+                <x-modal>
                     <x-slot name="trigger">
                         <x-button type="button" class="bg-red-600 hover:bg-red-500" @click="showModal = true"
                             value="Click Here">Delete Group</x-button>
@@ -24,7 +24,7 @@
                             data will be permanently removed. This action cannot be undone.
                         </p>
                     </x-slot>
-                </x-delete-modal>
+                </x-modal>
             </form>
         </div>
     </x-slot>

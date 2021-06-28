@@ -48,10 +48,25 @@
 
                     @endif
                     @else
-                    <a href=""
-                        class="mt-1 py-2 bg-gray-50 px-2 flex justify-center rounded-lg font-semibold text-red-700 border border-red-700">
-                        Leave group
-                    </a>
+                    <x-modal action="{{ __('Leave') }}">
+                        <x-slot name="trigger">
+                            <button @click="showModal = true"
+                                class="mt-1 px-2 py-2 w-full bg-gray-50 flex justify-center rounded-lg font-semibold text-red-700 border border-red-700 hover:border-red-500 hover:text-red-500 focus:outline-none">
+                                Leave group
+                            </button>
+                        </x-slot>
+                        <x-slot name="title">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                Leave group
+                            </h3>
+                        </x-slot>
+                        <x-slot name="content">
+                            <p class="text-sm text-gray-500">
+                                Are you sure you want to this group? This action cannot be undone.
+                            </p>
+                        </x-slot>
+                    </x-modal>
+
                     @endif
                 </div>
             </div>

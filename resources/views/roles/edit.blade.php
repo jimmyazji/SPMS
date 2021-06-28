@@ -7,7 +7,7 @@
             <form method="POST" action="{{ route('roles.destroy',$role->id) }}">
                 @csrf
                 @method('DELETE')
-                <x-delete-modal>
+                <x-modal>
                     <x-slot name="trigger">
                         <x-button type="button" class="bg-red-600 hover:bg-red-500" @click.prevent="showModal = true"
                             value="Click Here">Delete Role</x-button>
@@ -22,7 +22,7 @@
                             Are you sure you want to delete {{ $role->name }} Role? This action cannot be undone.
                         </p>
                     </x-slot>
-                </x-delete-modal>
+                </x-modal>
             </form>
         </div>
     </x-slot>

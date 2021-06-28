@@ -1,3 +1,4 @@
+@props(['action' => 'Delete'])
 <div x-data="{ 'showModal': false }" @keydown.escape="showModal = false">
     <!-- Trigger for Modal -->
     {{ $trigger }}
@@ -33,8 +34,8 @@
                     </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <x-button type="submit" class="bg-red-600 hover:bg-red-500">
-                        Delete
+                    <x-button type="submit" class="bg-red-700 hover:bg-red-500">
+                        {{ $action }}
                     </x-button>
                     <x-button type="button" @click="showModal = false" class="mr-2" value="Click Here">
                         Cancel
