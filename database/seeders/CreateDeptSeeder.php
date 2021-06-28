@@ -15,7 +15,6 @@ class CreateDeptSeeder extends Seeder
     public function run()
     {
 
-        Dept::create(['name'=>'Adminstration']);
         Dept::create(['name'=>'IT Software']);
 
     }

@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Models\Dept;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -24,7 +25,7 @@ class CreateAdminUserSeeder extends Seeder
             'email' => 'jimmy@gmail.com',
             'avatar' => 'jimmy.jpg',
             'password' => bcrypt('12345678'),
-            'dept_id' => '1'
+            'dept_id' => Dept::create(['name'=>'Adminstration'])->id,
         ]);
 
         $role = Role::create(['name' => 'Admin']);
