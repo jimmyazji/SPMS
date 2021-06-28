@@ -15,12 +15,20 @@
         "linejoin",
         "nowrap",
         "onclick",
+        "query",
         "semibold",
         "showmain",
         "stdsn",
+        "string",
         "stroke",
         "tbody",
         "thead",
-        "whitespace"
+        "whitespace",
+        "with"
+    ],
+    "cSpell.ignoreWords": [
+        "query",
+        "string",
+        "with"
     ]
 }
