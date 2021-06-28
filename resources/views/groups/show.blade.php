@@ -38,9 +38,14 @@
                         class="mt-1 py-2 bg-gray-50 px-2 flex justify-center rounded-lg font-semibold text-blue-700 border border-gray-300">Send
                         join request</a>
                     @else
-                    <a href="{{ route('groupRequests.destroy',$group->id) }}"
-                        class="mt-1 py-2 bg-gray-50 px-2 flex justify-center rounded-lg font-semibold text-blue-700 border border-gray-300">Cancel
-                        join request</a>
+                    <form method="POST" action="{{ route('groupRequests.destroy',$group->id) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button
+                            class="mt-1 px-2 py-2 w-full focus:outline-none bg-gray-50 flex justify-center rounded-lg font-semibold text-blue-700 border border-gray-300">Cancel
+                            join request</button>
+                    </form>
+
                     @endif
                     @else
                     <a href=""

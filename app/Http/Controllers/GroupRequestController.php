@@ -29,7 +29,7 @@ class GroupRequestController extends Controller
     }
     public function destroy($group_id)
     {
-        $requests = GroupRequest::where('user_id',Auth::id())->where('group_id',$group_id);
-        dd($requests);
+        GroupRequest::where('sender_id',Auth::id())->where('group_id',$group_id)->delete();
+        return redirect()->route('groups.show',$group_id)->with('success','Request deleted successfully');
     }
 }

@@ -9,7 +9,7 @@
                 @method('DELETE')
                 <x-delete-modal>
                     <x-slot name="trigger">
-                        <x-button type="button" class="bg-red-600 hover:bg-red-500" @click="showModal = true"
+                        <x-button type="button" class="bg-red-600 hover:bg-red-500" @click.prevent="showModal = true"
                             value="Click Here">Delete Role</x-button>
                     </x-slot>
                     <x-slot name="title">
