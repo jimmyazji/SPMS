@@ -52,7 +52,7 @@
                     <x-modal action="{{ __('Leave') }}">
                         <x-slot name="trigger">
                             <button @click="showModal = true"
-                                class="mt-2 px-2 py-2 w-full bg-gray-50 flex justify-center rounded-lg font-semibold text-red-700 border border-red-700 hover:border-red-500 hover:text-red-500 focus:outline-none">
+                                class="mt-2 px-2 py-2 w-full bg-red-50 flex justify-center rounded-lg font-semibold text-red-700 border border-red-700 hover:border-red-500 hover:text-red-500 focus:outline-none">
                                 Leave group
                             </button>
                         </x-slot>

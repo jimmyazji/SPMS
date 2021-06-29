@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use App\Models\GroupRequest;
+use App\Notifications\GroupJoinRequestNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class GroupRequestController extends Controller
 {
@@ -26,6 +28,7 @@ class GroupRequestController extends Controller
         } else {
             return redirect()->back()->with('error', 'Group is full');
         }
+        Notification::send($group->users,new GroupJoinRequestNotification($user , $group));
         return redirect()->back()->with('success', 'Group join request sent');
     }
     public function destroy($group_id)
