@@ -11,8 +11,9 @@ class GroupRequestController extends Controller
 {
     public function store($id)
     {
+        $group = Group::find($id);
         $user = Auth::user();
-        if (Group::find($id) != 'full') {
+        if ($group->status != 'Full') {
             if (!$user->group_id) {
                 GroupRequest::create([
                     'group_id' => $id,
@@ -20,12 +21,12 @@ class GroupRequestController extends Controller
                     'status' => 'pending',
                 ]);
             } else {
-                return redirect()->back()->with('error', 'Please leave your current group before attempting to join another group');
+                return redirect()->route('groups.show',$id)->with('error','Please leave your current group before attempting to join another group');
             }
         } else {
-            return redirect()->back()->withErrors('msg', 'Group is full');
+            return redirect()->back()->with('error', 'Group is full');
         }
-        return redirect()->back()->withErrors('msg', 'Group join request sent');
+        return redirect()->back()->with('success', 'Group join request sent');
     }
     public function destroy($group_id)
     {
