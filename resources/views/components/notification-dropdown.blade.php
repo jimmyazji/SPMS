@@ -16,7 +16,7 @@
         x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75"
         x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95"
         style="display: none;">
-        <div class="flex justify-between items-center py-2 px-4 border-b border-gray-300">
+        <div class="flex justify-between items-center py-2 px-4 border-b border-gray-200">
             <div class=" text-gray-700 font-semibold">Notifications</div>
             <a class="text-xs text-blue-700 font-bold" href="{{ route('markAllRead') }}">Mark all as read</a>
         </div>
