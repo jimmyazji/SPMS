@@ -49,24 +49,26 @@
 
                     @endif
                     @else
-                    <x-modal action="{{ __('Leave') }}">
-                        <x-slot name="trigger">
-                            <button @click="showModal = true"
-                                class="mt-2 px-2 py-2 w-full bg-red-50 flex justify-center rounded-lg font-semibold text-red-700 border border-red-700 hover:border-red-500 hover:text-red-500 focus:outline-none">
-                                Leave group
-                            </button>
-                        </x-slot>
-                        <x-slot name="title">
-                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                                Leave group
-                            </h3>
-                        </x-slot>
-                        <x-slot name="content">
-                            <p class="text-sm text-gray-500">
-                                Are you sure you want to this group? This action cannot be undone.
-                            </p>
-                        </x-slot>
-                    </x-modal>
+                    <a href="{{ route('groups.leaveGroup',$group->id) }}">
+                        <x-modal action="{{ __('Leave') }}" type="{{ __('button') }}">
+                            <x-slot name="trigger">
+                                <button @click.prevent="showModal = true"
+                                    class="mt-2 px-2 py-2 w-full bg-red-50 flex justify-center rounded-lg font-semibold text-red-700 border border-red-700 hover:border-red-500 hover:text-red-500 focus:outline-none">
+                                    Leave group
+                                </button>
+                            </x-slot>
+                            <x-slot name="title">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                    Leave group
+                                </h3>
+                            </x-slot>
+                            <x-slot name="content">
+                                <p class="text-sm text-gray-500">
+                                    Are you sure you want to this group? This action cannot be undone.
+                                </p>
+                            </x-slot>
+                        </x-modal>
+                    </a>
                     @endif
                 </div>
             </div>
@@ -109,11 +111,11 @@
                                     </svg>
                                 </button>
                                 <div x-show="requestMenu" class="absolute z-50 mt-2 bg-white rounded-lg shadow-lg w-52">
-                                    <a href="#"
+                                    <a href="{{ route('groupRequests.acceptRequest',$groupRequest->id) }}"
                                         class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
                                         Accept request
                                     </a>
-                                    <a href="#"
+                                    <a href="{{ route('groupRequests.rejectRequest',$groupRequest->id) }}"
                                         class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
                                         Reject request
                                     </a>

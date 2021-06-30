@@ -5,7 +5,7 @@
                 {{ __('My Profile') }}
             </h2>
             <div class="mt-2">
-                <a href="{{ route('profile.update') }}">
+                <a href="{{ route('profile.edit') }}">
                     <x-button type="button">
                         {{ __('Edit Profile') }}
                     </x-button>

@@ -9,8 +9,7 @@ use App\Models\GroupRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-
-
+use phpDocumentor\Reflection\Types\Null_;
 
 class GroupController extends Controller
 {
@@ -21,10 +20,10 @@ class GroupController extends Controller
      */
     function __construct()
     {
-         $this->middleware('permission:group-list|group-create|group-edit|group-delete', ['only' => ['index','show']]);
-         $this->middleware('permission:group-create', ['only' => ['create','store']]);
-         $this->middleware('permission:group-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:group-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:group-list|group-create|group-edit|group-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:group-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:group-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:group-delete', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -34,33 +33,30 @@ class GroupController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        if ($user->dept_id = 1)
-        {
+        if ($user->dept_id = 1) {
             $groups = Group::with('project')
-            ->where([
-                ['id','!=',Null],
-                [function ($query) use ($request){
-                    if (($term = $request->term)){
-                        $query->orWhere('id' , 'LIKE' , '%' . $term . '%')
-                        ->orWhere('name' , 'LIKE' , '%' . $term . '%')->load('users')->get();
-                    }
-                }]
-            ])->latest()->paginate(15)->withQueryString();
-        }
-        else
-        {
+                ->where([
+                    ['id', '!=', Null],
+                    [function ($query) use ($request) {
+                        if (($term = $request->term)) {
+                            $query->orWhere('id', 'LIKE', '%' . $term . '%')
+                                ->orWhere('name', 'LIKE', '%' . $term . '%')->load('users')->get();
+                        }
+                    }]
+                ])->latest()->paginate(15)->withQueryString();
+        } else {
             $search = $user->dept_id;
-            $groups = Group::with('project')->where('dept_id','=',$search)
-            ->where([
-                ['id','!=',Null],
-                [function ($query) use ($request){
-                    if (($term = $request->term)){
-                        $query->orWhere('id' , '=', $term)->load('users')->get();
-                    }
-                }]
-            ])->latest()->paginate(15)->withQueryString();
+            $groups = Group::with('project')->where('dept_id', '=', $search)
+                ->where([
+                    ['id', '!=', Null],
+                    [function ($query) use ($request) {
+                        if (($term = $request->term)) {
+                            $query->orWhere('id', '=', $term)->load('users')->get();
+                        }
+                    }]
+                ])->latest()->paginate(15)->withQueryString();
         }
-        return view('groups.index',compact('groups'))
+        return view('groups.index', compact('groups'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -72,18 +68,17 @@ class GroupController extends Controller
     public function create(Request $request)
     {
         $user = $request->user();
-        if ($user->dept_id = 1){
-            $projects = Project::where('taken','=',0)->get();
-            $users = User::where('group_id','=',NULL)->get();
-        }
-        else {
+        if ($user->dept_id = 1) {
+            $projects = Project::where('taken', '=', 0)->get();
+            $users = User::where('group_id', '=', NULL)->get();
+        } else {
             $term = $user->dept_id;
-            $projects = Project::where('dept_id','=', $term)
-            ->where('taken','=',0)->get();
-            $users = User::where('dept_id','=',$term)
-            ->where('group_id','=',NULL)->get();
+            $projects = Project::where('dept_id', '=', $term)
+                ->where('taken', '=', 0)->get();
+            $users = User::where('dept_id', '=', $term)
+                ->where('group_id', '=', NULL)->get();
         }
-        return view('groups.create',compact('projects','users'));
+        return view('groups.create', compact('projects', 'users'));
     }
 
     /**
@@ -104,10 +99,10 @@ class GroupController extends Controller
             'status' => $request->status,
             'project_id' => $request->project_id,
         ]);
-        User::where('id',$user->id)->update(['group_id'=>$group->id]);
+        User::where('id', $user->id)->update(['group_id' => $group->id]);
         $user->revokePermissionTo('group-create');
         return redirect()->route('groups.index')
-                        ->with('success','Group created successfully.');
+            ->with('success', 'Group created successfully.');
     }
 
     /**
@@ -117,10 +112,10 @@ class GroupController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Group $group)
-    {   
-        $groupRequests = GroupRequest::get()->where('group_id',$group->id);
-        $requested = $groupRequests->where('sender_id',Auth::id());
-        return view('groups.show',compact('group','groupRequests','requested'));
+    {
+        $groupRequests = GroupRequest::get()->where('group_id', $group->id)->where('status', 'pending');
+        $requested = $groupRequests->where('sender_id', Auth::id());
+        return view('groups.show', compact('group', 'groupRequests', 'requested'));
     }
 
     /**
@@ -131,9 +126,9 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
-        $projects = Project::where('taken','=',0)->get();
-        $users = User::where('group_id','=',NULL)->get();
-        return view('groups.edit',compact('group','projects','users'));
+        $projects = Project::where('taken', '=', 0)->get();
+        $users = User::where('group_id', '=', NULL)->get();
+        return view('groups.edit', compact('group', 'projects', 'users'));
     }
 
     /**
@@ -152,7 +147,7 @@ class GroupController extends Controller
         $group->update($request->all());
 
         return redirect()->route('groups.index')
-                        ->with('success','Group updated successfully');
+            ->with('success', 'Group updated successfully');
     }
 
     /**
@@ -166,6 +161,17 @@ class GroupController extends Controller
         $group->delete();
 
         return redirect()->route('groups.index')
-                        ->with('success','group deleted successfully');
+            ->with('success', 'group deleted successfully');
+    }
+    public function leaveGroup($id)
+    {
+        $group = Group::find($id);
+        $user = Auth::user();
+        if (count($group->users) == 0) {
+            $group->delete();
+        }
+        $user->group_id = null;
+        $user->update();
+        return redirect()->route('groups.index')->with('success','Left group successfully');
     }
 }

@@ -1,15 +1,13 @@
-@props(['action' => 'Delete'])
+@props(['action' => 'Delete', 'type' => 'submit'])
 <div x-data="{ 'showModal': false }" @keydown.escape="showModal = false">
     <!-- Trigger for Modal -->
     {{ $trigger }}
     <!-- Modal -->
     <div class="fixed inset-0 z-30 flex items-center justify-center overflow-auto bg-black bg-opacity-50"
-        x-show="showModal"
-        x-transition:enter="transition ease-out duration-200"
+        x-show="showModal" x-transition:enter="transition ease-out duration-200"
         x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100"
         x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100"
-        x-transition:leave-end="transform opacity-0 scale-95"
-        style="display: none;">
+        x-transition:leave-end="transform opacity-0 scale-95" style="display: none;">
         <!-- Modal inner -->
         <div @click.away="showModal = false">
             <!-- Title / Close-->
@@ -34,10 +32,10 @@
                     </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <x-button type="submit" class="bg-red-700 hover:bg-red-500">
+                    <x-button type="{{ $type }}" class="bg-red-700 hover:bg-red-500">
                         {{ $action }}
                     </x-button>
-                    <x-button type="button" @click="showModal = false" class="mr-2" value="Click Here">
+                    <x-button type="button" @click.prevent="showModal = false" class="mr-2" value="Click Here">
                         Cancel
                     </x-button>
                 </div>

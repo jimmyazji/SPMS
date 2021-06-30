@@ -43,7 +43,7 @@ class GroupJoinRequestNotification extends Notification
         return [
             'user' => $this->user,
             'notify' => 'requested to join your group',
-            'action' => 'view requests',
+            'action' => '',
             'link' => route('groups.show', $this->group->id),
         ];
     }

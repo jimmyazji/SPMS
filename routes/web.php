@@ -31,14 +31,18 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('markAllRead', [UserNotificationController::class, 'markAllRead'])->name('markAllRead');
     Route::get('notifications/{id}', [UserNotificationController::class, 'show'])->name('notifications.show');
     Route::get('groupRequests/{group:id}',[GroupRequestController::class,'store'])->name('groupRequests.store');
     Route::delete('groupRequests/{group:id}',[GroupRequestController::class,'destroy'])->name('groupRequests.destroy');
+    Route::get('acceptRequest/{id}',[GroupRequestController::class,'acceptRequest'])->name('groupRequests.acceptRequest');
+    Route::get('rejectRequest/{id}',[GroupRequestController::class,'rejectRequest'])->name('groupRequests.rejectRequest');
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('groups', GroupController::class);
+    Route::get('leaveGroup/{group:id}',[GroupController::class,'leaveGroup'])->name('groups.leaveGroup');
     Route::resource('projects', ProjectController::class);
 });
 
