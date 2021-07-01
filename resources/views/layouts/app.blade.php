@@ -16,7 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
-<body class="font-sans antialiased">
+<body class="font-sans antialiased scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800 scrollbar-thumb-rounded">
     <div class="min-h-screen bg-gray-200">
         @include('layouts.navigation')
 

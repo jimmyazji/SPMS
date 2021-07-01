@@ -9,6 +9,11 @@ module.exports = {
 
     theme: {
         extend: {
+            fontSize: {
+                xxs: ['0.625rem', {
+                    lineHeight: '1rem'
+                }],
+            },
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
@@ -19,7 +24,11 @@ module.exports = {
         extend: {
             opacity: ['disabled'],
         },
+        scrollbar: ['rounded']
     },
 
-    plugins: [require('@tailwindcss/forms')],
+    plugins: [
+        require('@tailwindcss/forms'),
+        require('tailwind-scrollbar')
+    ],
 };

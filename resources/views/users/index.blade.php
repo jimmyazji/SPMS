@@ -98,7 +98,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500">
                                             @if(!empty($user->getRoleNames()))
                                             @foreach($user->getRoleNames() as $v)
-                                            <label class="px-1 py-0.5 bg-gray-100 rounded-full border border-gray-300">{{ $v }}</label>
+                                            <label class=" px-2 py-0.5 bg-gray-100 rounded-full border border-gray-300">{{ $v }}</label>
                                             @endforeach
                                             @endif
                                         </td>

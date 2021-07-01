@@ -25,8 +25,8 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <x-label for="project_id" :value="__('Project')" />
-                                    <select id="project_id" name="project_id"
+                                    <x-label for="project" :value="__('Project')" />
+                                    <select id="project" name="project"
                                         class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:text-sm">
                                         <option selected disabled value="">Select project</option>
                                         @foreach($projects as $project)

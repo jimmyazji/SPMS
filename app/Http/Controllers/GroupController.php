@@ -91,13 +91,14 @@ class GroupController extends Controller
     {
         $this->validate($request, [
             'status' => 'required',
+            'project' => 'unique:groups,project_id'
         ]);
         $user = $request->user();
         $dept_id = $user->dept_id;
         $group = Group::create([
             'dept_id' => $dept_id,
             'status' => $request->status,
-            'project_id' => $request->project_id,
+            'project_id' => $request->project,
         ]);
         User::where('id', $user->id)->update(['group_id' => $group->id]);
         $user->revokePermissionTo('group-create');
@@ -159,19 +160,16 @@ class GroupController extends Controller
     public function destroy(Group $group)
     {
         $group->delete();
-
         return redirect()->route('groups.index')
             ->with('success', 'group deleted successfully');
     }
     public function leaveGroup($id)
     {
         $group = Group::find($id);
-        $user = Auth::user();
-        if (count($group->users) == 0) {
+        if (count($group->users) == 1) {
             $group->delete();
         }
-        $user->group_id = null;
-        $user->update();
-        return redirect()->route('groups.index')->with('success','Left group successfully');
+        Auth::user()->update(['group_id' => null]);
+        return redirect()->route('groups.index')->with('success', 'Left group successfully');
     }
 }

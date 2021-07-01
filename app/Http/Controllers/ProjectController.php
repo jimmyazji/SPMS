@@ -165,4 +165,8 @@ class ProjectController extends Controller
         return redirect()->route('projects.index')
             ->with('success', 'Project deleted successfully');
     }
+    public function assignGroup()
+    {
+        //
+    }
 }

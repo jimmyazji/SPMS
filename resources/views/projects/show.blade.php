@@ -12,22 +12,23 @@
                     <div class="p-8 bg-white text-gray-800">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Project's Files</h2>
                         <div class="bg-gray-50 rounded-lg border border-gray-400 mt-6">
-                            <x-directory :name=" __('Directory 1') " class="border-b border-gray-200">
-                                <x-directory :name=" __('Directory 3') ">
-                                    <x-directory :name=" __('Directory 4') ">
-                                    </x-directory>
+                            <x-directory name="{{ __('Directory 1') }} " class="border-b border-gray-200">
+                                <x-directory name=" {{ __('Directory 3') }} ">
+                                    <x-directory name=" {{ __('Directory 4') }} " />
+                                    <x-document name=" {{ __('Document.txt') }}" />
                                 </x-directory>
                             </x-directory>
-                            <x-directory :name=" __('Directory 2') " />
+                            <x-directory class="border-b border-gray-200" name=" {{ __('Directory 2') }} " />
+                            <x-document name=" {{ __('Readme.md') }}" />
                         </div>
                     </div>
                 </div>
             </div>
-            {{-- @if ($project->files has readme.txt)     --}}
+            {{-- @if ($project->files has readme.md)     --}}
             <div class="bg-white overflow-hidden shadow-lg rounded-3xl mt-4">
                 <div class="bg-white border-b border-gray-200">
                     <div class="p-8 bg-white text-gray-800">
-                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Readme.txt</h2>
+                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Readme.md</h2>
                         <p class="mt-2 text-sm text-gray-700">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, voluptate quia. Delectus
                             doloribus ipsa fuga consequatur, quidem, dolorum ad eos maxime iure reiciendis porro nihil

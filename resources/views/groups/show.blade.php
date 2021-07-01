@@ -73,6 +73,7 @@
                 </div>
             </div>
         </div>
+        @if(auth()->user()->group_id == $group->id)
         <div class="flex flex-col items-center ">
             <div class="max-w-7xl w-full">
                 <div class="bg-white overflow-hidden shadow-lg rounded-3xl">
@@ -134,5 +135,6 @@
                 </div>
             </div>
         </div>
+        @endif
     </div>
 </x-app-layout>

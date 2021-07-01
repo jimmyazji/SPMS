@@ -52,7 +52,7 @@
                 </div>
                 <div class="w-full">
                     <div x-show.transition.origin.top="isOpen()"
-                        class="absolute shadow top-100 bg-white z-40 max-h-24 w-full rounded overflow-y-auto svelte-5uyqqj"
+                        class="absolute shadow top-100 bg-white z-40 max-h-24 w-full rounded-lg overflow-y-auto scrollbar-thin svelte-5uyqqj"
                         x-on:click.away="close">
                         <div class="flex flex-col w-full">
                             <template x-for="(option,index) in options" :key="option">

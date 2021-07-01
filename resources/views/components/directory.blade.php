@@ -1,3 +1,4 @@
+@props(['name' =>'directory'])
 <div x-data="{ open: false }" {{ $attributes }}>
     <div class="flex justify-between hover:bg-gray-200 py-2 px-2" @mouseover=" options= true"
         @mouseover.leave="options= false">
