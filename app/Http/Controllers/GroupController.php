@@ -33,7 +33,7 @@ class GroupController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        if ($user->dept_id = 1) {
+        if ($user->dept->name == 'Adminstration') {
             $groups = Group::with('project')
                 ->where([
                     ['id', '!=', Null],

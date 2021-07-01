@@ -6,7 +6,7 @@
                 d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
         </svg>
         @if(auth()->user()->unreadNotifications()->count() > 0)<span
-            class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full">{{ auth()->user()->unreadNotifications()->count() }}</span>@endif
+            class="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-1 text-xxs font-bold leading-none text-red-100 transform translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full">{{ auth()->user()->unreadNotifications()->count() }}</span>@endif
     </button>
 
 
@@ -21,7 +21,7 @@
             <a class="text-xs text-blue-700 font-bold" href="{{ route('markAllRead') }}">Mark all as read</a>
         </div>
         <div
-            class="max-h-72 overflow-x-hidden overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-500 scrollbar-thumb-rounded">
+            class="max-h-72 overflow-x-hidden overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-300 scrollbar-thumb-rounded">
             @forelse (auth()->user()->notifications as $notification)
             <div
                 class="py-2 border-b border-gray-300 hover:bg-gray-200 @if(!$notification->read_at) bg-gray-100 font-bold @endif">
@@ -30,14 +30,14 @@
                         <img href="{{ route('users.show',$notification->data['user']['id']) }}"
                             class="h-10 w-10 rounded-full object-cover mx-1 border border-gray-200"
                             src="/uploads/avatars/{{ $notification->data['user']['avatar'] }}" alt="profile">
-                        <p class="text-gray-600 text-sm mx-2">
+                        <p class="text-gray-600 text-sm mx-2 md:flex-none">
                             <span class="font-bold text-blue-700">{{ $notification->data['user']['first_name'] }}
                                 {{ $notification->data['user']['last_name'] }}</span>
                             <a href="{{ route('notifications.show', $notification->id) }}">
                                 {{ $notification->data['notify'] }}
                                 <span class="font-bold text-blue-700"> {{ $notification->data['action'] }} </span>
                                 <div
-                                    class="text-xxs text-gray-500 font-semibold">{{ $notification->created_at->diffForHumans() }}</div>
+                                    class="text-xxs text-gray-500 font-semibold md:flex-none">{{ $notification->created_at->diffForHumans() }}</div>
                             </a>
                         </p>
                 </div>

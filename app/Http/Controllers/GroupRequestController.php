@@ -40,17 +40,22 @@ class GroupRequestController extends Controller
     {
         $groupRequest = GroupRequest::find($id);
         $sender = $groupRequest->sender;
-        $sender->group_id = $groupRequest->group_id;
-        $groupRequest->status = 'accepted';
-        $sender->update();
-        $groupRequest->update();
-        return redirect()->back()->with('success','Request accepted successfully');
+        if ($sender->group->id != null) {
+            $groupRequest->delete();
+            return redirect()->back()->with('error', 'User is already in a group');
+        } else {
+            $sender->group_id = $groupRequest->group_id;
+            $groupRequest->status = 'accepted';
+            $sender->update();
+            $groupRequest->update();
+            return redirect()->back()->with('success', 'Request accepted successfully');
+        }
     }
     public function rejectRequest($id)
     {
         $groupRequest = GroupRequest::find($id);
         $groupRequest->status = 'rejected';
         $groupRequest->update();
-        return redirect()->back()->with('success','Request rejected successfully');
+        return redirect()->back()->with('success', 'Request rejected successfully');
     }
 }
