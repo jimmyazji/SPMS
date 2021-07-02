@@ -44,6 +44,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('groups', GroupController::class);
     Route::get('leaveGroup/{group:id}',[GroupController::class,'leaveGroup'])->name('groups.leaveGroup');
     Route::resource('projects', ProjectController::class);
+    Route::get('assignProject/{project:id}',[ProjectController::class,'assignProject'])->name('projects.assignProject');
+    Route::get('unAssignProject',[ProjectController::class,'unAssignProject'])->name('projects.unAssignProject');
 });
 
 require __DIR__ . '/auth.php';

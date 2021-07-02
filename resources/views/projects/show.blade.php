@@ -78,21 +78,37 @@
                                 </div>
                             </a>
                             @endforeach
-                            @if ($project->group_id)
+                            @if ($project->group)
                             @if(auth()->user()->group_id == $project->group->id)
-                            <a href=""
-                                class="mt-1 py-2 bg-gray-50 px-2 flex justify-center rounded-lg font-semibold text-red-700 border border-red-700">
-                                Leave group
+                            <a href="{{ route('projects.unAssignProject') }}">
+                                <x-modal action="{{ __('Unassign') }}" type="{{ __('button') }}">
+                                    <x-slot name="trigger">
+                                        <button @click.prevent="showModal = true"
+                                            class="mt-2 px-2 py-2 w-full bg-red-50 flex justify-center rounded-lg font-semibold text-red-700 border border-red-700 hover:border-red-500 hover:text-red-500 focus:outline-none">
+                                            Unassign group
+                                        </button>
+                                    </x-slot>
+                                    <x-slot name="title">
+                                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                            Unassign group
+                                        </h3>
+                                    </x-slot>
+                                    <x-slot name="content">
+                                        <p class="text-sm text-gray-500">
+                                            Are you sure you want unassign your group from this project? This action will cause the project to become open for assignments.
+                                        </p>
+                                    </x-slot>
+                                </x-modal>
                             </a>
                             @else
-                            <a href="#"
-                                class="mt-1 py-2 bg-gray-50 px-2 flex justify-center rounded-lg font-semibold text-blue-700 border border-gray-300">Send
+                            <a href="{{ route('groupRequests.store',$project->group->id) }}"
+                                class="mt-2 py-2 bg-gray-50 px-2 flex justify-center rounded-lg font-semibold text-blue-700 border border-gray-300">Send
                                 Join Request</a>
                             @endif
                             @else
-                            <a href="#"
-                                class="mt-1 py-2 bg-gray-50 px-2 flex justify-center rounded-lg font-semibold text-blue-700 border border-gray-300">Assign
-                                group to project</a>
+                            <a href="{{ route('projects.assignProject',$project->id) }}"
+                                class="mt-6 py-2 bg-gray-50 px-2 flex justify-center rounded-lg font-semibold text-blue-700 border border-gray-300">Assign
+                                project</a>
                             @endif
                         </div>
                     </div>

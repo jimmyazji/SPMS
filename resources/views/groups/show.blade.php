@@ -64,7 +64,7 @@
                             </x-slot>
                             <x-slot name="content">
                                 <p class="text-sm text-gray-500">
-                                    Are you sure you want to this group? This action cannot be undone.
+                                    Are you sure you want to leave this group? This action cannot be undone.
                                 </p>
                             </x-slot>
                         </x-modal>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
-use Illuminate\Auth;
+use Illuminate\Support\Facades\Auth;
 
 
 class ProjectController extends Controller
@@ -102,7 +102,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project = Project::with('group', 'supervisor', 'dept','users')
+        $project = Project::with('group', 'supervisor', 'dept', 'users')
             ->find($id);
         return view('projects.show', compact('project'));
     }
@@ -165,8 +165,27 @@ class ProjectController extends Controller
         return redirect()->route('projects.index')
             ->with('success', 'Project deleted successfully');
     }
-    public function assignGroup()
+    public function assignProject($id)
     {
-        //
+        $project = Project::find($id);
+        if (Auth::user()->group) {
+            $group = Auth::user()->group;
+            if ($group->project_id) {
+                return redirect()->back()->with('error', 'You need to abandon your current project before assigning a new one');
+            } else {
+                if (!$project->group) {
+                    $group->project_id = $project->id;
+                    $group->update();
+                    return redirect()->back()->with('success', 'Project assigned successfully');
+                }
+            }
+        } else {
+            return redirect()->back()->with('error', 'You need to join a group before assigning a project');
+        }
+    }
+    public function unAssignProject()
+    {
+        Auth::user()->group->update(['project_id' => null]);
+        return redirect()->back()->with('success','Group unassigned successfully');
     }
 }
