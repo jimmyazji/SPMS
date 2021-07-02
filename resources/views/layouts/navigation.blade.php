@@ -61,12 +61,16 @@
                         <x-dropdown-link class="border-b pb-3 border-gray-300" :href="route('profile.show')">
                             {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
                         </x-dropdown-link>
+                        @if(Auth::user()->group)    
                         <x-dropdown-link :href="route('groups.show',Auth::user()->group)">
                             {{ __('My Group') }}
                         </x-dropdown-link>
+                        @if (Auth::user()->group->project_id)                         
                         <x-dropdown-link class="border-b border-gray-300" :href="route('projects.show',Auth::user()->group->project_id)">
                             {{ __('My Project') }}
                         </x-dropdown-link>
+                        @endif
+                        @endif
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <x-dropdown-link class="pt-3" :href="route('logout')" onclick="event.preventDefault();
