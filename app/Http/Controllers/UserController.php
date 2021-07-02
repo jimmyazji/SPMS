@@ -29,7 +29,7 @@ class UserController extends Controller
     }
     public function index(Request $request)
     {
-        $users = User::with('dept')->latest()->filter(request(['search']))
+        $users = User::with('dept','roles')->latest()->filter(request(['search']))
             ->paginate(15)->withQueryString();
         return view('users.index', compact('users'))
             ->with('i', ($request->input('page', 1) - 1) * 5);

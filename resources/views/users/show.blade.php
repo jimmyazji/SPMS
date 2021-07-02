@@ -91,7 +91,9 @@
                             <div class="text-sm text-gray-500">
                                 @if($user->group)
                                 @if ($user->group->project)
-                                {{ $user->group->project->title }}
+                                <a href="{{ route('projects.show',$user->group->project_id) }}">
+                                    {{ $user->group->project->title }}
+                                </a>
                                 @else
                                 None yet
                                 @endif

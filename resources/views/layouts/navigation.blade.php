@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="ml-2 flex-shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-10 w-auto fill-current text-gray-100" />
+                        <x-application-logo class="block h-14 w-auto fill-current text-gray-100" />
                     </a>
                 </div>
 
@@ -58,12 +58,18 @@
                     <x-slot name="content">
                         <!-- Authentication -->
 
-                        <x-dropdown-link :href="route('profile.show')">
-                            {{ __('My Profile') }}
+                        <x-dropdown-link class="border-b pb-3 border-gray-300" :href="route('profile.show')">
+                            {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('groups.show',Auth::user()->group)">
+                            {{ __('My Group') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link class="border-b border-gray-300" :href="route('projects.show',Auth::user()->group->project_id)">
+                            {{ __('My Project') }}
                         </x-dropdown-link>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
+                            <x-dropdown-link class="pt-3" :href="route('logout')" onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
