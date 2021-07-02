@@ -1,6 +1,6 @@
 <div x-data="{ dropdownOpen: false }" class="my-32 mr-4">
     <button @click="dropdownOpen = !dropdownOpen" @click.away="dropdownOpen = false"
-        class="relative z-10 block rounded-full focus:bg-gray-200 p-2 focus:outline-none text-gray-200 hover:bg-gray-600 focus:text-gray-800">
+        class="relative z-10 block rounded-full focus:bg-gray-200 p-2 focus:outline-none text-gray-200 hover:bg-gray-600 focus:text-gray-800 transition duration-200 ease-in-out">
         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
             <path
                 d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
