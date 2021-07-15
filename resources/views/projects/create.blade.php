@@ -45,7 +45,7 @@
 
                             </div>
                             <div class="flex items-center justify-between mt-2">
-                                @if(auth()->user()->hasRole('Supervisor'))
+                                @can('project-supervise')
                                 <label class="inline-flex items-center">
                                     <input id="supervise" type="checkbox" name="supervise" value="supervise"
                                         class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
@@ -53,7 +53,7 @@
                                         I will supervise this project
                                     </span>
                                 </label>
-                                @endif
+                                @endcan
                                 <x-button class="ml-3">
                                     {{ __('Create') }}
                                 </x-button>
