@@ -24,7 +24,6 @@
                     </div>
                 </div>
             </div>
-            {{-- @if ($project->files has readme.md)     --}}
             <div class="bg-white overflow-hidden shadow-lg rounded-3xl mt-4">
                 <div class="bg-white border-b border-gray-200">
                     <div class="p-8 bg-white text-gray-800">
@@ -40,7 +39,6 @@
                     </div>
                 </div>
             </div>
-            {{-- @endif --}}
         </div>
         <div class="w-full md:w-1/4 space-y-4">
             <div class="bg-white overflow-hidden shadow-lg rounded-3xl">

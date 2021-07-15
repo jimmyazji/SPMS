@@ -58,7 +58,7 @@
                     <x-slot name="content">
                         <!-- Authentication -->
 
-                        <x-dropdown-link class="border-b pb-3 border-gray-300" :href="route('profile.show')">
+                        <x-dropdown-link class="border-b pb-3 border-gray-200" :href="route('profile.show')">
                             {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
                         </x-dropdown-link>
                         @if(Auth::user()->group)    
@@ -66,7 +66,7 @@
                             {{ __('My Group') }}
                         </x-dropdown-link>
                         @if (Auth::user()->group->project_id)                         
-                        <x-dropdown-link class="border-b border-gray-300" :href="route('projects.show',Auth::user()->group->project_id)">
+                        <x-dropdown-link class="border-b border-gray-200" :href="route('projects.show',Auth::user()->group->project_id)">
                             {{ __('My Project') }}
                         </x-dropdown-link>
                         @endif

@@ -10,9 +10,19 @@
             </div>
             <span class="ml-1 text-gray-600">{{ $name }}</span>
         </x-label>
-        <x-file-option />
-    </div>
-    <div x-show="open" class="ml-4 border-l border-gray-300 border-dashed">
-        {{ $slot }}
+        <x-file-options>
+            <a href="#"
+                class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+                Update
+            </a>
+            <a href="#"
+                class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+                Rename
+            </a>
+            <a href="#"
+                class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+                Delete
+            </a>
+        </x-file-options>
     </div>
 </div>

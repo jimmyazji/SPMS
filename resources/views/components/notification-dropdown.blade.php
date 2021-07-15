@@ -16,7 +16,7 @@
         x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75"
         x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95"
         style="display: none;">
-        <div class="flex justify-between items-center py-2 px-4 border-b border-gray-200">
+        <div class="flex justify-between items-center py-3 px-4 border-b border-gray-200">
             <div class=" text-gray-700 font-semibold">Notifications</div>
             <a class="text-xs text-blue-700 font-bold" href="{{ route('markAllRead') }}">Mark all as read</a>
         </div>
@@ -24,8 +24,8 @@
             class="max-h-72 overflow-x-hidden overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-300 scrollbar-thumb-rounded">
             @forelse (auth()->user()->notifications as $notification)
             <div
-                class="py-2 border-b border-gray-300 hover:bg-gray-200 @if(!$notification->read_at) bg-gray-100 font-bold @endif">
-                <div class="flex items-center px-4 py-3">
+                class="py-2 pl-1 border-b border-gray-300 hover:bg-gray-200 @if(!$notification->read_at) bg-gray-100 font-bold @endif">
+                <div class="flex justify-between items-center py-3">
                     <a href="{{ route('users.show',$notification->data['user']['id']) }}">
                         <img href="{{ route('users.show',$notification->data['user']['id']) }}"
                             class="h-10 w-10 rounded-full object-cover mx-1 border border-gray-200"
@@ -33,13 +33,14 @@
                         <p class="text-gray-600 text-sm mx-2 md:flex-none">
                             <span class="font-bold text-blue-700">{{ $notification->data['user']['first_name'] }}
                                 {{ $notification->data['user']['last_name'] }}</span>
-                            <a href="{{ route('notifications.show', $notification->id) }}">
-                                {{ $notification->data['notify'] }}
-                                <span class="font-bold text-blue-700"> {{ $notification->data['action'] }} </span>
-                                <div
-                                    class="text-xxs text-gray-500 font-semibold md:flex-none">{{ $notification->created_at->diffForHumans() }}</div>
-                            </a>
-                        </p>
+                    </a>
+                    <a href="{{ route('notifications.show', $notification->id) }}">
+                        {{ $notification->data['notify'] }}
+                        <span class="font-bold text-blue-700"> {{ $notification->data['action'] }} </span>
+                        <div class="text-xxs text-gray-500 font-semibold">
+                            {{ $notification->created_at->diffForHumans() }}</div>
+                    </a>
+                    </p>
                 </div>
             </div>
             @empty
@@ -47,7 +48,7 @@
             @endforelse
         </div>
         <a href="#"
-            class="block bg-gray-800 hover:bg-gray-600 text-gray-200 text-center font-semibold py-2 rounded-b-xl">View
+            class="block bg-gray-800 hover:bg-gray-600 text-gray-200 text-center font-semibold py-3 rounded-b-xl">View
             all notifications</a>
     </div>
 </div>
