@@ -39,11 +39,13 @@
                             <div>
                                 <x-label for="description" :value="__('Description')" />
                                 <textarea name="description" placeholder="Description..." id="description" cols="40"
-                                    rows="10" class="w-full block mt-1 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring
+                                    rows="10"
+                                    class="w-full block mt-1 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring
                                 focus:ring-indigo-200 text-sm text-gray-800 focus:ring-opacity-50">{{ old('description') }}</textarea>
 
                             </div>
                             <div class="flex items-center justify-between mt-2">
+                                @if(auth()->user()->hasRole('Supervisor'))
                                 <label class="inline-flex items-center">
                                     <input id="supervise" type="checkbox" name="supervise" value="supervise"
                                         class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
@@ -51,6 +53,7 @@
                                         I will supervise this project
                                     </span>
                                 </label>
+                                @endif
                                 <x-button class="ml-3">
                                     {{ __('Create') }}
                                 </x-button>
