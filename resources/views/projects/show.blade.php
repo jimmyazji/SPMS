@@ -4,14 +4,56 @@
             {{ $project->title }}
         </h2>
     </x-slot>
-
+    <x-flash-message />
     <div class="mx-auto max-w-7xl py-12 flex flex-col md:flex-row container items-start justify-center gap-6">
         <div class="w-full md:w-3/5">
             <div class="bg-white overflow-hidden shadow-lg rounded-3xl">
                 <div class="bg-white border-b border-gray-200">
                     <div class="p-8 bg-white text-gray-800">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Project's Files</h2>
-                        <div class="bg-gray-50 rounded-lg border border-gray-400 mt-6">
+                        <div class="mt-2 flex mx-1 flex-row justify-between items-center">
+                            <span>
+                                24 files
+                            </span>
+                            <div class="flex flex-row space-x-2">
+                                <div x-data="{ requestMenu:false } " @click=" requestMenu = !requestMenu"
+                                    @keydown.escape="requestMenu = false" @click.away="requestMenu = false">
+                                    <x-button>
+                                        Add file
+                                    </x-button>
+                                    <div x-show="requestMenu"
+                                        class="absolute z-50 mt-2 bg-white rounded-lg shadow-lg w-40 overflow-hidden text-xs ring-1 ring-black ring-opacity-5">
+                                        <a href="#"
+                                            class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+                                            Add a directory
+                                        </a>
+                                        <form method="POST" action="{{ route('media.store') }}" enctype="multipart/form-data">
+                                            @csrf
+                                            <label
+                                                class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 cursor-pointer"
+                                                for="file-upload">
+                                                <span>Upload a file</span>
+                                                <input id="file-upload" name="file-upload" type="file" onchange="form.submit()" class="sr-only">
+                                            </label>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div x-data="{ requestMenu:false } " @click=" requestMenu = !requestMenu"
+                                    @keydown.escape="requestMenu = false" @click.away="requestMenu = false">
+                                    <x-button class="bg-green-700 hover:bg-green-600">
+                                        Project
+                                    </x-button>
+                                    <div x-show="requestMenu"
+                                        class="absolute z-50 mt-2 bg-white rounded-lg shadow-lg w-40 overflow-hidden text-xs ring-1 ring-black ring-opacity-5">
+                                        <a href="#"
+                                            class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+                                            Download ZIP
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg border border-gray-400 mt-2 overflow-hidden">
                             <x-directory name="{{ __('Directory 1') }} " class="border-b border-gray-200">
                                 <x-directory name=" {{ __('Directory 3') }} ">
                                     <x-directory name=" {{ __('Directory 4') }} " />
@@ -78,7 +120,7 @@
                             @endforeach
                             @if ($project->group)
                             @if(auth()->user()->group_id == $project->group->id)
-                            <a href="{{ route('projects.unAssignProject') }}">
+                            <a href="{{ route('projects.unAssignProject',$project->id) }}">
                                 <x-modal action="{{ __('Unassign') }}" type="{{ __('button') }}">
                                     <x-slot name="trigger">
                                         <button @click.prevent="showModal = true"
@@ -93,7 +135,8 @@
                                     </x-slot>
                                     <x-slot name="content">
                                         <p class="text-sm text-gray-500">
-                                            Are you sure you want unassign your group from this project? This action will cause the project to become open for assignments.
+                                            Are you sure you want unassign your group from this project? This action
+                                            will cause the project to become open for assignments.
                                         </p>
                                     </x-slot>
                                 </x-modal>

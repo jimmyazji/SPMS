@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GroupController;
@@ -9,7 +8,7 @@ use App\Http\Controllers\GroupRequestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserNotificationController;
-use App\Models\User;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,17 +34,18 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('markAllRead', [UserNotificationController::class, 'markAllRead'])->name('markAllRead');
     Route::get('notifications/{id}', [UserNotificationController::class, 'show'])->name('notifications.show');
-    Route::get('groupRequests/{group:id}',[GroupRequestController::class,'store'])->name('groupRequests.store');
-    Route::delete('groupRequests/{group:id}',[GroupRequestController::class,'destroy'])->name('groupRequests.destroy');
-    Route::get('acceptRequest/{id}',[GroupRequestController::class,'acceptRequest'])->name('groupRequests.acceptRequest');
-    Route::get('rejectRequest/{id}',[GroupRequestController::class,'rejectRequest'])->name('groupRequests.rejectRequest');
+    Route::get('groupRequests/{group:id}', [GroupRequestController::class, 'store'])->name('groupRequests.store');
+    Route::delete('groupRequests/{group:id}', [GroupRequestController::class, 'destroy'])->name('groupRequests.destroy');
+    Route::get('acceptRequest/{id}', [GroupRequestController::class, 'acceptRequest'])->name('groupRequests.acceptRequest');
+    Route::get('rejectRequest/{id}', [GroupRequestController::class, 'rejectRequest'])->name('groupRequests.rejectRequest');
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('groups', GroupController::class);
-    Route::get('leaveGroup/{group:id}',[GroupController::class,'leaveGroup'])->name('groups.leaveGroup');
+    Route::get('leaveGroup/{group:id}', [GroupController::class, 'leaveGroup'])->name('groups.leaveGroup');
     Route::resource('projects', ProjectController::class);
-    Route::get('assignProject/{project:id}',[ProjectController::class,'assignProject'])->name('projects.assignProject');
-    Route::get('unAssignProject',[ProjectController::class,'unAssignProject'])->name('projects.unAssignProject');
+    Route::get('assignProject/{project:id}', [ProjectController::class, 'assignProject'])->name('projects.assignProject');
+    Route::get('unAssignProject/{project:id}', [ProjectController::class, 'unAssignProject'])->name('projects.unAssignProject');
 });
 
 require __DIR__ . '/auth.php';
+require __DIR__ . '/media.php';

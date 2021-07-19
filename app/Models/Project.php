@@ -2,15 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Dept;
 use App\Models\User;
 use App\Models\Group;
+use Spatie\MediaLibrary\HasMedia;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Console\Concerns\InteractsWithIO;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Project extends Model
+class Project extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
     /**
      * The attributes that are mass assignable.
      *

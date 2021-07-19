@@ -183,9 +183,10 @@ class ProjectController extends Controller
             return redirect()->back()->with('error', 'You need to join a group before assigning a project');
         }
     }
-    public function unAssignProject()
+    public function unAssignProject($id)
     {
-        Auth::user()->group->update(['project_id' => null]);
+
+        Project::find($id)->group()->update(['project_id' => null]);
         return redirect()->back()->with('success','Group unassigned successfully');
     }
 }
