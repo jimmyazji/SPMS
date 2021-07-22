@@ -16,24 +16,33 @@
                                 24 files
                             </span>
                             <div class="flex flex-row space-x-2">
-                                <div x-data="{ requestMenu:false } " @click=" requestMenu = !requestMenu"
-                                    @keydown.escape="requestMenu = false" @click.away="requestMenu = false">
-                                    <x-button>
-                                        Add file
+                                <div x-data="{ requestMenu:false } " @click.away=" requestMenu = false " 
+                                    @keydown.escape="requestMenu = false">
+                                    <x-button @click=" requestMenu = !requestMenu">
+                                        Add +
                                     </x-button>
                                     <div x-show="requestMenu"
                                         class="absolute z-50 mt-2 bg-white rounded-lg shadow-lg w-40 overflow-hidden text-xs ring-1 ring-black ring-opacity-5">
-                                        <a href="#"
-                                            class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
-                                            Add a directory
-                                        </a>
-                                        <form method="POST" action="{{ route('media.store') }}" enctype="multipart/form-data">
+                                        <form method="POST"
+                                            action="{{ route('directory.store',$project->directory_id) }}" x-data ="{ enableInput : false }">
+                                            @csrf
+                                            <a href="#"  @click.prevent=" enableInput =!enableInput "
+                                                class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+                                                Add a directory
+                                            </a>
+                                            <div x-show="enableInput" class="relative z-50 ">
+                                                <input type="text" name="name" placeholder="Enter name" class="w-full px-1 py-1 focus:ring-none text-xs">
+                                            </div>
+                                        </form>
+                                        <form method="POST" action="{{ route('media.store',$project->directory_id) }}"
+                                            enctype="multipart/form-data">
                                             @csrf
                                             <label
                                                 class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 cursor-pointer"
                                                 for="file-upload">
                                                 <span>Upload a file</span>
-                                                <input id="file-upload" name="file-upload" type="file" onchange="form.submit()" class="sr-only">
+                                                <input id="file-upload" name="file-upload" type="file"
+                                                    onchange="form.submit()" class="sr-only">
                                             </label>
                                         </form>
                                     </div>
@@ -54,14 +63,12 @@
                             </div>
                         </div>
                         <div class="bg-gray-50 rounded-lg border border-gray-400 mt-2 overflow-hidden">
-                            <x-directory name="{{ __('Directory 1') }} " class="border-b border-gray-200">
-                                <x-directory name=" {{ __('Directory 3') }} ">
-                                    <x-directory name=" {{ __('Directory 4') }} " />
-                                    <x-document name=" {{ __('Document.txt') }}" />
-                                </x-directory>
-                            </x-directory>
-                            <x-directory class="border-b border-gray-200" name=" {{ __('Directory 2') }} " />
-                            <x-document name=" {{ __('Readme.md') }}" />
+                            @foreach ($project->directory->directories as $directory)
+                            <x-directory :directory="$directory" />
+                            @endforeach
+                            @foreach ($project->directory->media as $media)
+                            <x-document :document="$media" />
+                            @endforeach
                         </div>
                     </div>
                 </div>

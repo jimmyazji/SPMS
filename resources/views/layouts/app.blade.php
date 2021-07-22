@@ -39,5 +39,5 @@
         </main>
     </div>
 </body>
-
+<x-footer/>
 </html>

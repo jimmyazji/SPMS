@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Directory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -66,30 +67,22 @@ class ProjectController extends Controller
             'type' => 'required',
             'description' => 'min:20|max:255'
         ]);
+        $user = $request->user();
+        $dept_id = $user->dept_id;
+        $project = Project::create([
+            'title' => $request->title,
+            'type' => $request->type,
+            'description' => $request->description,
+            'dept_id' => $dept_id,
+            'taken' => false,
+            'directory_id' => Directory::create(['name' => 'root'])->id,
+        ]);
         if ($request->supervise == true) {
-            $user = $request->user();
-            $dept_id = $user->dept_id;
-            $project = Project::create([
-                'title' => $request->title,
-                'type' => $request->type,
-                'description' => $request->description,
-                'dept_id' => $dept_id,
-                'supervisor_id' => $user->id,
-                'taken' => false
-            ]);
-        } else {
-            $user = $request->user();
-            $dept_id = $user->dept_id;
-
-            $project = Project::create([
-                'title' => $request->title,
-                'type' => $request->type,
-                'description' => $request->description,
-                'dept_id' => $dept_id,
-                'taken' => false
-            ]);
+            $project->supervisor_id = $user->id;
         }
-        $user->group->project_id = $project->id;
+        
+
+
         return redirect()->route('projects.index')
             ->with('success', 'Project created successfully.');
     }
@@ -187,6 +180,6 @@ class ProjectController extends Controller
     {
 
         Project::find($id)->group()->update(['project_id' => null]);
-        return redirect()->back()->with('success','Group unassigned successfully');
+        return redirect()->back()->with('success', 'Group unassigned successfully');
     }
 }

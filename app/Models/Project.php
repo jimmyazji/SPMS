@@ -10,11 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Console\Concerns\InteractsWithIO;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Project extends Model implements HasMedia
+class Project extends Model
 {
     use HasFactory;
-    use InteractsWithMedia;
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -26,7 +27,8 @@ class Project extends Model implements HasMedia
         'description',
         'taken',
         'supervisor_id',
-        'dept_id'
+        'dept_id',
+        'directory_id'
     ];
     public function dept()
     {
@@ -43,5 +45,13 @@ class Project extends Model implements HasMedia
     public function users()
     {
         return $this->hasManyThrough(User::class,Group::class);
+    }
+    public function directory()
+    {
+        return $this->belongsTo(Directory::class,'directory_id');
+    }
+    public function media()
+    {
+        return $this->hasManyThrough(Directory::class,Media::class);
     }
 }

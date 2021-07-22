@@ -29,7 +29,11 @@
                                     Last login:
                                 </div>
                                 <div>
+                                    @if($user->last_login_at)
                                     {{ $user->last_login_at->diffForHumans() }}
+                                    @else
+                                    never
+                                    @endif
                                 </div>
                             </div>
                             <div class="container flex flex-row justify-between md:w-36">

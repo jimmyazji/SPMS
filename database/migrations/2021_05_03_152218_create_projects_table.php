@@ -27,6 +27,10 @@ class CreateProjectsTable extends Migration
             ->on('users')
             ->onDelete('set null');
             $table->timestamps();
+            $table->unsignedBigInteger('directory_id');
+            $table->foreign('directory_id')->references('id')
+            ->on('directories')
+            ->onDelete('cascade');
         });
     }
 

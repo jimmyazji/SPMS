@@ -1,7 +1,5 @@
-@props(['name' =>'directory'])
 <div x-data="{ open: false }" {{ $attributes }}>
-    <div class="flex justify-between hover:bg-gray-200 py-2 px-2" @mouseover=" options= true"
-        @mouseover.leave="options= false">
+    <div  class="flex justify-between hover:bg-gray-200 py-2 px-2">
         <x-label @click=" open =!open " class="flex justify-start items-start text-sm cursor-pointer">
             <div x-show="!open" class="inline-flex items-center">
                 <svg class="h-5 w-5 fill-current text-gray-600" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"
@@ -27,28 +25,37 @@
                         d="M91.1 38.6c-.8-1-1.9-1.6-3.1-1.6h-5V26.1c0-1.9-1.4-3.1-3.3-3.1h-35l-4.5-7.4c-.6-1-1.8-1.6-3-1.6H11.4C9.5 14 8 15.1 8 17v20H4a4.04 4.04 0 00-3.9 4.9l7.4 33.9c.4 1.8 2 3.2 3.9 3.2h68.3c1.8 0 3.4-1.3 3.9-3l8.3-34c.3-1.2 0-2.4-.8-3.4zM15 21h20.2l4.5 7.4c.6 1 1.8 1.6 3 1.6H76v7H15V21zm61.5 50H14.6L9 45h73.9l-6.4 26z" />
                 </svg>
             </div>
-            <span class="ml-1 text-gray-600">{{ $name }}</span>
+            <span class="ml-1 text-gray-600">{{ $directory->name }}</span>
         </x-label>
         <x-file-options>
-            <a href="#"
-                class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
-                Upload file
-            </a>
-            <a href="#"
-                class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+            <form method="POST" action="{{ route('media.store',$directory->id) }}"
+                enctype="multipart/form-data">
+                @csrf
+                <label
+                    class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 cursor-pointer"
+                    for="file-upload">
+                    <span>Upload a file</span>
+                    <input id="file-upload" name="file-upload" type="file"
+                        onchange="form.submit()" class="sr-only">
+                </label>
+            </form>
+            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
                 Create directory
             </a>
-            <a href="#"
-                class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
                 Rename
             </a>
-            <a href="#"
-                class="block px-4 py-2 text-red-600 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+            <a href="#" class="block px-4 py-2 text-red-600 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
                 Delete
             </a>
         </x-file-options>
     </div>
     <div x-show="open" class="ml-4 border-l border-gray-300 border-dashed">
-        {{ $slot }}
+        @foreach ($directory->directories as $directory)
+        <x-directory :directory="$directory" />
+        @endforeach
+        @foreach ($directory->media as $media)
+        <x-document name="{{ $media->name }}" />
+        @endforeach
     </div>
 </div>

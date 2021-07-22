@@ -9,7 +9,6 @@ class Dept extends Model
 {
     use HasFactory;
 
-    protected $table ='depts';
     public $timestamps = false;
     protected $fillable = [
         'id',

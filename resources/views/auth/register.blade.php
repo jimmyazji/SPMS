@@ -50,7 +50,7 @@
 
                         <select id="department" name="department" autocomplete="dept_name"
                             class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:text-sm">
-                            <option selected disabled value="">Select Department</option>
+                            <option selected disabled class="text-gray-500" value="">Select Department</option>
                             @foreach ($depts as $dept)
                             <option value="{{ $dept->id }}" {{ $dept->id == old('dept_id') ? 'selected' : '' }} }}>
                                 {{ $dept->name }}</option>
