@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Directory;
 use Illuminate\Http\Request;
+use Spatie\MediaLibrary\Support\MediaStream;
 
 class DirectoryController extends Controller
 {
@@ -19,5 +20,11 @@ class DirectoryController extends Controller
     {
         $directory = Directory::find($id);
         $directory->destroy;
+    }
+    public function download($id)
+    {
+        $directory = Directory::find($id);
+
+        return MediaStream::create("$directory->name.zip")->addMedia($directory->media);
     }
 }

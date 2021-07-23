@@ -11,15 +11,20 @@ class MediaController extends Controller
 {
     public function store($id)
     {
-        dd($id);
         $directory = Directory::find($id);
         $directory->addMediaFromRequest('file-upload')
             ->toMediaCollection();
-            return redirect()->back()->with('success','File uploaded successfully');
+        return redirect()->back()->with('success', 'File uploaded successfully');
     }
-    public function destroy($id){
+    public function destroy($id)
+    {
         $media = Media::find($id);
         $media->delete();
-        return redirect()->back()->with('success','Media deleted successfully');
+        return redirect()->back()->with('success', 'Media deleted successfully');
+    }
+    public function download($id)
+    {
+        $media = Media::find($id);
+        return $media;
     }
 }

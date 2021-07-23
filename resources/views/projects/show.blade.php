@@ -54,7 +54,7 @@
                                     </x-button>
                                     <div x-show="requestMenu"
                                         class="absolute z-50 mt-2 bg-white rounded-lg shadow-lg w-40 overflow-hidden text-xs ring-1 ring-black ring-opacity-5">
-                                        <a href="#"
+                                        <a href="{{ route('directory.download',$project->directory) }}"
                                             class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
                                             Download ZIP
                                         </a>

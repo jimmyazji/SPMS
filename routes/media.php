@@ -13,4 +13,8 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('directory.destroy');
     Route::delete('media/{id}', [MediaController::class, 'destroy'])
         ->name('media.destroy');
+    Route::get('media/{id}', [MediaController::class, 'download'])
+        ->name('media.download');
+    Route::get('directory/{id}',[DirectoryController::class,'download'])
+    ->name('directory.download');
 });

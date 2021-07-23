@@ -1,5 +1,5 @@
 <div x-data="{ open: false }" {{ $attributes }}>
-    <div  class="flex justify-between hover:bg-gray-200 py-2 px-2">
+    <div class="flex justify-between hover:bg-gray-200 py-2 px-2">
         <x-label @click=" open =!open " class="flex justify-start items-start text-sm cursor-pointer">
             <div x-show="!open" class="inline-flex items-center">
                 <svg class="h-5 w-5 fill-current text-gray-600" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"
@@ -27,28 +27,50 @@
             </div>
             <span class="ml-1 text-gray-600">{{ $directory->name }}</span>
         </x-label>
-        <x-file-options>
-            <form method="POST" action="{{ route('media.store',$directory->id) }}"
-                enctype="multipart/form-data">
-                @csrf
-                <label
-                    class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 cursor-pointer"
-                    for="file-upload">
-                    <span>Upload a file</span>
-                    <input id="file-upload" name="file-upload" type="file"
-                        onchange="form.submit()" class="sr-only">
-                </label>
-            </form>
-            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
-                Create directory
+        <div class="flex flex-row " x-data="{ requestMenu:false } " @click.away=" requestMenu=false ">
+            <a href="{{ route('directory.download',$directory) }}">
+                <svg class="mr-1 h-4 w-4 fill-current text-opacity-75 cursor-pointer opacity-20 text-gray-700 hover:opacity-100 transition ease-in-out duration-150"
+                    stroke="currentColor" xmlns=" http://www.w3.org/2000/svg" viewBox="0 0 92 92">
+                    <path
+                        d="M89 59v27c0 3-2 5-5 5H8c-3 0-5-2-5-5V59c0-3 2-5 5-5s5 2 5 5v22h66V59c0-3 2-5 5-5s5 2 5 5zm-47 6l4 2 4-2 20-20c1-2 1-5-1-7s-5-2-7 0L51 49V6c0-3-2-5-5-5s-5 2-5 5v43L30 38c-2-2-5-2-7 0s-2 5-1 7l20 20z" />
+                </svg>
             </a>
-            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
-                Rename
-            </a>
-            <a href="#" class="block px-4 py-2 text-red-600 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
-                Delete
-            </a>
-        </x-file-options>
+            <div @keydown.escape="requestMenu = false">
+                <a href="#" @click.prevent=" requestMenu = !requestMenu">
+                    <svg class="mr-1.5 h-5 w-5 fill-current text-opacity-75 cursor-pointer opacity-20 text-gray-700 hover:opacity-100 focus:opacity-100 transition ease-in-out duration-150"
+                        stroke="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 92 92">
+                        <path
+                            d="M21 53a6.97 6.97 0 01-7-7c0-1.8.8-3.6 2-5 1.3-1.3 3.1-2 5-2 1.8 0 3.6.8 4.9 2 1.3 1.3 2.1 3.1 2.1 5 0 1.8-.8 3.6-2.1 4.9A7.07 7.07 0 0121 53zm29.9-2.1c1.3-1.3 2.1-3.1 2.1-4.9 0-1.8-.8-3.6-2.1-5-1.3-1.3-3.1-2-4.9-2-1.8 0-3.7.8-5 2-1.3 1.3-2 3.1-2 5 0 1.8.8 3.6 2 4.9 1.3 1.3 3.1 2.1 5 2.1 1.8 0 3.6-.8 4.9-2.1zm25 0c1.3-1.3 2.1-3.1 2.1-4.9 0-1.8-.8-3.6-2.1-5-1.3-1.3-3.1-2-4.9-2-1.8 0-3.7.8-5 2-1.3 1.3-2 3.1-2 5 0 1.8.8 3.6 2 4.9 1.3 1.3 3.1 2.1 5 2.1 1.8 0 3.6-.8 4.9-2.1z" />
+                    </svg>
+                </a>
+                <div x-show="requestMenu"
+                    class="absolute z-50 mt-2 bg-white rounded-lg shadow-lg w-32 overflow-hidden text-xs ring-1 ring-black ring-opacity-5">
+                    <form method="POST" action="{{ route('media.store',$directory) }}"
+                        enctype="multipart/form-data">
+                        @csrf
+                        <label
+                            class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 cursor-pointer"
+                            for="file-upload">
+                            <span>Upload a file</span>
+                            <input id="file-upload" name="file-upload" type="file" onchange="form.submit()"
+                                class="sr-only">
+                        </label>
+                    </form>
+                    <a href="#"
+                        class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+                        Create directory
+                    </a>
+                    <a href="#"
+                        class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+                        Rename
+                    </a>
+                    <a href="#"
+                        class="block px-4 py-2 text-red-600 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+                        Delete
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
     <div x-show="open" class="ml-4 border-l border-gray-300 border-dashed">
         @foreach ($directory->directories as $directory)
