@@ -1,4 +1,5 @@
 <div x-data="{ open: false }" {{ $attributes }}>
+    </form>
     <div class="flex justify-between hover:bg-gray-200 py-2 px-2">
         <x-label @click=" open =!open " class="flex justify-start items-start text-sm cursor-pointer">
             <div x-show="!open" class="inline-flex items-center">
@@ -45,8 +46,7 @@
                 </a>
                 <div x-show="requestMenu"
                     class="absolute z-50 mt-2 bg-white rounded-lg shadow-lg w-32 overflow-hidden text-xs ring-1 ring-black ring-opacity-5">
-                    <form method="POST" action="{{ route('media.store',$directory) }}"
-                        enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('media.store',$directory) }}" enctype="multipart/form-data">
                         @csrf
                         <label
                             class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 cursor-pointer"
@@ -56,18 +56,30 @@
                                 class="sr-only">
                         </label>
                     </form>
-                    <a href="#"
-                        class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
-                        Create directory
-                    </a>
-                    <a href="#"
+                    <form method="POST" action="{{ route('directory.store',$directory) }}"
+                        x-data="{ enableInput : false }">
+                        @csrf
+                        <a href="#" @click.prevent=" enableInput =!enableInput "
+                            class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+                            Create a directory
+                        </a>
+                        <div x-show="enableInput" class="relative z-50 ">
+                            <input type="text" name="name" placeholder="Enter name"
+                                class="w-full px-1 py-1 focus:ring-none text-xs">
+                        </div>
+                    </form>
+                    <a href="{{ route('directory.rename',$directory) }}"
                         class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
                         Rename
                     </a>
-                    <a href="#"
-                        class="block px-4 py-2 text-red-600 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
-                        Delete
-                    </a>
+                    <form method="POST" action="{{ route('directory.destroy',$directory->id) }}">
+                        @method('DELETE')
+                        @csrf
+                        <button type="submit"
+                            class="flex w-full px-4 py-2 text-red-600 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+                            Delete
+                            </a>
+                    </form>
                 </div>
             </div>
         </div>

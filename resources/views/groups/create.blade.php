@@ -21,6 +21,7 @@
                                         class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:text-sm">
                                         <option selected disabled value="">Select Status</option>
                                         <option value="Looking for members">Looking for members</option>
+                                        <option value="Requesting supervisor">Requesting supervisor</option>
                                         <option value="Full">Full</option>
                                     </select>
                                 </div>

@@ -22,14 +22,14 @@ class UserController extends Controller
      */
     function __construct()
     {
-         $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
-         $this->middleware('permission:user-create', ['only' => ['create','store']]);
-         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
     }
     public function index(Request $request)
     {
-        $users = User::with('dept','roles')->latest()->filter(request(['search']))
+        $users = User::with('dept', 'roles')->latest()->filter(request(['search']))
             ->paginate(15)->withQueryString();
         return view('users.index', compact('users'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
@@ -55,7 +55,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-    
+
         $this->validate($request, [
             'first_name' => 'required',
             'last_name' => 'required',
@@ -66,15 +66,15 @@ class UserController extends Controller
         ]);
 
         $user = User::create([
-            'first_name' => ucfirst($request->first_name),
-            'last_name' => ucfirst($request->last_name),
+            'first_name' => ucfirst(strtolower($request->first_name)),
+            'last_name' => ucfirst(strtolower($request->last_name)),
             'stdsn' => $request->serial_number,
             'dept_id' => $request->department,
             'email' => strtolower($request->email),
             'password' => Hash::make($request->password),
             'avatar' => 'default.jpg'
         ]);
-        $user->assignRole(explode(',',$request->input('roles')));
+        $user->assignRole(explode(',', $request->input('roles')));
 
         return redirect()->route('users.index')
             ->with('success', 'User created successfully');
@@ -114,42 +114,42 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {   
+    {
         $this->validate($request, [
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
-            'stdsn' => 'unique:users,stdsn,'. $id,
+            'stdsn' => 'unique:users,stdsn,' . $id,
             'password' => 'nullable|min:8|same:confirm-password',
             'image' => 'nullable|image|mimes:jpg,png,jpeg|max:5048'
         ]);
-        
+
         $user = User::find($id);
-        
+
         $input = $request->all();
         if (!empty($input['password'])) {
             $user->update([
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
+                'first_name' => ucfirst(strtolower($request->first_name)),
+                'last_name' => ucfirst(strtolower($request->last_name)),
                 'stdsn' => $request->serial_number,
                 'dept_id' => $request->department,
-                'email' => $request->email,
+                'email' => strtolower($request->email),
                 'password' => Hash::make($request->password),
             ]);
         } else {
             $input = Arr::except($input, array('password'));
             $user->update([
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
+                'first_name' => ucfirst(strtolower($request->first_name)),
+                'last_name' => ucfirst(strtolower($request->last_name)),
                 'stdsn' => $request->serial_number,
                 'dept_id' => $request->department,
-                'email' => $request->email,
+                'email' => strtolower($request->email),
             ]);
         }
 
         DB::table('model_has_roles')->where('model_id', $id)->delete();
 
-        $user->assignRole(explode(',',$request->input('roles')));
+        $user->assignRole(explode(',', $request->input('roles')));
 
         return redirect()->route('users.index')
             ->with('success', 'User updated successfully');

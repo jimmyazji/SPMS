@@ -13,7 +13,7 @@
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Project's Files</h2>
                         <div class="mt-2 flex mx-1 flex-row justify-between items-center">
                             <span>
-                                24 files
+                            {{ count($project->directory->media) }} files
                             </span>
                             <div class="flex flex-row space-x-2">
                                 <div x-data="{ requestMenu:false } " @click.away=" requestMenu = false " 
@@ -28,7 +28,7 @@
                                             @csrf
                                             <a href="#"  @click.prevent=" enableInput =!enableInput "
                                                 class="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
-                                                Add a directory
+                                                Create a directory
                                             </a>
                                             <div x-show="enableInput" class="relative z-50 ">
                                                 <input type="text" name="name" placeholder="Enter name" class="w-full px-1 py-1 focus:ring-none text-xs">

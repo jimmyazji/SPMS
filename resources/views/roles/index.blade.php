@@ -52,7 +52,7 @@
                                 <tbody class="bg-white divide-y divide-gray-200">
                                     @forelse ($roles as $key => $role)
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-600">
                                             {{ $role->name }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

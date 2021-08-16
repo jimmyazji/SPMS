@@ -27,4 +27,9 @@ class MediaController extends Controller
         $media = Media::find($id);
         return $media;
     }
+    public function rename($id,Request $request)
+    {
+        Media::find($id)->update(['name' => $request->name]);
+        return redirect()->back()->with('success','Media renamed successfully');
+    }
 }

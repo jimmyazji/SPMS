@@ -11,33 +11,16 @@
                 <h2 class="title-font text-white font-bold tracking-widest text-sm mb-3">CATEGORIES</h2>
                 <nav class="list-none mb-10">
                     <li>
-                        <a class="text-gray-200 hover:text-gray-800">First Link</a>
+                        <a href="#" class="text-gray-200 hover:text-gray-400">First Link</a>
                     </li>
                     <li>
-                        <a class="text-gray-200 hover:text-gray-800">Second Link</a>
+                        <a href="#" class="text-gray-200 hover:text-gray-400">Second Link</a>
                     </li>
                     <li>
-                        <a class="text-gray-200 hover:text-gray-800">Third Link</a>
+                        <a href="#" class="text-gray-200 hover:text-gray-400">Third Link</a>
                     </li>
                     <li>
-                        <a class="text-gray-200 hover:text-gray-800">Fourth Link</a>
-                    </li>
-                </nav>
-            </div>
-            <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                <h2 class="title-font text-white font-bold tracking-widest text-sm mb-3">CATEGORIES</h2>
-                <nav class="list-none mb-10">
-                    <li>
-                        <a class="text-gray-200 hover:text-gray-800">First Link</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-200 hover:text-gray-800">Second Link</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-200 hover:text-gray-800">Third Link</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-200 hover:text-gray-800">Fourth Link</a>
+                        <a href="#" class="text-gray-200 hover:text-gray-400">Fourth Link</a>
                     </li>
                 </nav>
             </div>
@@ -45,16 +28,16 @@
                 <h2 class="title-font text-white font-bold tracking-widest text-sm mb-3">CATEGORIES</h2>
                 <nav class="list-none mb-10">
                     <li>
-                        <a class="text-gray-200 hover:text-gray-800">First Link</a>
+                        <a href="#" class="text-gray-200 hover:text-gray-400">First Link</a>
                     </li>
                     <li>
-                        <a class="text-gray-200 hover:text-gray-800">Second Link</a>
+                        <a href="#" class="text-gray-200 hover:text-gray-400">Second Link</a>
                     </li>
                     <li>
-                        <a class="text-gray-200 hover:text-gray-800">Third Link</a>
+                        <a href="#" class="text-gray-200 hover:text-gray-400">Third Link</a>
                     </li>
                     <li>
-                        <a class="text-gray-200 hover:text-gray-800">Fourth Link</a>
+                        <a href="#" class="text-gray-200 hover:text-gray-400">Fourth Link</a>
                     </li>
                 </nav>
             </div>
@@ -62,16 +45,33 @@
                 <h2 class="title-font text-white font-bold tracking-widest text-sm mb-3">CATEGORIES</h2>
                 <nav class="list-none mb-10">
                     <li>
-                        <a class="text-gray-200 hover:text-gray-800">First Link</a>
+                        <a href="#" class="text-gray-200 hover:text-gray-400">First Link</a>
                     </li>
                     <li>
-                        <a class="text-gray-200 hover:text-gray-800">Second Link</a>
+                        <a href="#" class="text-gray-200 hover:text-gray-400">Second Link</a>
                     </li>
                     <li>
-                        <a class="text-gray-200 hover:text-gray-800">Third Link</a>
+                        <a href="#" class="text-gray-200 hover:text-gray-400">Third Link</a>
                     </li>
                     <li>
-                        <a class="text-gray-200 hover:text-gray-800">Fourth Link</a>
+                        <a href="#" class="text-gray-200 hover:text-gray-400">Fourth Link</a>
+                    </li>
+                </nav>
+            </div>
+            <div class="lg:w-1/4 md:w-1/2 w-full px-4">
+                <h2 class="title-font text-white font-bold tracking-widest text-sm mb-3">CATEGORIES</h2>
+                <nav class="list-none mb-10">
+                    <li>
+                        <a href="#" class="text-gray-200 hover:text-gray-400">First Link</a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-gray-200 hover:text-gray-400">Second Link</a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-gray-200 hover:text-gray-400">Third Link</a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-gray-200 hover:text-gray-400">Fourth Link</a>
                     </li>
                 </nav>
             </div>
@@ -84,13 +84,13 @@
                     target="_blank">@jimmyazji</a>
             </p>
             <span class="inline-flex sm:ml-auto sm:mt-0 mt-2 justify-center sm:justify-start">
-                <a class="text-gray-300">
+                <a href="https://www.facebook.com/SPUpage.sy/?ref=bookmarks" class="text-gray-300">
                     <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         class="w-5 h-5" viewBox="0 0 24 24">
                         <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
                     </svg>
                 </a>
-                <a class="ml-3 text-gray-300">
+                <a href="https://twitter.com/SyrianPrivate" class="ml-3 text-gray-300">
                     <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         class="w-5 h-5" viewBox="0 0 24 24">
                         <path
@@ -98,14 +98,14 @@
                         </path>
                     </svg>
                 </a>
-                <a class="ml-3 text-gray-300">
+                <a href="https://www.instagram.com/spu_syrian_private_university/" class="ml-3 text-gray-300">
                     <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                         stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
                         <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
                         <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
                     </svg>
                 </a>
-                <a class="ml-3 text-gray-300">
+                <a href="#" class="ml-3 text-gray-300">
                     <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                         stroke-width="0" class="w-5 h-5" viewBox="0 0 24 24">
                         <path stroke="none"

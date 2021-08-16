@@ -18,13 +18,18 @@ class DirectoryController extends Controller
     }
     public function destroy($id)
     {
-        $directory = Directory::find($id);
-        $directory->destroy;
+        Directory::find($id)->delete();
+        return redirect()->back()->with('success','Directory deleted successfully.');
     }
     public function download($id)
     {
         $directory = Directory::find($id);
 
         return MediaStream::create("$directory->name.zip")->addMedia($directory->media);
+    }
+    public function rename($id,Request $request)
+    {
+        Directory::find($id)->update(['name' => $request->name]);
+        return redirect()->back()->with('success','Directory renamed successfully');
     }
 }
