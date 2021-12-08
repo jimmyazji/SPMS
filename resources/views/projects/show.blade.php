@@ -13,7 +13,7 @@
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Project's Files</h2>
                         <div class="mt-2 flex mx-1 flex-row justify-between items-center">
                             <span>
-                            {{ count($project->directory->media) }} files
+                            @if($project->directory->media){{ count($project->directory->media) }}@else 0 @endif files
                             </span>
                             <div class="flex flex-row space-x-2">
                                 <div x-data="{ requestMenu:false } " @click.away=" requestMenu = false " 
