@@ -15,7 +15,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Project extends Model
 {
     use HasFactory;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -32,11 +32,11 @@ class Project extends Model
     ];
     public function dept()
     {
-        return $this->belongsTo(Dept::class,'dept_id');
+        return $this->belongsTo(Dept::class, 'dept_id');
     }
     public function supervisor()
     {
-        return $this->belongsTo(User::class,'supervisor_id','id');
+        return $this->belongsTo(User::class, 'supervisor_id', 'id');
     }
     public function group()
     {
@@ -44,14 +44,46 @@ class Project extends Model
     }
     public function users()
     {
-        return $this->hasManyThrough(User::class,Group::class);
+        return $this->hasManyThrough(User::class, Group::class);
     }
     public function directory()
     {
-        return $this->belongsTo(Directory::class,'directory_id');
+        return $this->belongsTo(Directory::class, 'directory_id');
     }
     public function media()
     {
-        return $this->hasManyThrough(Directory::class,Media::class);
+        return $this->hasManyThrough(Directory::class, Media::class);
+    }
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when(
+            $filters['search'] ?? false,
+            fn ($query, $search) =>
+            $query->where(
+                fn ($query) =>
+                $query->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('body', 'like', '%' . $search . '%')
+            )
+        );
+
+        $query->when(
+            $filters['type'] ?? false,
+            fn ($query, $type) =>
+            $query->whereHas(
+                'type',
+                fn ($query) =>
+                $query->where('type', $type)
+            )
+        );
+
+        $query->when(
+            $filters['category'] ?? false,
+            fn ($query, $category) =>
+            $query->whereHas(
+                'category',
+                fn ($query) =>
+                $query->where('slug', $category)
+            )
+        );
     }
 }

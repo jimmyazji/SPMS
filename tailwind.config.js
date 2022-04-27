@@ -1,10 +1,11 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
-    purge: [
+    content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
+        "./node_modules/flowbite/**/*.js"
     ],
 
     theme: {
@@ -19,15 +20,8 @@ module.exports = {
             },
         },
     },
-
-    variants: {
-        extend: {
-            opacity: ['disabled'],
-        },
-        scrollbar: ['rounded']
-    },
-
     plugins: [
+        require('flowbite/plugin'),
         require('@tailwindcss/forms'),
         require('tailwind-scrollbar')
     ],

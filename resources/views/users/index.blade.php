@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Users') }}
             </h2>
@@ -9,7 +9,7 @@
                     <div class="relative mt-2 md:mt-0">
                         <form action="{{ route('users.index') }}" method="GET" role="search">
                             <x-input name="search" id="search" type="text"
-                                class="rounded-full w-60 md:w-96 px-4 py-2 mr-6 pl-8 text-sm" placeholder="Search"
+                                class="rounded-full w-36 md:w-60 px-4 py-2 mr-6 pl-8 text-sm" placeholder="Search"
                                 value="{{ request('search') }}" />
                             <div class="absolute top-0">
                                 <svg class="fill-current text-gray-500 mt-3.5 ml-4 w-3 h-3"

@@ -93,7 +93,7 @@
             <div class="bg-white overflow-hidden shadow-lg rounded-3xl">
                 <div class="p-8 bg-white">
                     <div class="items-end">
-                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">About</h2>
+                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Summary</h2>
                         <p class="mt-2 text-sm text-gray-700">{{ $project->description }}</p>
                     </div>
                 </div>

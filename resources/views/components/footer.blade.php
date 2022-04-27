@@ -3,7 +3,7 @@
         class="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
         <div class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
             <a href="https://www.spu.edu.sy/index.php?&lang=2" class="flex title-font  items-center md:justify-start justify-center text-white font-bold">
-                <img src="images\SPU.png" alt="SPU Syrian Private University">
+                <img src="\images\SPU.png" alt="SPU Syrian Private University">
             </a>
         </div>
         <div class="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">

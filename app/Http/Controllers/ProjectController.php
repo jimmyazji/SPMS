@@ -30,9 +30,9 @@ class ProjectController extends Controller
                 ->where([
                     ['title', '!=', Null],
                     [function ($query) use ($request) {
-                        if (($term = $request->term)) {
-                            $query->orWhere('title', 'LIKE', '%' . $term . '%')
-                                ->orWhere('description', 'LIKE', '%' . $term . '%')->get();
+                        if (($search = $request->search)) {
+                            $query->orWhere('title', 'LIKE', '%' . $search . '%')
+                                ->orWhere('description', 'LIKE', '%' . $search . '%')->get();
                         }
                     }]
                 ])->latest()->paginate(15)->withQueryString();

@@ -12,5 +12,3 @@
         {{ $slot }}
     </ul>
 </div>
-<script>
-</script>
