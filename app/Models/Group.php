@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
+use App\Enums\GroupState;
+use App\Enums\Specialization;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-use App\Models\Dept;
 
 
 class Group extends Model
 {
     use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -19,20 +19,19 @@ class Group extends Model
      */
     protected $fillable = [
         'project_id',
-        'dept_id',
-        'status'
+        'state',
+        'type'
     ];
-    public function dept()
-    {
-        return $this->belongsTo(Dept::class,'dept_id');
-    }
+    protected $casts = [
+        'state' => GroupState::class,
+        'type' => Specialization::class
+    ];
     public function project()
     {
-        return $this->belongsTo(Project::class,'project_id');
+        return $this->belongsTo(Project::class, 'project_id');
     }
     public function users()
     {
-        return $this->hasMany(User::class,'group_id');
+        return $this->hasMany(User::class, 'group_id');
     }
 }
-

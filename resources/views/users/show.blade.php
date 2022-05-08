@@ -1,5 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('User Profile') }}
+        </h2>
         @can('user-edit')
         <a href="{{ route('users.edit',$user->id) }}" class="flex justify-end">
             <x-button type="button">
@@ -9,7 +12,7 @@
         @endcan
     </x-slot>
     <div class="py-12 flex flex-col md:flex-row container justify-center gap-6">
-        <div class="max-w-7xl">
+        <div class="max-w-6xl">
             <div class="bg-white overflow-hidden shadow-lg rounded-3xl">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <img src="/uploads/avatars/{{ $user->avatar }}"
@@ -57,7 +60,7 @@
             </div>
         </div>
         <div class="flex flex-col items-center justify-start">
-            <div class="max-w-7xl w-full md:w-96">
+            <div class="max-w-6xl w-full md:w-96">
                 <div class="bg-white overflow-hidden shadow-lg rounded-3xl">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight mt-2 flex items-center">
@@ -78,7 +81,7 @@
                     </div>
                 </div>
             </div>
-            <div class="max-w-7xl w-full md:w-96 mt-4">
+            <div class="max-w-6xl w-full md:w-96 mt-4">
                 <div class="bg-white overflow-hidden shadow-lg rounded-3xl">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight mt-2 flex items-center">
@@ -105,7 +108,7 @@
                     </div>
                 </div>
             </div>
-            <div class="max-w-7xl w-full md:w-96 mt-4">
+            <div class="max-w-6xl w-full md:w-96 mt-4">
                 <div class="bg-white overflow-hidden shadow-lg rounded-3xl">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight mt-2 flex items-center">

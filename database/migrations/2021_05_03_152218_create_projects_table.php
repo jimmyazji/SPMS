@@ -19,9 +19,6 @@ class CreateProjectsTable extends Migration
             $table->string('type');
             $table->text('description');
             $table->boolean('taken');
-            $table->foreignId('dept_id')->references('id')
-            ->on('depts')
-            ->onDelete('cascade');
             $table->unsignedBigInteger('supervisor_id')->nullable();
             $table->foreign('supervisor_id')->references('id')
             ->on('users')

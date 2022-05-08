@@ -21,10 +21,8 @@ class CreateGroupsTable extends Migration
             $table->foreign('project_id')->references('id')
             ->on('projects')
             ->onDelete('set null');
-            $table->foreignId('dept_id')->references('id')
-            ->on('depts')
-            ->onDelete('cascade');
-            $table->string('status');
+            $table->string('state')->default('looking for members');
+            $table->string('type')->default('mixed');
             $table->timestamps();
         });
     }

@@ -1,6 +1,6 @@
 <footer class="text-gray-200 bg-gray-700">
     <div
-        class="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
+        class="max-w-6xl px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
         <div class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
             <a href="https://www.spu.edu.sy/index.php?&lang=2" class="flex title-font  items-center md:justify-start justify-center text-white font-bold">
                 <img src="\images\SPU.png" alt="SPU Syrian Private University">
@@ -78,7 +78,7 @@
         </div>
     </div>
     <div class="bg-gray-800">
-        <div class="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
+        <div class="max-w-6xl mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
             <p class="text-gray-300 text-sm text-center sm:text-left">© 2021 Syrian Private University —
                 <a href="https://github.com/jimmyazji" rel="noopener noreferrer" class="text-gray-200 ml-1"
                     target="_blank">@jimmyazji</a>

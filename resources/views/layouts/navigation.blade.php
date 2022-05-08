@@ -1,6 +1,6 @@
     <nav x-data="{ open: false }" class="bg-gray-800 border-b border-gray-100">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-6xl mx-auto">
         <div class="flex justify-between h-24">
             <div class="flex">
                 <!-- Logo -->
@@ -45,7 +45,7 @@
                             class="flex items-center text-sm font-medium text-gray-300 hover:text-white hover:border-gray-300 focus:outline-none focus:text-white focus:border-gray-300 transition duration-150 ease-in-out">
                             <div>{{ Auth::user()->name }}</div>
 
-                            <div class="ml-1 border-gray-400">
+                            <div class="ml-2 border-gray-400">
                                 <img class="h-10 w-10 transform transition ease-in-out duration-150 hover:scale-110 rounded-full hover:" src="/uploads/avatars/{{ Auth::user()->avatar }}"
                                     alt="profile">
                             </div>

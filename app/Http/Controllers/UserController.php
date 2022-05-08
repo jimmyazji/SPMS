@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Dept;
-use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
+use App\Enums\Specialization;
 use Illuminate\Support\Facades\DB;
-
-
+use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Enum;
 
 class UserController extends Controller
 {
@@ -29,8 +28,8 @@ class UserController extends Controller
     }
     public function index(Request $request)
     {
-        $users = User::with('dept', 'roles')->latest()->filter(request(['search']))
-            ->paginate(15)->withQueryString();
+        $users = User::with('roles')->latest()->filter(request(['search']))
+            ->paginate(10)->withQueryString();
         return view('users.index', compact('users'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -42,9 +41,9 @@ class UserController extends Controller
      */
     public function create()
     {
+        $specs = Specialization::cases();
         $roles = Role::pluck('name', 'name')->all();
-        $depts = Dept::all();
-        return view('users.create', compact('roles', 'depts'));
+        return view('users.create', compact('roles', 'specs'));
     }
 
     /**
@@ -60,16 +59,15 @@ class UserController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'serial_number' => 'nullable|digits:7|unique:users,stdsn',
+            'spec' => [new Enum(Specialization::class)],
             'email' => 'required|email|unique:users,email',
             'password' => 'min:8|same:confirm-password',
-            'department' => 'required'
         ]);
-
         $user = User::create([
             'first_name' => ucfirst(strtolower($request->first_name)),
             'last_name' => ucfirst(strtolower($request->last_name)),
             'stdsn' => $request->serial_number,
-            'dept_id' => $request->department,
+            'spec' => $request->spec,
             'email' => strtolower($request->email),
             'password' => Hash::make($request->password),
             'avatar' => 'default.jpg'
@@ -99,11 +97,11 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        $specs = Specialization::cases();
         $user = User::find($id);
         $roles = Role::pluck('name', 'name')->all();
         $userRole = $user->roles->pluck('name', 'name')->all();
-        $depts = Dept::all();
-        return view('users.edit', compact('user', 'roles', 'userRole', 'depts'));
+        return view('users.edit', compact('user', 'roles', 'userRole', 'specs'));
     }
 
     /**
@@ -120,19 +118,18 @@ class UserController extends Controller
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
             'stdsn' => 'unique:users,stdsn,' . $id,
+            'spec' => [new Enum(Specialization::class)],
             'password' => 'nullable|min:8|same:confirm-password',
             'image' => 'nullable|image|mimes:jpg,png,jpeg|max:5048'
         ]);
-
         $user = User::find($id);
-
         $input = $request->all();
         if (!empty($input['password'])) {
             $user->update([
                 'first_name' => ucfirst(strtolower($request->first_name)),
                 'last_name' => ucfirst(strtolower($request->last_name)),
                 'stdsn' => $request->serial_number,
-                'dept_id' => $request->department,
+                'spec' => $request->spec,
                 'email' => strtolower($request->email),
                 'password' => Hash::make($request->password),
             ]);
@@ -142,15 +139,12 @@ class UserController extends Controller
                 'first_name' => ucfirst(strtolower($request->first_name)),
                 'last_name' => ucfirst(strtolower($request->last_name)),
                 'stdsn' => $request->serial_number,
-                'dept_id' => $request->department,
+                'spec' => $request->spec,
                 'email' => strtolower($request->email),
             ]);
         }
-
         DB::table('model_has_roles')->where('model_id', $id)->delete();
-
         $user->assignRole(explode(',', $request->input('roles')));
-
         return redirect()->route('users.index')
             ->with('success', 'User updated successfully');
     }

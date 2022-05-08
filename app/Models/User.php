@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Enums\Specialization;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Spatie\Permission\Traits\HasRoles;
-use App\Models\Dept;
 
 class User extends Authenticatable
 {
@@ -24,11 +25,10 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
+        'spec',
         'stdsn',
-        'dept_id',
         'group_id',
         'avatar',
-        'last_login_ip',
     ];
 
     /**
@@ -49,7 +49,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',
+        'spec' => Specialization::class,
     ];
+
+    public function getNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
 
     public function scopeFilter($query, array $filters)
     {
@@ -59,9 +65,9 @@ class User extends Authenticatable
             ->orWhere('email', 'LIKE', '%' . $search . '%')
             ->orWhere('stdsn', 'LIKE', '%' . $search . '%'));
     }
-    public function dept()
+    public function scopeExcept(Builder $query, User $user)
     {
-        return $this->belongsTo(Dept::class, 'dept_id');
+        return $query->where('id', '!=', $user->id);
     }
     public function group()
     {

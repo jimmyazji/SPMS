@@ -4,9 +4,11 @@
             Group #{{ $group->id }}
         </h2>
     </x-slot>
-    <x-flash-message />
+    <div class="max-w-6xl mx-auto">
+        <x-flash-message />
+    </div>
     <div class="py-12 flex flex-col md:flex-row justify-center mx-auto gap-6">
-        <div class="max-w-7xl">
+        <div class="max-w-6xl">
             <div class="bg-white overflow-hidden shadow-lg rounded-3xl">
                 <div class="p-8 bg-white border-b border-gray-200">
                     <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-4">Group Members</h2>
@@ -32,7 +34,6 @@
                         </div>
                     </div>
                     @endforeach
-                    {{-- Send Join Request --}}
                     @if(auth()->user()->group_id != $group->id)
                     @if (count($requested) == 0)
                     <a href="{{ route('groupRequests.store',$group->id) }}"
@@ -75,7 +76,7 @@
         </div>
         @if(auth()->user()->group_id == $group->id)
         <div class="flex flex-col items-center ">
-            <div class="max-w-7xl w-full">
+            <div class="max-w-6xl w-full">
                 <div class="bg-white overflow-hidden shadow-lg rounded-3xl">
                     <div class="p-6 bg-white border-b border-gray-200 ">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight mt-2 mb-4 flex">
@@ -93,12 +94,13 @@
                                 </div>
                                 <div class="ml-4">
                                     <div class="text-sm font-medium text-gray-900">
-                                        <a href="{{ route('users.show',$groupRequest->sender->id) }}">{{ $groupRequest->sender->first_name }}
+                                        <a href="{{ route('users.show',$groupRequest->sender->id) }}">{{
+                                            $groupRequest->sender->first_name }}
                                             {{ $groupRequest->sender->last_name }}</a>
                                     </div>
                                     <div class="text-sm text-gray-500">
-                                        <a
-                                            href="{{ route('users.show',$groupRequest->sender->id) }}">{{ $groupRequest->sender->email }}</a>
+                                        <a href="{{ route('users.show',$groupRequest->sender->id) }}">{{
+                                            $groupRequest->sender->email }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -127,7 +129,12 @@
                         <div
                             class="mt-2 bg-gray-50 flex justify-center py-4 md:w-72 rounded-lg border border-gray-300 hover:bg-gray-100">
                             <div class="flex items-center text-gray-600">
+                                @if($group->state->name === 'Recruiting')
                                 No join requests pending
+                                @else
+                                Group state is set to<span class="ml-1 capitalize text-green-500">{{
+                                    $group->state->value }}</span>
+                                @endif
                             </div>
                         </div>
                         @endforelse

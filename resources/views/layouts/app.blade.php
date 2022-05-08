@@ -19,13 +19,13 @@
 </head>
 
 <body
-    class="font-sans antialiased scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800 scrollbar-thumb-rounded text-gray-800">
+    class="font-sans antialiased scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800 text-gray-800">
     <div class="min-h-screen bg-gray-200">
         @include('layouts.navigation')
 
         <!-- Page Heading -->
         <header class="bg-white shadow">
-            <div class="max-w-7xl mx-auto w-10/12 py-6">
+            <div class="max-w-6xl mx-auto h-24 py-6 flex justify-between items-center">
                 {{ $header }}
             </div>
         </header>

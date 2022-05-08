@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Dept;
 use App\Models\User;
 use App\Models\Group;
 use Spatie\MediaLibrary\HasMedia;
@@ -27,13 +26,8 @@ class Project extends Model
         'description',
         'taken',
         'supervisor_id',
-        'dept_id',
         'directory_id'
     ];
-    public function dept()
-    {
-        return $this->belongsTo(Dept::class, 'dept_id');
-    }
     public function supervisor()
     {
         return $this->belongsTo(User::class, 'supervisor_id', 'id');

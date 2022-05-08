@@ -1,4 +1,3 @@
-const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
     content: [
@@ -14,9 +13,6 @@ module.exports = {
                 xxs: ['0.625rem', {
                     lineHeight: '1rem'
                 }],
-            },
-            fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
         },
     },

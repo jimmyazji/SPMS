@@ -25,21 +25,7 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        if ($user->dept_id = 1) {
-            $projects = Project::with('dept')
-                ->where([
-                    ['title', '!=', Null],
-                    [function ($query) use ($request) {
-                        if (($search = $request->search)) {
-                            $query->orWhere('title', 'LIKE', '%' . $search . '%')
-                                ->orWhere('description', 'LIKE', '%' . $search . '%')->get();
-                        }
-                    }]
-                ])->latest()->paginate(15)->withQueryString();
-        } else {
-            $term1 = $user->dept_id;
-            $groups = Project::with('dept')->where('dept_id', '=', $term1)->latest()->paginate(5)->withQueryString();
-        }
+        $projects = Project::latest()->paginate(5)->withQueryString();
         return view('projects.index', compact('projects'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
@@ -68,19 +54,17 @@ class ProjectController extends Controller
             'description' => 'min:20|max:255'
         ]);
         $user = $request->user();
-        $dept_id = $user->dept_id;
         $project = Project::create([
             'title' => $request->title,
             'type' => $request->type,
             'description' => $request->description,
-            'dept_id' => $dept_id,
             'taken' => false,
             'directory_id' => Directory::create(['name' => 'root'])->id,
         ]);
         if ($request->supervise == true) {
             $project->supervisor_id = $user->id;
         }
-        
+
 
 
         return redirect()->route('projects.index')
@@ -95,7 +79,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project = Project::with('group', 'supervisor', 'dept', 'users')
+        $project = Project::with('group', 'supervisor', 'users')
             ->find($id);
         return view('projects.show', compact('project'));
     }

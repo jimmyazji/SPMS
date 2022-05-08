@@ -1,12 +1,13 @@
+@props(['placeholder'=>'','name'=>''])
 <script type="module" src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
 <script nomodule src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine-ie11.min.js" defer></script>
 <select multiple id="select" class="hidden">
     {{ $options }}
 </select>
-<div x-data="dropdown()" x-init="loadOptions()" class="mt-1 relative flex flex-col items-center mx-auto"
-    {{ $attributes }}>
+<div x-data="dropdown()" x-init="loadOptions()" class="mt-1 relative flex flex-col items-center mx-auto" {{ $attributes
+    }}>
     <form>
-        <input name="roles" type="hidden" class="" x-bind:value="selectedValues()">
+        <input name="{{ $name }}" type="hidden" class="" x-bind:value="selectedValues()">
         <div class="inline-block relative w-full">
             <div class="flex flex-col items-center relative">
                 <div x-on:click="open" class="w-full  svelte-1l8159u">
@@ -15,7 +16,7 @@
                         <div class="flex flex-auto flex-wrap">
                             <template x-for="(option,index) in selected" :key="options[option].value">
                                 <div
-                                    class="mx-0.5 flex justify-center items-center font-medium px-2 rounded-2xl text-sm text-gray-700 bg-gray-100 border border-gray-300 ">
+                                    class="mx-0.5 flex justify-center items-center font-medium px-2 rounded-md text-sm text-gray-700 bg-gray-100 border border-gray-300 ">
                                     <div class="text-xs font-normal leading-none max-w-full flex-initial x-model="
                                         options[option]" x-text="options[option].text"></div>
                                     <div class="flex flex-auto items-start flex-row-reverse">
@@ -31,7 +32,7 @@
                                 </div>
                             </template>
                             <div x-show="selected.length    == 0" class="flex-1 text-sm text-gray-800">
-                                <input placeholder="Select Roles"
+                                <input placeholder="{{ $placeholder }}"
                                     class="bg-transparent p-1 px-2 appearance-none outline-none h-full w-full text-gray-800"
                                     x-bind:value="selectedValues()">
                             </div>
@@ -73,6 +74,7 @@
                     </div>
                 </div>
             </div>
+        </div>
     </form>
 </div>
 <script>
@@ -109,8 +111,9 @@
                           this.options.push({
                               value: options[i].value,
                               text: options[i].innerText,
-                              selected: options[i].getAttribute('selected') != null ? options[i].getAttribute('selected') : false
-                          });
+                            });
+                            if(options[i].getAttribute('selected') != null) 
+                            this.selected.push(i)
                       }
                   },
                   selectedValues(){

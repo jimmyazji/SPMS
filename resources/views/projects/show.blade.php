@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
     <x-flash-message />
-    <div class="mx-auto max-w-7xl py-12 flex flex-col md:flex-row container items-start justify-center gap-6">
+    <div class="mx-auto max-w-6xl py-12 flex flex-col md:flex-row container items-start justify-center gap-6">
         <div class="w-full md:w-3/5">
             <div class="bg-white overflow-hidden shadow-lg rounded-3xl">
                 <div class="bg-white border-b border-gray-200">

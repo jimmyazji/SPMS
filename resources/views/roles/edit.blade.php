@@ -1,30 +1,28 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Edit Role') }}
-            </h2>
-            <form method="POST" action="{{ route('roles.destroy',$role->id) }}">
-                @csrf
-                @method('DELETE')
-                <x-modal>
-                    <x-slot name="trigger">
-                        <x-button type="button" class="bg-red-600 hover:bg-red-500" @click.prevent="showModal = true"
-                            value="Click Here">Delete Role</x-button>
-                    </x-slot>
-                    <x-slot name="title">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                            Delete Role
-                        </h3>
-                    </x-slot>
-                    <x-slot name="content">
-                        <p class="text-sm text-gray-500">
-                            Are you sure you want to delete {{ $role->name }} Role? This action cannot be undone.
-                        </p>
-                    </x-slot>
-                </x-modal>
-            </form>
-        </div>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Edit Role') }}
+        </h2>
+        <form method="POST" action="{{ route('roles.destroy',$role->id) }}">
+            @csrf
+            @method('DELETE')
+            <x-modal>
+                <x-slot name="trigger">
+                    <x-button type="button" class="bg-red-600 hover:bg-red-500" @click.prevent="showModal = true"
+                        value="Click Here">Delete Role</x-button>
+                </x-slot>
+                <x-slot name="title">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                        Delete Role
+                    </h3>
+                </x-slot>
+                <x-slot name="content">
+                    <p class="text-sm text-gray-500">
+                        Are you sure you want to delete {{ $role->name }} Role? This action cannot be undone.
+                    </p>
+                </x-slot>
+            </x-modal>
+        </form>
     </x-slot>
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">

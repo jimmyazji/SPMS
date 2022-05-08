@@ -150,6 +150,8 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'spec' => 'specialization'
+    ],
 
 ];

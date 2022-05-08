@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Group;
-use App\Models\Project;
+use App\Enums\GroupState;
+use App\Enums\Specialization;
 use App\Models\GroupRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use phpDocumentor\Reflection\Types\Null_;
+use Illuminate\Validation\Rules\Enum;
 
 class GroupController extends Controller
 {
@@ -33,29 +34,16 @@ class GroupController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        if ($user->dept->name == 'Adminstration') {
-            $groups = Group::with('project')
-                ->where([
-                    ['id', '!=', Null],
-                    [function ($query) use ($request) {
-                        if (($term = $request->term)) {
-                            $query->orWhere('id', 'LIKE', '%' . $term . '%')
-                                ->orWhere('name', 'LIKE', '%' . $term . '%')->load('users')->get();
-                        }
-                    }]
-                ])->latest()->paginate(15)->withQueryString();
-        } else {
-            $search = $user->dept_id;
-            $groups = Group::with('project')->where('dept_id', '=', $search)
-                ->where([
-                    ['id', '!=', Null],
-                    [function ($query) use ($request) {
-                        if (($term = $request->term)) {
-                            $query->orWhere('id', '=', $term)->load('users')->get();
-                        }
-                    }]
-                ])->latest()->paginate(15)->withQueryString();
-        }
+        $groups = Group::with('project')
+            ->where([
+                ['id', '!=', Null],
+                [function ($query) use ($request) {
+                    if (($term = $request->term)) {
+                        $query->orWhere('id', 'LIKE', '%' . $term . '%')
+                            ->orWhere('name', 'LIKE', '%' . $term . '%')->load('users')->get();
+                    }
+                }]
+            ])->latest()->paginate(15)->withQueryString();
         return view('groups.index', compact('groups'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
@@ -67,18 +55,10 @@ class GroupController extends Controller
      */
     public function create(Request $request)
     {
-        $user = $request->user();
-        if ($user->dept_id = 1) {
-            $projects = Project::where('taken', '=', 0)->get();
-            $users = User::where('group_id', '=', NULL)->get();
-        } else {
-            $term = $user->dept_id;
-            $projects = Project::where('dept_id', '=', $term)
-                ->where('taken', '=', 0)->get();
-            $users = User::where('dept_id', '=', $term)
-                ->where('group_id', '=', NULL)->get();
-        }
-        return view('groups.create', compact('projects', 'users'));
+        $states = GroupState::cases();
+        $specs = Specialization::cases();
+        $users = User::role('student')->except(request()->user())->get();
+        return view('groups.create', compact('specs', 'users', 'states'));
     }
 
     /**
@@ -90,15 +70,21 @@ class GroupController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'status' => 'required',
-            'project' => 'unique:groups,project_id'
+            'state' => [new Enum(GroupState::class)],
+            'type' => [new Enum(Specialization::class)],
         ]);
-        $user = $request->user();
-        $dept_id = $user->dept_id;
+        if(request()->user()->spec === Specialization::None){
+            return redirect()->back()->with('error','Request a specialization before creating a group!');
+        }
+        if (Specialization::from(request()->type) !== Specialization::None){
+            if(Specialization::from(request()->type)->name !== request()->user()->spec->name){
+                return redirect()->back()->with('error','Cannot create a group of type '.$request->type.'!');
+            }
+        }
+            $user = $request->user();
         $group = Group::create([
-            'dept_id' => $dept_id,
-            'status' => $request->status,
-            'project_id' => $request->project,
+            'state' => $request->state,
+            'type' => $request->type,
         ]);
         User::where('id', $user->id)->update(['group_id' => $group->id]);
         $user->revokePermissionTo('group-create');
@@ -114,7 +100,7 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-        $groupRequests = GroupRequest::get()->where('group_id', $group->id)->where('status', 'pending');
+        $groupRequests = GroupRequest::where('group_id', $group->id)->where('status','pending')->get();
         $requested = $groupRequests->where('sender_id', Auth::id());
         return view('groups.show', compact('group', 'groupRequests', 'requested'));
     }
@@ -127,9 +113,10 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
-        $projects = Project::where('taken', '=', 0)->get();
-        $users = User::where('group_id', '=', NULL)->get();
-        return view('groups.edit', compact('group', 'projects', 'users'));
+        $states = GroupState::cases();
+        $specs = Specialization::cases();
+        $users = User::role('student')->get();
+        return view('groups.edit', compact('group', 'users', 'states', 'specs'));
     }
 
     /**
@@ -142,7 +129,8 @@ class GroupController extends Controller
     public function update(Request $request, Group $group)
     {
         $this->validate($request, [
-            'status' => 'required',
+            'state' => [new Enum(GroupState::class)],
+            'type' => [new Enum(Specialization::class)],
         ]);
 
         $group->update($request->all());
