@@ -18,8 +18,7 @@
                                 <div class="grid grid-cols-2 gap-6">
                                     <div>
                                         <x-label for="state" :value="__('Group State')" />
-                                        <x-select id="state" name="state"
-                                            class="capitalize mt-1 block w-full">
+                                        <x-select id="state" name="state" class="capitalize mt-1 block w-full">
                                             @foreach ($states as $state)
                                             <option class="capitalize" value="{{ $state->value }}">{{ $state->value }}
                                             </option>
@@ -28,8 +27,7 @@
                                     </div>
                                     <div>
                                         <x-label for="type" :value="__('Group Type')" />
-                                        <x-select id="type" name="type"
-                                            class="capitalize mt-1 block w-full">
+                                        <x-select id="type" name="type" class="capitalize mt-1 block w-full">
                                             @foreach($specs as $spec)
                                             <option class="capitalize" value="{{ $spec->value }}">{{ $spec->value }}
                                             </option>
@@ -42,8 +40,7 @@
                                     <x-multi-select-dropdown placeholder="Invite Members" name="invited">
                                         <x-slot name="options">
                                             @foreach($users as $user)
-                                            <option value="{{ $user->id }}">{{ $user->first_name }} {{ $user->last_name
-                                                }}
+                                            <option value="{{ $user->id }}">{{ $user->name }}
                                             </option>
                                             @endforeach
                                         </x-slot>

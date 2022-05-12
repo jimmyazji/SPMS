@@ -28,9 +28,11 @@ class UserController extends Controller
     }
     public function index(Request $request)
     {
-        $users = User::with('roles')->latest()->filter(request(['search']))
+        $users = User::with('roles')->latest()->filter(request(['search', 'spec']))
             ->paginate(10)->withQueryString();
-        return view('users.index', compact('users'))
+        $specs = Specialization::cases();
+        $roles = Role::pluck('name', 'name')->all();
+        return view('users.index', compact('users', 'specs', 'roles'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 

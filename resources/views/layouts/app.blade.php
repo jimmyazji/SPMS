@@ -18,11 +18,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 
-<body
-    class="font-sans antialiased scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800 text-gray-800">
+<body class="font-sans antialiased scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800 text-gray-800">
     <div class="min-h-screen bg-gray-200">
         @include('layouts.navigation')
-
+        @props(['filters'=>''])
         <!-- Page Heading -->
         <header class="bg-white shadow">
             <div class="max-w-6xl mx-auto h-24 py-6 flex justify-between items-center">
@@ -31,8 +30,13 @@
         </header>
 
         <!-- Page Content -->
-        <main x-data="{ showmain: false }" x-init="() => {
-                setTimeout(() => showmain = true, 500);
+        @if ($filters)
+        <div class=" flex justify-center items-center space-x-4 py-6">
+            {{ $filters }}
+        </div>
+        @endif
+        <main style="display: none;" x-data="{ showmain: false }" x-init="() => {
+                setTimeout(() => showmain = true, 200);
             }" x-show="showmain" x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0 transform scale-90">
             {{ $slot }}

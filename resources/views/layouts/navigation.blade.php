@@ -1,17 +1,19 @@
-    <nav x-data="{ open: false }" class="bg-gray-800 border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-gray-800 border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-6xl mx-auto">
         <div class="flex justify-between h-24">
             <div class="flex">
                 <!-- Logo -->
                 <div class="ml-2 flex-shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-20 w-auto fill-current text-gray-300 hover:text-white transition duration-150 ease-in-out" />
+                    <a href="{{ route('dashboard') }}"
+                        class="focus:outline-none focus:scale-110 transform transition hover:scale-110">
+                        <x-application-logo
+                            class="block h-20 w-auto fill-current text-gray-300 hover:text-white transition duration-150 ease-in-out" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden sm:-my-px sm:ml-10 sm:flex">
                     @can('user-list')
                     <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                         {{ __('Users') }}
@@ -42,12 +44,12 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="flex items-center text-sm font-medium text-gray-300 hover:text-white hover:border-gray-300 focus:outline-none focus:text-white focus:border-gray-300 transition duration-150 ease-in-out">
+                            class="group flex items-center text-sm font-medium text-gray-300 hover:text-white hover:border-gray-300 focus:outline-none focus:text-white focus:border-gray-300 transition duration-150 ease-in-out">
                             <div>{{ Auth::user()->name }}</div>
 
-                            <div class="ml-2 border-gray-400">
-                                <img class="h-10 w-10 transform transition ease-in-out duration-150 hover:scale-110 rounded-full hover:" src="/uploads/avatars/{{ Auth::user()->avatar }}"
-                                    alt="profile">
+                            <div class="ml-2 group-hover:pl-4 transition-padding border-gray-400">
+                                <img class="h-10 w-10 transform transition ease-in-out duration-150 group-hover:scale-125 rounded-full"
+                                    src="/uploads/avatars/{{ Auth::user()->avatar }}" alt="profile">
                             </div>
                         </button>
                     </x-slot>
@@ -58,12 +60,13 @@
                         <x-dropdown-link class="border-b pb-3 border-gray-200" :href="route('profile.show')">
                             {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
                         </x-dropdown-link>
-                        @if(Auth::user()->group)    
+                        @if(Auth::user()->group)
                         <x-dropdown-link :href="route('groups.show',Auth::user()->group)">
                             {{ __('My Group') }}
                         </x-dropdown-link>
-                        @if (Auth::user()->group->project_id)                         
-                        <x-dropdown-link class="border-b border-gray-200" :href="route('projects.show',Auth::user()->group->project_id)">
+                        @if (Auth::user()->group->project_id)
+                        <x-dropdown-link class="border-b border-gray-200"
+                            :href="route('projects.show',Auth::user()->group->project_id)">
                             {{ __('My Project') }}
                         </x-dropdown-link>
                         @endif

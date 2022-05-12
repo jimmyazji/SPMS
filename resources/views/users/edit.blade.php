@@ -65,7 +65,7 @@
                                 <div class="grid grid-cols-2 gap-2">
                                     <div>
                                         <x-label for="roles" :value="__('Role')" />
-                                        <x-multi-select-dropdown placeholder="Select Roles" name="roles">
+                                        <x-multi-select-dropdown placeholder="Select Roles" name="roles" class="p-1 mt-1">
                                             <x-slot name="options">
                                                 @foreach ($roles as $role)
                                                 <option value="{{ $role }}" {{ in_array($role,$userRole) ? 'selected'

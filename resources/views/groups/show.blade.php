@@ -24,8 +24,7 @@
                             </div>
                             <div class="ml-4">
                                 <div class="text-sm font-medium text-gray-900">
-                                    <a href="{{ route('users.show',$user->id) }}">{{ $user->first_name }}
-                                        {{ $user->last_name }}</a>
+                                    <a href="{{ route('users.show',$user->id) }}">{{ $user->name }}</a>
                                 </div>
                                 <div class="text-sm text-gray-500">
                                     <a href="{{ route('users.show',$user->id) }}">{{ $user->email }}</a>

@@ -39,7 +39,6 @@ class RegisteredUserController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'serial_number' => 'digits:7|nullable',
-            'department'=> 'required',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
@@ -48,7 +47,6 @@ class RegisteredUserController extends Controller
             'first_name' => ucfirst($request->first_name),
             'last_name'=> ucfirst($request->last_name),
             'stdsn'=> $request->serial_number,
-            'dept_id'=> $request->department,
             'email' => strtolower($request->email),
             'password' => Hash::make($request->password),
             'avatar' => 'default.jpg'

@@ -115,7 +115,7 @@
                                         </div>
                                         <div class="ml-2">
                                             <div class="text-xs font-medium text-gray-900">
-                                                {{ $user->first_name }} {{ $user->last_name }}
+                                                {{ $user->name }}
                                             </div>
                                             <div class="text-xs text-gray-500">
                                                 {{ $user->email }}

@@ -65,8 +65,7 @@
                                     <x-multi-select-dropdown placeholder="Invite Members" name="invited">
                                         <x-slot name="options">
                                             @foreach($users as $user)
-                                            <option value="{{ $user->id }}">{{ $user->first_name }} {{ $user->last_name
-                                                }}
+                                            <option value="{{ $user->id }}">{{ $user->name }}
                                             </option>
                                             @endforeach
                                         </x-slot>

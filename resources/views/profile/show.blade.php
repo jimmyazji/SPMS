@@ -21,7 +21,7 @@
                         class="w-full md:h-96 md:w-96 rounded-full border-2 border-gray-300">
                     <div class="flex flex-col md:flex-row container justify-between border-b border-gray-300 py-4">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight mt-2 flex items-center">
-                            {{ $user->first_name }} {{ $user->last_name }}
+                            {{ $user->name }}
                         </h2>
                         <div class="text-xs text-gray-500 mt-3 md:ml-4">
                             <div class="container flex flex-row justify-between md:w-36">

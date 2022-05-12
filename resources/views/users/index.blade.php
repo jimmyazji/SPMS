@@ -9,17 +9,54 @@
             </x-button>
         </a>
     </x-slot>
-    <div class="flex justify-center py-6">
-        <div class="relative mt-2 md:mt-0">
-            <x-search/>
+    <x-slot name="filters">
+        <span>Filters:</span>
+        <x-dropdown name="type" id="type">
+            <x-slot name="trigger">
+                <button
+                    class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm text-gray-600 p-4 bg-white border">
+                    {{ isset(request()->spec) ? ucwords(request()->spec) : 'Select Specialization' }}
+                    <i class="fa fa-angle-down ml-2"></i>
+                </button>
+            </x-slot>
+            <x-slot name="content">
+                @foreach($specs as $spec)
+                @if(!(request()->spec === $spec->name))
+                <x-dropdown-link class="capitalize"
+                    href="/users?spec={{ $spec->value }}&{{ http_build_query(request()->except('spec', 'page')) }}">{{
+                    $spec->value }}
+                </x-dropdown-link>
+                @endif
+                @endforeach
+            </x-slot>
+        </x-dropdown>
+        <div class="min-w-[200px]">
+            <x-multi-select-dropdown placeholder="Select Roles" name="roles" class="p-3 min-w-[300px]" submitOnChange="true">
+                <x-slot name="options">
+                    @foreach ($roles as $role)
+                    <option value="{{ $role }}" {{ $role==request('roles') ? 'selected' : '' }}>
+                        {{ $role }}</option>
+                    @endforeach
+                </x-slot>
+            </x-multi-select-dropdown>
         </div>
-    </div>
+        <div class="relative mt-2 md:mt-0">
+            <x-search>
+                @if (request('spec'))
+                <input type="hidden" name="spec" value="{{ request('spec') }}">
+                @endif
+                @if (request('roles'))
+                <input type="hidden" name="roles" value="{{ request('roles') }}">
+                @endif
+            </x-search>
+        </div>
+    </x-slot>
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
         <div class="flex flex-col">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <x-flash-message />
-                    <div class="shadow-lg overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                    <div class="shadow-lg overflow-hidden border border-gray-300 sm:rounded-lg">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-100">
                                 <tr>
@@ -59,8 +96,7 @@
                                                 <div class="ml-4">
                                                     <div class="text-sm font-medium text-gray-900">
                                                         <a href="{{ route('users.show',$user->id) }}">{{
-                                                            $user->first_name }}
-                                                            {{ $user->last_name }}</a>
+                                                            $user->name }}</a>
                                                     </div>
                                                     <div class="text-sm text-gray-500">
                                                         <a href="{{ route('users.show',$user->id) }}">{{
@@ -76,7 +112,7 @@
                                                 <div class="text-sm font-medium text-gray-900">
                                                 </div>
                                                 <div class="text-sm text-gray-500">
-                                                    {{ $user->stdsn }}
+                                                    {{ $user->stdsn ?? 'NA' }}
                                                 </div>
                                             </div>
                                         </div>
@@ -85,12 +121,10 @@
                                         {{ $user->spec->value }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500">
-                                        @if(!empty($user->getRoleNames()))
                                         @foreach($user->getRoleNames() as $v)
                                         <label class=" px-2 py-0.5 bg-gray-100 rounded-full border border-gray-300">{{
                                             $v }}</label>
                                         @endforeach
-                                        @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <a href="{{ route('users.edit',$user->id) }}"

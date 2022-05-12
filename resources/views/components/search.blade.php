@@ -1,5 +1,5 @@
 @props(['action'=> Route::current()->uri])
-<form action="{{ $action }}" method="GET" role="search">
+<form id="search" action="{{ $action }}" method="GET" role="search">
     {{ $slot }}
     <x-input name="search" id="search" type="text" class="w-36 md:w-60 p-4 pl-8" placeholder="Search..."
         value="{{ request('search') }}" />

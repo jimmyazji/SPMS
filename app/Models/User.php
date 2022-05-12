@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Specialization;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
@@ -59,11 +60,19 @@ class User extends Authenticatable
 
     public function scopeFilter($query, array $filters)
     {
-        $query->when($filters['search'] ?? false, fn ($query, $search) => $query
-            ->where('first_name', 'LIKE', '%' . $search . '%')
-            ->orWhere('last_name', 'LIKE', '%' . $search . '%')
-            ->orWhere('email', 'LIKE', '%' . $search . '%')
-            ->orWhere('stdsn', 'LIKE', '%' . $search . '%'));
+        $query->when($filters['search'] ?? false, fn ($query, $search) =>
+        $query->where(
+            fn ($query) => $query->where('first_name', 'LIKE', '%' . $search . '%')
+                ->orWhere('last_name', 'LIKE', '%' . $search . '%')
+                ->orWhere('email', 'LIKE', '%' . $search . '%')
+                ->orWhere('stdsn', 'LIKE', '%' . $search . '%')
+                ->orWhere(DB::raw("concat(first_name, ' ', last_name)"), 'LIKE', "%" . $search . "%")
+                ->orWhere(DB::raw("concat(last_name, ' ', first_name)"), 'LIKE', "%" . $search . "%")
+        ))
+            ->when(
+                $filters['spec'] ?? false,
+                fn ($query, $spec) => $query->where('spec', '=', $spec)
+            );
     }
     public function scopeExcept(Builder $query, User $user)
     {

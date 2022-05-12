@@ -1,12 +1,12 @@
 <div x-data="{ dropdownOpen: false }" class="my-32 mr-4">
     <button @click="dropdownOpen = !dropdownOpen" @click.away="dropdownOpen = false"
-        class="relative z-10 block rounded-full focus:bg-gray-200 p-2 focus:outline-none text-gray-200 hover:bg-gray-600 focus:text-gray-800 transition duration-200 ease-in-out">
-        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        class="relative z-10 block rounded-full focus:bg-gray-200 p-2 focus:outline-none text-gray-200 hover:bg-gray-600 focus:text-gray-800 transition duration-200 ease-in-out group">
+        <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
             <path
                 d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
         </svg>
         @if(auth()->user()->unreadNotifications()->count() > 0)<span
-            class="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-1 text-xxs font-bold leading-none text-red-100 transform translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full">{{ auth()->user()->unreadNotifications()->count() }}</span>@endif
+            class="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-1 text-xxs font-bold leading-none text-red-100 transform translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full animate-pulse animate-bounce group-focus:animate-none">{{ auth()->user()->unreadNotifications()->count() }}</span>@endif
     </button>
 
 
