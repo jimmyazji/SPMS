@@ -12,8 +12,10 @@
                 </a>
             </div>
     </x-slot>
-
-    <div class="py-12 flex flex-col md:flex-row container justify-center gap-6">
+    <div class="max-w-6xl mx-auto">
+        <x-flash-message class="mb-4" :errors="$errors" />
+    </div>
+    <div class="py-12 flex container justify-center gap-6">
         <div class="max-w-6xl">
             <div class="bg-white overflow-hidden shadow-lg rounded-3xl">
                 <div class="p-6 bg-white border-b border-gray-200">
@@ -46,12 +48,31 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col md:flex-row container justify-between border-b border-gray-300 py-4">
-                        <div class="text-xs text-gray-800 mt-3">
+                    <div class="grid grid-cols-2 grid-rows-1 border-b border-gray-300 w-full py-4 items-center">
+                        <div class="text-xs text-gray-800">
                             {{ $user->email }}
                         </div>
-                        <div class="text-xs text-gray-800 mt-3">
+                        <div class="text-xs text-gray-800 flex justify-end">
                             {{ $user->stdsn }}
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 grid-rows-1 border-gray-500 w-full items-center">
+                        <div class="text-xs text-gray-800 mt-3">
+                            Github
+                        </div>
+                        <div class="text-xs mt-3 flex justify-end">
+                            @if (!$git)
+                            <span class="text-gray-800">
+                                Connect your github account 
+                                <a href="{{ route('auth.git') }}" class="text-blue-600">here</a>
+                            </span>
+                            @else
+                            <a class="text-blue-600" href="https://github.com/{{ $git->nickname }}" target="_blank">
+                                <span>
+                                    {{ $git->nickname }}
+                                </span>
+                            </a>
+                            @endif
                         </div>
                     </div>
                 </div>

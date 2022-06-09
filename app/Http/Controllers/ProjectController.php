@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Directory;
+use App\Enums\ProjectType;
+use App\Enums\ProjectState;
 use Illuminate\Http\Request;
+use App\Enums\Specialization;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -25,8 +28,11 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
+        $specs = Specialization::cases();
+        $types = ProjectType::cases();
+        $states = ProjectState::cases();
         $projects = Project::latest()->paginate(5)->withQueryString();
-        return view('projects.index', compact('projects'))
+        return view('projects.index', compact(['projects','specs','types','states']))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 

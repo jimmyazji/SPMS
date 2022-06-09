@@ -34,17 +34,27 @@
                                             @endforeach
                                         </x-select>
                                     </div>
-                                </div>
-                                <div>
-                                    <x-label for="invited" :value="__('Invite Members')" />
-                                    <x-multi-select-dropdown placeholder="Invite Members" name="invited">
-                                        <x-slot name="options">
-                                            @foreach($users as $user)
-                                            <option value="{{ $user->id }}">{{ $user->name }}
+                                    <div>
+                                        <x-label for="invited" :value="__('Invite Members')" />
+                                        <x-multi-select-dropdown placeholder="Invite Members" name="invited"
+                                            class="p-1 mt-1">
+                                            <x-slot name="options">
+                                                @foreach($users as $user)
+                                                <option value="{{ $user->id }}">{{ $user->name }}
+                                                </option>
+                                                @endforeach
+                                            </x-slot>
+                                        </x-multi-select-dropdown>
+                                    </div>
+                                    <div>
+                                        <x-label for="project_type" :value="__('Project Type')" />
+                                        <x-select id="project_type" name="project_type" class="capitalize mt-1 block w-full">
+                                            @foreach ($project_types as $type)
+                                            <option class="capitalize" value="{{ $type->value }}">{{ $type->value }}
                                             </option>
                                             @endforeach
-                                        </x-slot>
-                                    </x-multi-select-dropdown>
+                                        </x-select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flex items-center justify-end mt-4">

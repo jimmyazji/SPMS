@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use Exception;
+
+use App\Models\User;
+
+use Illuminate\Support\Str;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
+
+class GitHubController extends Controller
+{
+    public function gitRedirect()
+    {
+        return Socialite::driver('github')->redirect();
+    }
+
+    public function handleProviderCallback()
+    {
+        try {
+            $githubUser = Socialite::driver('github')->user();
+            $user = User::firstOrCreate(
+                [
+                    'email' => $githubUser->getEmail(),
+                ],
+                [
+                    'first_name' => $githubUser->getName() ?: explode('@',$githubUser->getEmail())[0] ,
+                    'github_id' => $githubUser->id,
+                    'token' => $githubUser->token,
+                    'password' => Hash::make(Str::random(16))
+                ]
+            );
+            if (!$user->github_id) {
+                $user->github_id = $githubUser->id;
+                $user->token = $githubUser->token;
+                $user->update();
+                return redirect()->route('profile.edit')->with('success', 'Authenticated with github.');
+            }
+            // Log the user in
+            auth()->login($user, true);
+            // Redirect to dashboard
+            return redirect()->route('profile.show')->with('success', 'Logged in using github account.');
+        } catch (Exception $e) {
+            if(auth()->user()){
+                return redirect()->route('profile.show')->with('error', 'Something went wrong please try again later');
+            }
+            else return redirect()->route('login')->with('error', 'Something went wrong please try again later');
+        }
+    }
+}

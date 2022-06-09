@@ -59,17 +59,29 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
-                                <div>
-                                    <x-label for="invite_members" :value="__('Invite Members')" />
-                                    <x-multi-select-dropdown placeholder="Invite Members" name="invited">
-                                        <x-slot name="options">
-                                            @foreach($users as $user)
-                                            <option value="{{ $user->id }}">{{ $user->name }}
+                                    <div>
+                                        <x-label for="invite_members" :value="__('Invite Members')" />
+                                        <x-multi-select-dropdown placeholder="Invite Members" name="invited"
+                                            class="p-1 mt-1">
+                                            <x-slot name="options">
+                                                @foreach($users as $user)
+                                                <option value="{{ $user->id }}">{{ $user->name }}
+                                                </option>
+                                                @endforeach
+                                            </x-slot>
+                                        </x-multi-select-dropdown>
+                                    </div>
+                                    <div>
+                                        <x-label for="project_type" :value="__('Project Type')" />
+                                        <select id="project_type" name="project_type"
+                                            class="capitalize mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:text-sm">
+                                            @foreach($project_types as $type)
+                                            <option @selected($spec==$group->project_type) class="capitalize" value="{{
+                                                $type->value }}">{{ $type->value }}
                                             </option>
                                             @endforeach
-                                        </x-slot>
-                                    </x-multi-select-dropdown>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flex items-center justify-end mt-4">

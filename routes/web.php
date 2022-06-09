@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GroupController;
-use App\Http\Controllers\GroupRequestController;
+use App\Http\Controllers\Auth\GitHubController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GroupRequestController;
 use App\Http\Controllers\UserNotificationController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,13 +26,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('auth/github', [GitHubController::class, 'gitRedirect'])->name('auth.git');
+Route::get('auth/github/callback', [GitHubController::class, 'handleProviderCallback']);
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('profile/edit', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('markAllRead', [UserNotificationController::class, 'markAllRead'])->name('markAllRead');
     Route::get('notifications/{id}', [UserNotificationController::class, 'show'])->name('notifications.show');
     Route::get('groupRequests/{group:id}', [GroupRequestController::class, 'store'])->name('groupRequests.store');

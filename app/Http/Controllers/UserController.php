@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Enum;
+use Laravel\Socialite\Facades\Socialite;
 
 class UserController extends Controller
 {
@@ -88,7 +90,14 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        return view('users.show', compact('user'));
+        if ($user->github_id) {
+            try {
+                $git = Socialite::driver('github')->userFromToken($user->token);
+            } catch (Exception) {
+                $git = null;
+            }
+        } else $git = null;
+        return view('users.show', compact('user','git'));
     }
 
     /**

@@ -30,6 +30,8 @@ class User extends Authenticatable
         'stdsn',
         'group_id',
         'avatar',
+        'github_id',
+        'auth_type',
     ];
 
     /**

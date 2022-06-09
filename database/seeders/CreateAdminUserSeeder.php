@@ -22,11 +22,13 @@ class CreateAdminUserSeeder extends Seeder
             'first_name' => 'Jimmy',
             'last_name' =>'Yazji',
             'stdsn' => '4160067',
-            'email' => 'jimmy@gmail.com',
+            'email' => 'jimmyyazji98@gmail.com',
             'avatar' => 'jimmy.jpg',
             'password' => bcrypt('12345678'),
         ]);
 
+        Role::create(['name' => 'Student']);
+        
         $role = Role::create(['name' => 'Admin']);
 
         $permissions = Permission::pluck('id','id')->all();

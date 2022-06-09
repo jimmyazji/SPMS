@@ -21,10 +21,10 @@
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight mt-2 flex items-center">
                             {{ $user->name }}
                         </h2>
-                        <div class="text-sm text-gray-500 mt-3 md:ml-4">
-                            <div class="container flex flex-row justify-between md:w-40">
+                        <div class="text-xs text-gray-500 mt-3 md:ml-4">
+                            <div class="container flex flex-row justify-between md:w-36">
                                 <div>
-                                    Last login
+                                    Last login:
                                 </div>
                                 <div>
                                     @if($user->last_login_at)
@@ -34,26 +34,40 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="container flex flex-row justify-between md:w-40">
+                            <div class="container flex flex-row justify-between md:w-36">
                                 <div>
-                                    From IP
+                                    From IP:
                                 </div>
                                 <div>
-                                    @if($user->last_login_ip)
-                                    {{ $user->last_login_ip }}
-                                    @else
-                                    never
-                                    @endif
+                                    {{ $user->last_login_ip ?? '-'}}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-row container justify-between border-b border-gray-300 text-sm py-4">
-                        <div class="text-gray-600">
+                    <div class="grid grid-cols-2 grid-rows-1 border-b border-gray-300 w-full py-4 items-center">
+                        <div class="text-xs text-gray-800">
                             {{ $user->email }}
                         </div>
-                        <div class="text-gray-600">
+                        <div class="text-xs text-gray-800 flex justify-end">
                             {{ $user->stdsn }}
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 grid-rows-1 border-gray-500 w-full">
+                        <div class="text-xs text-gray-800 mt-3">
+                            Github
+                        </div>
+                        <div class="text-xs mt-3 flex justify-end">
+                            @if (!$git)
+                            <span class="text-gray-800">
+                                none
+                            </span>
+                            @else
+                            <a class="text-blue-600" href="https://github.com/{{ $git->nickname }}" target="_blank">
+                                <span>
+                                    {{ $git->nickname }}
+                                </span>
+                            </a>
+                            @endif
                         </div>
                     </div>
                 </div>

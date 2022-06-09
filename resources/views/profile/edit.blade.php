@@ -11,7 +11,7 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <x-flash-message class="mb-4" :errors="$errors" />
 
-                    <form method="POST" action="{{ route('profile.edit') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
                         <div class="flex flex-row items-end justfiy-center">

@@ -46,6 +46,9 @@
                                     <th scope="col"
                                         class="px-6 py-3 text-left text-xs font-small text-gray-500 uppercase tracking-wider">
                                         Type</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-small text-gray-500 uppercase tracking-wider">
+                                        Project Type</th>
                                     <th scope="col" class="relative px-6 py-3">
                                         <span class="sr-only">Edit</span>
                                     </th>
@@ -84,6 +87,10 @@
                                         {{ $group->type->value }}
                                     </td>
                                     <td
+                                        class="capitalize px-6 py-4 whitespace-nowrap text-sm align-text-top text-gray-500">
+                                        {{ $group->project_type->value ?? null }}
+                                    </td>
+                                    <td
                                         class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium align-text-top">
                                         @can('group-edit')
                                         <a href="{{ route('groups.edit',$group->id) }}"
@@ -93,7 +100,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="5" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         No Results found
                                     </td>
                                 </tr>

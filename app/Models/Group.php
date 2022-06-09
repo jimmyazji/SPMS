@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\GroupState;
+use App\Enums\ProjectType;
 use App\Enums\Specialization;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,11 +21,13 @@ class Group extends Model
     protected $fillable = [
         'project_id',
         'state',
-        'type'
+        'type',
+        'project_type'
     ];
     protected $casts = [
         'state' => GroupState::class,
-        'type' => Specialization::class
+        'type' => Specialization::class,
+        'project_type' => ProjectType::class
     ];
     public function project()
     {

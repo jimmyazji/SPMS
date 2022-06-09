@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Group;
 use App\Enums\GroupState;
+use App\Enums\ProjectType;
 use App\Enums\Specialization;
 use App\Models\GroupRequest;
 use Illuminate\Http\Request;
@@ -57,8 +58,9 @@ class GroupController extends Controller
     {
         $states = GroupState::cases();
         $specs = Specialization::cases();
+        $project_types = ProjectType::cases();
         $users = User::role('student')->except(request()->user())->get();
-        return view('groups.create', compact('specs', 'users', 'states'));
+        return view('groups.create', compact('specs', 'users', 'states','project_types'));
     }
 
     /**
@@ -72,6 +74,7 @@ class GroupController extends Controller
         $this->validate($request, [
             'state' => [new Enum(GroupState::class)],
             'type' => [new Enum(Specialization::class)],
+            'project_type' => [new Enum(ProjectType::class)],
         ]);
         if(request()->user()->spec === Specialization::None){
             return redirect()->back()->with('error','Request a specialization before creating a group!');
@@ -85,6 +88,7 @@ class GroupController extends Controller
         $group = Group::create([
             'state' => $request->state,
             'type' => $request->type,
+            'project_type' => $request->project_type,
         ]);
         User::where('id', $user->id)->update(['group_id' => $group->id]);
         $user->revokePermissionTo('group-create');
@@ -116,7 +120,8 @@ class GroupController extends Controller
         $states = GroupState::cases();
         $specs = Specialization::cases();
         $users = User::role('student')->get();
-        return view('groups.edit', compact('group', 'users', 'states', 'specs'));
+        $project_types = ProjectType::cases();
+        return view('groups.edit', compact('group', 'users', 'states', 'specs','project_types'));
     }
 
     /**
@@ -131,6 +136,7 @@ class GroupController extends Controller
         $this->validate($request, [
             'state' => [new Enum(GroupState::class)],
             'type' => [new Enum(Specialization::class)],
+            'project_type' => [new Enum(ProjectType::class)],
         ]);
 
         $group->update($request->all());
