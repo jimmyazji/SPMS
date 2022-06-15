@@ -28,7 +28,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <x-flash-message class="mb-4" :errors="$errors" />
@@ -65,14 +65,11 @@
                                 <div class="grid grid-cols-2 gap-2">
                                     <div>
                                         <x-label for="roles" :value="__('Role')" />
-                                        <x-multi-select-dropdown placeholder="Select Roles" name="roles" class="p-1 mt-1">
-                                            <x-slot name="options">
-                                                @foreach ($roles as $role)
-                                                <option value="{{ $role }}" {{ in_array($role,$userRole) ? 'selected'
-                                                    : '' }}>
-                                                    {{ $role }}</option>
-                                                @endforeach
-                                            </x-slot>
+                                        <x-multi-select-dropdown placeholder="Select Roles" name="roles[]">
+                                            @foreach ($roles as $role)
+                                            <option value="{{ $role }}" {{ in_array($role,$userRole) ? 'selected' : ''
+                                                }}>{{ $role }}</option>
+                                            @endforeach
                                         </x-multi-select-dropdown>
                                     </div>
                                     <div>
@@ -80,7 +77,8 @@
                                         <select name="spec" id="spec"
                                             class="capitalize rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm text-gray-800 w-full mt-1">
                                             @foreach ($specs as $spec)
-                                            <option class="capitalize" value="{{ $spec->value }}">{{ $spec->value }}
+                                            <option @selected($user->spec->value === $spec->value ) class="capitalize"
+                                                value="{{ $spec->value }}">{{ $spec->value }}
                                             </option>
                                             @endforeach
                                         </select>

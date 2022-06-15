@@ -29,7 +29,7 @@
                 <div class="flex">
                     <x-input id="password" class="mt-1 w-full rounded-r-none" x-bind:type="show ? 'password' : 'text'" name="password"
                         placeholder="Password" required autocomplete="current-password" />
-                    <x-button @click.prevent="show = !show" class="rounded-l-none h-10 mt-1 w-12"> <i class="fa" x-bind:class="show ? 'fa-eye' : 'fa-eye-slash'"></i></x-button>
+                    <span @click.prevent="show = !show" class="rounded-r-md h-10 mt-1 w-12 bg-gray-800 flex justify-center items-center text-gray-100"> <i class="fa" x-bind:class="show ? 'fa-eye' : 'fa-eye-slash'"></i></span>
                 </div>
             </div>
 

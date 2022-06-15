@@ -7,7 +7,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <x-flash-message class="mb-4" :errors="$errors" />
@@ -43,20 +43,20 @@
                                 <div class="grid grid-cols-2 gap-2">
                                     <div>
                                         <x-label for="roles" :value="__('Role')" />
-                                        <x-multi-select-dropdown placeholder="Select Roles" name="roles" class="p-1 mt-1">
-                                            <x-slot name="options">
-                                                @foreach ($roles as $role)
-                                                <option value="{{ $role }}" {{ $role==old('roles') ? 'selected' : '' }}>
-                                                    {{ $role }}</option>
-                                                @endforeach
-                                            </x-slot>
+                                        <x-multi-select-dropdown placeholder="Select Roles" name="roles[]">
+                                            @foreach ($roles as $role)
+                                            <option value="{{ $role }}" {{ in_array($role,old('roles') ?? []) ? 'selected' : '' }}>
+                                                {{$role }}
+                                            </option>
+                                            @endforeach
                                         </x-multi-select-dropdown>
                                     </div>
                                     <div>
                                         <x-label for="spec" :value="__('Specialization')" />
                                         <x-select name="spec" id="spec" class="capitalize block mt-1 w-full">
                                             @foreach ($specs as $spec)
-                                            <option class="capitalize" value="{{ $spec->value }}" {{ $spec->value == old('spec') ? 'selected' : '' }}>{{ $spec->value }}
+                                            <option class="capitalize" value="{{ $spec->value }}" {{ $spec->value ==
+                                                old('spec') ? 'selected' : '' }}>{{ $spec->value }}
                                             </option>
                                             @endforeach
                                         </x-select>

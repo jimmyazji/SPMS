@@ -21,12 +21,12 @@ class Group extends Model
     protected $fillable = [
         'project_id',
         'state',
-        'type',
+        'spec',
         'project_type'
     ];
     protected $casts = [
         'state' => GroupState::class,
-        'type' => Specialization::class,
+        'spec' => Specialization::class,
         'project_type' => ProjectType::class
     ];
     public function project()

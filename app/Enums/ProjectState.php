@@ -4,7 +4,9 @@ namespace App\Enums;
 
 enum ProjectState: string
 {
+    case Proposition = 'proposition';
+    case Approving = 'awaiting approval';
     case Incomplete = 'incomplete';
-    case Complete = 'complete';
     case Evaluating = 'under evaluation';
+    case Complete = 'complete';
 }

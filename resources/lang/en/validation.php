@@ -151,7 +151,10 @@ return [
     */
 
     'attributes' => [
-        'spec' => 'specialization'
+        'spec' => 'specialization',
+        'aims.*' => 'aims',
+        'objectives.*' => 'objectives',
+        'tasks.*' => 'tasks',
     ],
 
 ];

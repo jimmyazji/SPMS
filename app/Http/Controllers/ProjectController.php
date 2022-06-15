@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
-use App\Models\Directory;
 use App\Enums\ProjectType;
 use App\Enums\ProjectState;
 use Illuminate\Http\Request;
 use App\Enums\Specialization;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Enum;
 
 
 class ProjectController extends Controller
@@ -24,15 +25,16 @@ class ProjectController extends Controller
         $this->middleware('permission:project-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:project-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:project-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:project-supervise', ['only' => ['supervise','unsupervise']]);
     }
     public function index(Request $request)
     {
-        $user = $request->user();
         $specs = Specialization::cases();
         $types = ProjectType::cases();
         $states = ProjectState::cases();
-        $projects = Project::latest()->paginate(5)->withQueryString();
-        return view('projects.index', compact(['projects','specs','types','states']))
+        $projects = Project::with('group')->latest()->filter(request(['search', 'spec', 'type', 'state', 'created_from', 'created_to', 'updated_from', 'updated_to']))
+            ->paginate(10)->withQueryString();
+        return view('projects.index', compact(['projects', 'specs', 'types', 'states']))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -43,7 +45,10 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('projects.create');
+        $specs = Specialization::cases();
+        $types = ProjectType::cases();
+        $states = ProjectState::cases();
+        return view('projects.create', compact(['specs', 'types', 'states']));
     }
 
     /**
@@ -55,23 +60,30 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required',
-            'type' => 'required',
-            'description' => 'min:20|max:255'
+            'title' => 'required|unique:projects,title',
+            'type' => [new Enum(ProjectType::class)],
+            'spec' => [new Enum(Specialization::class)],
+            'aims' => 'required|array|min:1',
+            'aims.*' => 'required|string',
+            'objectives' => 'required|array|min:1',
+            'objectives.*' => 'required|string',
+            'tasks' => 'required|array|min:1',
+            'tasks.*' => 'required|string',
         ]);
-        $user = $request->user();
+
         $project = Project::create([
             'title' => $request->title,
             'type' => $request->type,
-            'description' => $request->description,
-            'taken' => false,
-            'directory_id' => Directory::create(['name' => 'root'])->id,
+            'spec' => $request->spec,
+            'aims' => json_encode($request->aims),
+            'objectives' => json_encode($request->objectives),
+            'tasks' => json_encode($request->tasks),
+            'supervisor_id' => $request->supervise
         ]);
-        if ($request->supervise == true) {
-            $project->supervisor_id = $user->id;
+
+        if ($request->user()->group) {
+            $request->user()->group->update(['project_id' => $project->id]);
         }
-
-
 
         return redirect()->route('projects.index')
             ->with('success', 'Project created successfully.');
@@ -85,7 +97,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project = Project::with('group', 'supervisor', 'users')
+        $project = Project::with('group', 'supervisor', 'developers')
             ->find($id);
         return view('projects.show', compact('project'));
     }
@@ -98,8 +110,11 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
+        $specs = Specialization::cases();
+        $types = ProjectType::cases();
+        $states = ProjectState::cases();
         $project = Project::find($id);
-        return view('projects.edit', compact('project'));
+        return view('projects.edit', compact(['project', 'specs', 'types', 'states']));
     }
 
     /**
@@ -112,26 +127,26 @@ class ProjectController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'title' => 'required',
-            'type' => 'required',
-            'description' => 'min:20|max:255'
+            'title' => 'required|unique:projects,title,' . $id,
+            'type' => [new Enum(ProjectType::class)],
+            'spec' => [new Enum(Specialization::class)],
+            'aims' => 'required|array|min:1',
+            'aims.*' => 'required|string',
+            'objectives' => 'required|array|min:1',
+            'objectives.*' => 'required|string',
+            'tasks' => 'required|array|min:1',
+            'tasks.*' => 'required|string',
         ]);
         $project = Project::find($id);
-        $user = $request->user();
-        if ($request->supervise == true) {
-            $project->update([
-                'title' => $request->title,
-                'type' => $request->type,
-                'description' => $request->description,
-                'supervisor' => $user->id,
-            ]);
-        } else {
-            $project->update([
-                'title' => $request->title,
-                'type' => $request->type,
-                'description' => $request->description,
-            ]);
-        }
+        $project->update([
+            'title' => $request->title,
+            'type' => $request->type,
+            'spec' => $request->spec,
+            'aims' => json_encode($request->aims),
+            'objectives' => json_encode($request->objectives),
+            'tasks' => json_encode($request->tasks),
+            'supervisor_id' => $request->supervise
+        ]);
         return redirect()->route('projects.index')
             ->with('success', 'Project updated successfully');
     }
@@ -171,5 +186,15 @@ class ProjectController extends Controller
 
         Project::find($id)->group()->update(['project_id' => null]);
         return redirect()->back()->with('success', 'Group unassigned successfully');
+    }
+    public function supervise($id)
+    {
+        Project::find($id)->update(['supervisor_id' => request()->user()->id]);
+        return redirect()->back()->with('success','Assigned supervisor');
+    }
+    public function unsupervise($id)
+    {
+        Project::find($id)->update(['supervisor_id' => null]);
+        return redirect()->back()->with('success','Assigned supervisor');
     }
 }

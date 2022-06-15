@@ -7,7 +7,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-lg sm:rounded-lg">
                 <div class="rounded-lg p-6 bg-white border-b border-gray-200">
                     <x-flash-message class="mb-4" :errors="$errors" />
@@ -26,8 +26,8 @@
                                         </x-select>
                                     </div>
                                     <div>
-                                        <x-label for="type" :value="__('Group Type')" />
-                                        <x-select id="type" name="type" class="capitalize mt-1 block w-full">
+                                        <x-label for="spec" :value="__('Group\'s Specialization')" />
+                                        <x-select id="spec" name="spec" class="capitalize mt-1 block w-full">
                                             @foreach($specs as $spec)
                                             <option class="capitalize" value="{{ $spec->value }}">{{ $spec->value }}
                                             </option>

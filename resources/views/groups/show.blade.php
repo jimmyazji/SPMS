@@ -4,11 +4,11 @@
             Group #{{ $group->id }}
         </h2>
     </x-slot>
-    <div class="max-w-6xl mx-auto">
+    <div class="max-w-7xl mx-auto">
         <x-flash-message />
     </div>
     <div class="py-12 flex flex-col md:flex-row justify-center mx-auto gap-6">
-        <div class="max-w-6xl">
+        <div class="max-w-7xl">
             <div class="bg-white overflow-hidden shadow-lg rounded-3xl">
                 <div class="p-8 bg-white border-b border-gray-200">
                     <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-4">Group Members</h2>
@@ -75,7 +75,7 @@
         </div>
         @if(auth()->user()->group_id == $group->id)
         <div class="flex flex-col items-center ">
-            <div class="max-w-6xl w-full">
+            <div class="max-w-7xl w-full">
                 <div class="bg-white overflow-hidden shadow-lg rounded-3xl">
                     <div class="p-6 bg-white border-b border-gray-200 ">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight mt-2 mb-4 flex">

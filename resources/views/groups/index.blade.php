@@ -7,7 +7,7 @@
             @can('group-create')
             @if(!Auth::user()->group_id)
             <a href="{{ route('groups.create') }}">
-                <x-button type="button">
+                <x-button class="text-xs" type="button">
                     {{ __('Create New group') }}
                 </x-button>
             </a>
@@ -21,9 +21,9 @@
             <x-search />
         </div>
     </x-slot>
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="flex flex-col">
-            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 ">
+            <div class="overflow-x-auto scrollbar-none sm:-mx-6 lg:-mx-8 ">
                 <div class="align-middle inline-block min-w-full sm:px-6 lg:px-8 ">
                     <x-flash-message />
                     <div class="shadow-lg overflow-hidden sm:rounded-lg border border-gray-300">
@@ -45,7 +45,7 @@
                                         State</th>
                                     <th scope="col"
                                         class="px-6 py-3 text-left text-xs font-small text-gray-500 uppercase tracking-wider">
-                                        Type</th>
+                                        Specialization</th>
                                     <th scope="col"
                                         class="px-6 py-3 text-left text-xs font-small text-gray-500 uppercase tracking-wider">
                                         Project Type</th>
@@ -56,12 +56,12 @@
                             </thead>
                             <tbody class="bg-white">
                                 @forelse ($groups as $group)
-                                <tr class="border-b border-gray-200">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 align-text-top"><a
+                                <tr class="border-b border-gray-200 align-text-top">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 "><a
                                             href="{{ route('groups.show',$group) }}">
                                             #{{ $group->id }}</a>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 align-text-top">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         @if($group->project_id)
                                         <a href="{{ route('projects.show',$group->project->id) }}">{{
                                             $group->project->title }}</a>
@@ -69,7 +69,7 @@
                                         No project yet
                                         @endif
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-500 align-text-top">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-500">
                                         <div class="flex flex-col justify-start ">
                                             @foreach($group->users as $user)
                                             <a class="text-blue-700" href="{{ route('users.show',$user->id)}}">
@@ -79,19 +79,19 @@
                                         </div>
                                     </td>
                                     <td
-                                        class="capitalize px-6 py-4 whitespace-nowrap text-sm align-text-top @if($group->state->value === 'full' ){ text-red-600 }@elseif($group->state->value === 'looking for members'){ text-green-500 }@endif">
+                                        class="capitalize px-6 py-4 whitespace-nowrap text-sm @if($group->state->value === 'full' ){ text-red-600 }@elseif($group->state->value === 'looking for members'){ text-green-500 }@endif">
                                         {{ $group->state->value }}
                                     </td>
                                     <td
-                                        class="capitalize px-6 py-4 whitespace-nowrap text-sm text-red-600 align-text-top @if($group->type->value === 'mixed' | $group->type->name === Auth::user()->spec->name){ text-green-500 } @endif">
-                                        {{ $group->type->value }}
+                                        class="capitalize px-6 py-4 whitespace-nowrap text-sm text-red-600 @if($group->spec->value === 'mixed' | $group->spec->name === Auth::user()->spec->name){ text-green-500 } @endif">
+                                        {{ $group->spec->value }}
                                     </td>
                                     <td
-                                        class="capitalize px-6 py-4 whitespace-nowrap text-sm align-text-top text-gray-500">
+                                        class="capitalize px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         {{ $group->project_type->value ?? null }}
                                     </td>
                                     <td
-                                        class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium align-text-top">
+                                        class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         @can('group-edit')
                                         <a href="{{ route('groups.edit',$group->id) }}"
                                             class="text-indigo-600 hover:text-indigo-900">Edit</a>

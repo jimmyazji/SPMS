@@ -16,18 +16,17 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('type');
-            $table->text('description');
-            $table->boolean('taken');
+            $table->string('spec')->default('none');
+            $table->string('type')->default('senior');
+            $table->string('state')->default('proposition');
+            $table->json('aims');
+            $table->json('objectives');
+            $table->json('tasks');
             $table->unsignedBigInteger('supervisor_id')->nullable();
             $table->foreign('supervisor_id')->references('id')
             ->on('users')
             ->onDelete('set null');
             $table->timestamps();
-            $table->unsignedBigInteger('directory_id');
-            $table->foreign('directory_id')->references('id')
-            ->on('directories')
-            ->onDelete('cascade');
         });
     }
 

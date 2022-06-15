@@ -22,7 +22,7 @@ class CreateGroupsTable extends Migration
             ->on('projects')
             ->onDelete('set null');
             $table->string('state')->default('looking for members');
-            $table->string('type')->default('none');
+            $table->string('spec')->default('none');
             $table->string('project_type')->default('senior');
             $table->timestamps();
         });

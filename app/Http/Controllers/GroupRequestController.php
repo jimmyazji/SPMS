@@ -26,7 +26,7 @@ class GroupRequestController extends Controller
                     switch ($user->spec) {
                         case (Specialization::None):
                             return redirect()->back()->with('error', 'Request a specialization before attempting to join a group!');
-                        case ($group->type):
+                        case ($group->spec):
                             GroupRequest::firstOrCreate([
                                 'group_id' => $id,
                                 'sender_id' => $user->id,
@@ -34,7 +34,7 @@ class GroupRequestController extends Controller
                             ]);
                             break;
                         default:
-                            return redirect()->back()->with('error', 'Group of type ' . $group->type->value .', your specialization is ' .$user->spec->value.'!');
+                            return redirect()->back()->with('error', 'Group of type ' . $group->spec->value .', your specialization is ' .$user->spec->value.'!');
                     }
             }
         } else {

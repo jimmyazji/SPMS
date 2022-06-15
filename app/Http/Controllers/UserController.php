@@ -76,7 +76,7 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
             'avatar' => 'default.jpg'
         ]);
-        $user->assignRole(explode(',', $request->input('roles')));
+        $user->assignRole($request->roles);
 
         return redirect()->route('users.index')
             ->with('success', 'User created successfully');
@@ -155,7 +155,7 @@ class UserController extends Controller
             ]);
         }
         DB::table('model_has_roles')->where('model_id', $id)->delete();
-        $user->assignRole(explode(',', $request->input('roles')));
+        $user->assignRole($request->roles);
         return redirect()->route('users.index')
             ->with('success', 'User updated successfully');
     }

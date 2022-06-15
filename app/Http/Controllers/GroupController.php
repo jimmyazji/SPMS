@@ -73,21 +73,21 @@ class GroupController extends Controller
     {
         $this->validate($request, [
             'state' => [new Enum(GroupState::class)],
-            'type' => [new Enum(Specialization::class)],
+            'spec' => [new Enum(Specialization::class)],
             'project_type' => [new Enum(ProjectType::class)],
         ]);
         if(request()->user()->spec === Specialization::None){
             return redirect()->back()->with('error','Request a specialization before creating a group!');
         }
-        if (Specialization::from(request()->type) !== Specialization::None){
-            if(Specialization::from(request()->type)->name !== request()->user()->spec->name){
-                return redirect()->back()->with('error','Cannot create a group of type '.$request->type.'!');
+        if (Specialization::from(request()->spec) !== Specialization::None){
+            if(Specialization::from(request()->spec)->name !== request()->user()->spec->name){
+                return redirect()->back()->with('error','Cannot create a group of specialization '.$request->spec.'!');
             }
         }
             $user = $request->user();
         $group = Group::create([
             'state' => $request->state,
-            'type' => $request->type,
+            'spec' => $request->spec,
             'project_type' => $request->project_type,
         ]);
         User::where('id', $user->id)->update(['group_id' => $group->id]);
@@ -135,7 +135,7 @@ class GroupController extends Controller
     {
         $this->validate($request, [
             'state' => [new Enum(GroupState::class)],
-            'type' => [new Enum(Specialization::class)],
+            'spec' => [new Enum(Specialization::class)],
             'project_type' => [new Enum(ProjectType::class)],
         ]);
 
