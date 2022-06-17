@@ -46,10 +46,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('groups', GroupController::class);
     Route::get('leaveGroup/{group:id}', [GroupController::class, 'leaveGroup'])->name('groups.leaveGroup');
     Route::resource('projects', ProjectController::class);
-    Route::get('assignProject/{project:id}', [ProjectController::class, 'assignProject'])->name('projects.assignProject');
-    Route::get('unAssignProject/{project:id}', [ProjectController::class, 'unAssignProject'])->name('projects.unAssignProject');
-    Route::get('supervise/{project:id}', [ProjectController::class, 'supervise'])->name('projects.supervise');
-    Route::get('unsupervise/{project:id}', [ProjectController::class, 'unsupervise'])->name('projects.unsupervise');
+    Route::get('project/{project:id}/assignProject', [ProjectController::class, 'assignProject'])->name('projects.assignProject');
+    Route::get('project/{project:id}/unAssignProject', [ProjectController::class, 'unAssignProject'])->name('projects.unAssignProject');
+    Route::get('project/{project:id}/supervise', [ProjectController::class, 'supervise'])->name('projects.supervise');
+    Route::get('project/{project:id}/unsupervise', [ProjectController::class, 'unsupervise'])->name('projects.unsupervise');
+    Route::get('project/{project:id}/approve', [ProjectController::class, 'approve'])->name('projects.approve');
+    Route::get('project/{project:id}/disapprove', [ProjectController::class, 'disapprove'])->name('projects.disapprove');
+    Route::get('project/{project:id}/complete', [ProjectController::class, 'approve'])->name('projects.complete');
 });
 
 require __DIR__ . '/auth.php';

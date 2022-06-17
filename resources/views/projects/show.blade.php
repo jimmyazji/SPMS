@@ -3,6 +3,48 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight px-4">
             {{ $project->title }}
         </h2>
+        @can('project-approve')
+        <div class="flex space-x-2">
+            <form method="GET" action="{{route('projects.approve', $project->id)}}">
+                @csrf
+                <x-modal action="Approve" type="approve">
+                    <x-slot name="trigger">
+                        <x-button class="text-xs" type="button" @click="showModal = true" value="Click Here">Approve Project
+                        </x-button>
+                    </x-slot>
+                    <x-slot name="title">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                            Approve Project
+                        </h3>
+                    </x-slot>
+                    <x-slot name="content">
+                        <p class="text-sm text-gray-500">
+                            Are you sure you want to Approve {{ $project->title }}?
+                        </p>
+                    </x-slot>
+                </x-modal>
+            </form>
+            <form method="GET" action="{{route('projects.disapprove', $project->id)}}">
+                @csrf
+                <x-modal action="Disapprove">
+                    <x-slot name="trigger">
+                        <x-button class="text-xs bg-red-700 hover:bg-red-500" type="button" @click="showModal = true" value="Click Here">Disapprove Project
+                        </x-button>
+                    </x-slot>
+                    <x-slot name="title">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                            Disapprove Project
+                        </h3>
+                    </x-slot>
+                    <x-slot name="content">
+                        <p class="text-sm text-gray-500">
+                            Are you sure you want to disapprove {{ $project->title }}?
+                        </p>
+                    </x-slot>
+                </x-modal>
+            </form>
+        </div>
+        @endcan
     </x-slot>
     <div class="max-w-7xl mx-auto">
         <x-flash-message />
@@ -65,11 +107,13 @@
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">About</h2>
                         <div class="grid grid-cols-2 gap-1 mt-2">
                             <h2 class="font-semibold text-base text-gray-800 leading-tight">Type:</h2>
-                            <span class="text-sm text-gray-700 text-right capitalize">{{ $project->type->value . ' Project'}}</span>
+                            <span class="text-sm text-gray-700 text-right capitalize">{{ $project->type->value . '
+                                Project'}}</span>
                             <h2 class="font-semibold text-base text-gray-800 leading-tight">Specialization:</h2>
                             <span class="text-sm text-gray-700 text-right capitalize">{{ $project->spec->value }}</span>
                             <h2 class="font-semibold text-base text-gray-800 leading-tight">State:</h2>
-                            <span class="text-sm text-gray-700 text-right capitalize">{{ $project->state->value }}</span>
+                            <span class="text-sm text-gray-700 text-right capitalize">{{ $project->state->value
+                                }}</span>
                         </div>
                     </div>
                 </div>

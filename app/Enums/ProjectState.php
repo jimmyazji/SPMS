@@ -6,7 +6,8 @@ enum ProjectState: string
 {
     case Proposition = 'proposition';
     case Approving = 'awaiting approval';
-    case Incomplete = 'incomplete';
+    case Rejected = 'rejected';
+    case Incomplete = 'under development';
     case Evaluating = 'under evaluation';
     case Complete = 'complete';
 }

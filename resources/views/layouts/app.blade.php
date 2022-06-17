@@ -31,7 +31,7 @@
 
         <!-- Page Content -->
         @if ($filters)
-        <div class="flex flex-wrap space-y-2 justify-center items-center sm:space-x-4 py-6">
+        <div class="flex flex-wrap space-y-2 justify-center items-center sm:space-x-4 py-6 md:space-y-0">
             {{ $filters }}
         </div>
         @endif

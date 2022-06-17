@@ -4,14 +4,12 @@
             {{ __('Groups') }}
         </h2>
         <div>
-            @can('group-create')
-            @if(!Auth::user()->group_id)
+            @can('create',App\Models\Group::class)
             <a href="{{ route('groups.create') }}">
                 <x-button class="text-xs" type="button">
                     {{ __('Create New group') }}
                 </x-button>
             </a>
-            @endif
             @endcan
         </div>
     </x-slot>
@@ -92,7 +90,7 @@
                                     </td>
                                     <td
                                         class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        @can('group-edit')
+                                        @can('edit',$group)
                                         <a href="{{ route('groups.edit',$group->id) }}"
                                             class="text-indigo-600 hover:text-indigo-900">Edit</a>
                                         @endcan

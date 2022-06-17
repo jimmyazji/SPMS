@@ -1,5 +1,5 @@
 <x-app-layout>
-    
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('New Project') }}
@@ -21,6 +21,7 @@
                                     <x-input error="title" class="block mt-1 w-full" type="text" name="title"
                                         placeholder="Project Title" :value="old('title')" autofocus />
                                 </div>
+                                @can('project-create')
                                 <div>
                                     <x-label for="type" :value="__('Project\'s Type')" />
                                     <select name="type"
@@ -45,6 +46,22 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                @endcan
+                                @can('project-approve')
+                                <div>
+                                    <x-label for="state" :value="__('Project\'s State')" />
+                                    <select name="state"
+                                        class="block mt-1 text-sm text-gray-800 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full capitalize"
+                                        id="state">
+                                        <option selected disabled>Select Type</option>
+                                        @foreach ($states as $state)
+                                        <option class="capitalize" @selected($state->value == old('state'))
+                                            value="{{
+                                            $state->value }}">{{ $state->value }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @endcan
                             </div>
                         </div>
                         <section x-data="handler()">
@@ -54,7 +71,7 @@
                                     <div class="flex justify-center items-center space-x-2">
                                         <span x-text="index+1"></span>
                                         <x-input class="block mt-1 w-full" type="text" x-model="aims[index]"
-                                            name="aims[]" placeholder="Project's Aim" error="aims.*" required/>
+                                            name="aims[]" placeholder="Project's Aim" error="aims.*" required />
                                         <span title="add aim"
                                             class="w-5 flex justify-center items-center cursor-pointer"
                                             @click="addAimField()"><i class="fa fa-plus"></i></span>
@@ -72,7 +89,7 @@
                                         <span x-text="index+1"></span>
                                         <x-input class="block mt-1 w-full" type="text" x-model="objectives[index]"
                                             name="objectives[]" id="objectives" placeholder="Project's Objective"
-                                            error="objectives.*" required/>
+                                            error="objectives.*" required />
                                         <span title="add objective"
                                             class="w-5 flex justify-center items-center cursor-pointer"
                                             @click="addObjField()"><i class="fa fa-plus"></i></span>
@@ -88,8 +105,8 @@
                                 <template x-for="(task, index) in tasks" :key="index" x-init="initTasks()">
                                     <div class="flex justify-center items-center space-x-2">
                                         <span x-text="index+1"></span>
-                                        <x-input class="block mt-1 w-full" type="text" x-model="tasks[index]" name="tasks[]"
-                                            placeholder="Project's task" error="tasks.*" required/>
+                                        <x-input class="block mt-1 w-full" type="text" x-model="tasks[index]"
+                                            name="tasks[]" placeholder="Project's task" error="tasks.*" required />
                                         <span title="add task"
                                             class="w-5 flex justify-center items-center cursor-pointer"
                                             @click="addTaskField()"><i class="fa fa-plus"></i></span>
@@ -123,7 +140,6 @@
     </div>
 </x-app-layout>
 <script>
-
     function handler() {
     return {
         aims: [],

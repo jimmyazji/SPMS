@@ -1,9 +1,31 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('New Project') }}
+            {{ __('Edit Project') }}
         </h2>
+        <form method="POST" action="{{route('projects.destroy', $project->id)}}">
+            @csrf
+            @method('DELETE')
+            <x-modal>
+                <x-slot name="trigger">
+                    <x-button type="button" class="bg-red-700 hover:bg-red-500" @click="showModal = true"
+                        value="Click Here">Delete Project</x-button>
+                </x-slot>
+                <x-slot name="title">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                        Delete Project
+                    </h3>
+                </x-slot>
+                <x-slot name="content">
+                    <p class="text-sm text-gray-500">
+                        Are you sure you want to delete the {{ $project->title }}? All of its
+                        data will be permanently removed. This action cannot be undone.
+                    </p>
+                </x-slot>
+            </x-modal>
+        </form>
     </x-slot>
+
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -47,6 +69,21 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                @can('project-approve')
+                                <div>
+                                    <x-label for="state" :value="__('Project\'s State')" />
+                                    <select name="state"
+                                    class="block mt-1 text-sm text-gray-800 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full capitalize"
+                                    id="state">
+                                    <option selected disabled>Select Type</option>
+                                    @foreach ($states as $state)
+                                    <option class="capitalize" @selected($state->value == $project->state->value)
+                                        value="{{
+                                            $state->value }}">{{ $state->value }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @endcan
                             </div>
                         </div>
                         <section x-data="handler()">
@@ -106,11 +143,10 @@
                         <div class="pt-8 flex @can('project-supervise'){ justify-between }@else{ justify-end }@endcan">
                             @can('project-supervise')
                             <label class="inline-flex items-center">
-                                <input name="supervise" id="supervise" type="checkbox" 
-                                    value="{{ Auth::user()->id }}"
-                                    
-                                    {{ $project->supervisor_id == Auth::id() ? 'checked' : '' }}
-                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <input name="supervise" id="supervise" type="checkbox" value="{{ Auth::user()->id }}" {{
+                                    $project->supervisor_id == Auth::id() ? 'checked' : '' }}
+                                class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300
+                                focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <span class="ml-2 text-sm text-gray-600">
                                     I will supervise this project
                                 </span>

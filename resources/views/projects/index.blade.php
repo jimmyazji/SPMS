@@ -3,11 +3,13 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Projects') }}
         </h2>
+        @can('create',App\Models\Project::class)
         <a href="{{ route('projects.create') }}">
             <x-button class="text-xs" type="button">
                 {{ __('Create New project') }}
             </x-button>
         </a>
+        @endcan
     </x-slot>
     <x-slot name="filters">
         <div class="space-y-2 md:space-y-0 transition-padding" x-data="{ more: false }">
@@ -94,7 +96,8 @@
                 </div>
             </div>
             <form id="search" action="{{ route('projects.index') }}" method="GET" role="search">
-                <div x-cloak x-show="more" class="sm:flex flex-wrap justify-center items-center sm:space-x-2 space-y-4 sm:space-y-0 mt-4"
+                <div x-cloak x-show="more"
+                    class="sm:flex flex-wrap justify-center items-center sm:space-x-2 space-y-4 sm:space-y-0 mt-4"
                     x-transition:enter="transition-transform transition-opacity ease-out duration-300"
                     x-transition:enter-start="opacity-0 transform -translate-y-2"
                     x-transition:enter-end="opacity-100 transform translate-y-0"
@@ -113,7 +116,8 @@
                                     </svg>
                                 </div>
                                 <x-input id="created_from" name="created_from" datepicker type="text"
-                                    class="w-full sm:w-28 p-4 pl-8" placeholder="From" value="{{ request('created_from') }}" />
+                                    class="w-full sm:w-28 p-4 pl-8" placeholder="From"
+                                    value="{{ request('created_from') }}" />
                             </div>
                             <div class="relative"><i class="fa fa-arrow-right"></i></div>
                             <div class="relative w-1/2">
@@ -125,8 +129,9 @@
                                             clip-rule="evenodd"></path>
                                     </svg>
                                 </div>
-                                <x-input id="created_to" name="created_to" datepicker type="text" class="w-full sm:w-28 p-4 pl-8"
-                                    placeholder="To" value="{{ request('created_to') }}" />
+                                <x-input id="created_to" name="created_to" datepicker type="text"
+                                    class="w-full sm:w-28 p-4 pl-8" placeholder="To"
+                                    value="{{ request('created_to') }}" />
                             </div>
                         </div>
                     </div>
@@ -143,7 +148,8 @@
                                     </svg>
                                 </div>
                                 <x-input id="updated_from" name="updated_from" datepicker type="text"
-                                    class="w-full sm:w-28 p-4 pl-8" placeholder="From" value="{{ request('updated_from') }}" />
+                                    class="w-full sm:w-28 p-4 pl-8" placeholder="From"
+                                    value="{{ request('updated_from') }}" />
                             </div>
                             <div class="relative"><i class="fa fa-arrow-right"></i></div>
                             <div class="relative">
@@ -155,8 +161,9 @@
                                             clip-rule="evenodd"></path>
                                     </svg>
                                 </div>
-                                <x-input id="updated_to" name="updated_to" datepicker type="text" class="w-full sm:w-28 p-4 pl-8"
-                                    placeholder="To" value="{{ request('updated_to') }}" />
+                                <x-input id="updated_to" name="updated_to" datepicker type="text"
+                                    class="w-full sm:w-28 p-4 pl-8" placeholder="To"
+                                    value="{{ request('updated_to') }}" />
                             </div>
                         </div>
                     </div>
@@ -175,7 +182,7 @@
                     <div class="flex justify-center items-center space-x-2 ">
                         <x-button class="py-4 text-xs">Apply</x-button>
                         <a class="inline-flex items-center px-4 py-4 bg-gray-800 border border-transparent rounded-md font-bold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
-                        href="{{ route('projects.index') }}">Reset</a>
+                            href="{{ route('projects.index') }}">Reset</a>
                     </div>
                 </div>
             </form>
@@ -183,7 +190,7 @@
     </x-slot>
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-screen">
         <div class="flex flex-col">
-            <div class="-my-2 overflow-x-auto scrollbar-none sm:-mx-6 lg:-mx-8">
+            <div class="-my-2 overflow-x-auto scrollbar-none xl:overflow-x-visible sm:-mx-6 lg:-mx-8">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <x-flash-message />
                     <div class="shadow-lg overflow-hidden border border-gray-300 sm:rounded-lg">
@@ -211,18 +218,17 @@
                                     <th scope="col"
                                         class="px-6 py-3 text-left text-xs font-small text-gray-500 uppercase">
                                         Last Updated</th>
-                                    @can('project-edit')
                                     <th scope="col"
                                         class="px-6 py-3 text-left text-xs font-small text-gray-500 uppercase">
                                     </th>
-                                    @endcan
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse ($projects as $project)
                                 <tr class="border-b border-gray-200 align-text-top">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-indigo-500">
-                                        <a class="hover:text-indigo-700"  href="{{ route('projects.show', $project->id) }}">{{ $project->title
+                                        <a class="hover:text-indigo-700"
+                                            href="{{ route('projects.show', $project->id) }}">{{ $project->title
                                             }}</a>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">
@@ -233,7 +239,8 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         @if($project->supervisor)
-                                        <a class="text-indigo-500 hover:text-indigo-700" href="{{ route('users.show',$project->supervisor_id)}}">{{
+                                        <a class="text-indigo-500 hover:text-indigo-700"
+                                            href="{{ route('users.show',$project->supervisor_id)}}">{{
                                             $project->supervisor->first_name }}
                                             {{ $project->supervisor->last_name }}</a>
                                         @else
@@ -243,7 +250,8 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         <div class="flex flex-col justify-start">
                                             @forelse($project->developers as $user)
-                                            <a class="text-indigo-500 hover:text-indigo-700" href="{{ route('users.show',$user->id)}}">{{ $user->name }}</a>
+                                            <a class="text-indigo-500 hover:text-indigo-700"
+                                                href="{{ route('users.show',$user->id)}}">{{ $user->name }}</a>
                                             @empty
                                             No assigned group yet
                                             @endforelse
@@ -253,12 +261,12 @@
                                         {{ $project->state->value }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{
                                         $project->updated_at->diffforhumans() }}</td>
-                                    @can('project-edit')
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        @can('edit',$project)
                                         <a class="text-indigo-600 hover:text-indigo-900"
                                             href="{{ route('projects.edit',$project->id) }}">Edit</a>
+                                        @endcan
                                     </td>
-                                    @endcan
                                 </tr>
                                 @empty
                                 <tr>

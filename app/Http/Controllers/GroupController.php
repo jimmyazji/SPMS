@@ -22,10 +22,7 @@ class GroupController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:group-list|group-create|group-edit|group-delete', ['only' => ['index', 'show']]);
-        $this->middleware('permission:group-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:group-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:group-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:group-list', ['only' => ['index', 'show']]);
     }
     /**
      * Display a listing of the resource.
@@ -56,11 +53,12 @@ class GroupController extends Controller
      */
     public function create(Request $request)
     {
+        $this->authorize('create', Group::class);
         $states = GroupState::cases();
         $specs = Specialization::cases();
         $project_types = ProjectType::cases();
         $users = User::role('student')->except(request()->user())->get();
-        return view('groups.create', compact('specs', 'users', 'states','project_types'));
+        return view('groups.create', compact('specs', 'users', 'states', 'project_types'));
     }
 
     /**
@@ -71,20 +69,21 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Group::class);
         $this->validate($request, [
             'state' => [new Enum(GroupState::class)],
             'spec' => [new Enum(Specialization::class)],
             'project_type' => [new Enum(ProjectType::class)],
         ]);
-        if(request()->user()->spec === Specialization::None){
-            return redirect()->back()->with('error','Request a specialization before creating a group!');
+        if (request()->user()->spec === Specialization::None) {
+            return redirect()->back()->with('error', 'Request a specialization before creating a group!');
         }
-        if (Specialization::from(request()->spec) !== Specialization::None){
-            if(Specialization::from(request()->spec)->name !== request()->user()->spec->name){
-                return redirect()->back()->with('error','Cannot create a group of specialization '.$request->spec.'!');
+        if (Specialization::from(request()->spec) !== Specialization::None) {
+            if (Specialization::from(request()->spec)->name !== request()->user()->spec->name) {
+                return redirect()->back()->with('error', 'Cannot create a group of specialization ' . $request->spec . '!');
             }
         }
-            $user = $request->user();
+        $user = $request->user();
         $group = Group::create([
             'state' => $request->state,
             'spec' => $request->spec,
@@ -104,7 +103,7 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-        $groupRequests = GroupRequest::where('group_id', $group->id)->where('status','pending')->get();
+        $groupRequests = GroupRequest::where('group_id', $group->id)->where('status', 'pending')->get();
         $requested = $groupRequests->where('sender_id', Auth::id());
         return view('groups.show', compact('group', 'groupRequests', 'requested'));
     }
@@ -117,11 +116,12 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
+        $this->authorize('edit', $group);
         $states = GroupState::cases();
         $specs = Specialization::cases();
         $users = User::role('student')->get();
         $project_types = ProjectType::cases();
-        return view('groups.edit', compact('group', 'users', 'states', 'specs','project_types'));
+        return view('groups.edit', compact('group', 'users', 'states', 'specs', 'project_types'));
     }
 
     /**
@@ -133,18 +133,19 @@ class GroupController extends Controller
      */
     public function update(Request $request, Group $group)
     {
+        $this->authorize('edit', $group);
         $this->validate($request, [
             'state' => [new Enum(GroupState::class)],
             'spec' => [new Enum(Specialization::class)],
             'project_type' => [new Enum(ProjectType::class)],
         ]);
-
+        
         $group->update($request->all());
-
+        
         return redirect()->route('groups.index')
-            ->with('success', 'Group updated successfully');
+        ->with('success', 'Group updated successfully');
     }
-
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -153,6 +154,7 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
+        $this->authorize('destroy', $group);
         $group->delete();
         return redirect()->route('groups.index')
             ->with('success', 'group deleted successfully');
