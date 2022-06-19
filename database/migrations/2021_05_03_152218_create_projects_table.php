@@ -22,6 +22,7 @@ class CreateProjectsTable extends Migration
             $table->json('aims');
             $table->json('objectives');
             $table->json('tasks');
+            $table->string('url')->nullable();
             $table->unsignedBigInteger('supervisor_id')->nullable();
             $table->foreign('supervisor_id')->references('id')
             ->on('users')

@@ -11,6 +11,7 @@
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.0",
+        "@tailwindcss/typography": "^0.5.2",
         "alpinejs": "^2.8.2",
         "autoprefixer": "^10.4.4",
         "axios": "^0.21",
@@ -25,6 +26,7 @@
     "dependencies": {
         "-": "^0.0.1",
         "g": "^2.0.1",
+        "github-markdown-css": "^5.1.0",
         "npm": "^8.3.0"
     }
 }

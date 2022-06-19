@@ -21,6 +21,18 @@
                                     <x-input error="title" class="block mt-1 w-full" type="text" name="title"
                                         placeholder="Project Title" :value="old('title')" autofocus />
                                 </div>
+                                <div>
+                                    <x-label for="repo" :value="__('Project\'s Repository')" />
+                                    <select name="repo"
+                                        class="block mt-1 text-sm text-gray-800 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full"
+                                        id="repo">
+                                        <option selected value="">Create New</option>
+                                        @foreach ($repos as $repo)
+                                        <option class="capitalize" @selected($repo['url']==old('repo')) value="{{
+                                            $repo['url'] }}">{{ $repo['name'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                                 @can('project-create')
                                 <div>
                                     <x-label for="type" :value="__('Project\'s Type')" />
@@ -39,7 +51,7 @@
                                     <select name="spec"
                                         class="block mt-1 text-sm text-gray-800 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full capitalize"
                                         id="spec">
-                                        <option selected disabled>Select Type</option>
+                                        <option selected disabled>Select Specialization</option>
                                         @foreach ($specs as $spec)
                                         <option class="capitalize" @selected($spec->value == old('spec')) value="{{
                                             $spec->value }}">{{ $spec->value }}</option>
@@ -53,7 +65,7 @@
                                     <select name="state"
                                         class="block mt-1 text-sm text-gray-800 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full capitalize"
                                         id="state">
-                                        <option selected disabled>Select Type</option>
+                                        <option selected disabled>Select State</option>
                                         @foreach ($states as $state)
                                         <option class="capitalize" @selected($state->value == old('state'))
                                             value="{{
@@ -178,7 +190,7 @@
             }
         },
         addTaskField() {
-            this.tasks.push('');
+            this.tasks.push(['']);
         },
         removeTaskField(index) {
             if(this.tasks.length == 1){

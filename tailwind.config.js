@@ -25,5 +25,6 @@ module.exports = {
         require("flowbite/plugin"),
         require("@tailwindcss/forms"),
         require("tailwind-scrollbar"),
+        require('@tailwindcss/typography'),
     ],
 };

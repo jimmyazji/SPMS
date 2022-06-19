@@ -48,7 +48,7 @@
                                     <select name="type"
                                         class="block mt-1 text-sm text-gray-800 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full capitalize"
                                         id="type">
-                                        <option selected disabled>Select Type</option>
+                                        <option disabled>Select Type</option>
                                         @foreach ($types as $type)
                                         <option class="capitalize" @selected($type->value == $project->type->value)
                                             value="{{
@@ -61,7 +61,7 @@
                                     <select name="spec"
                                         class="block mt-1 text-sm text-gray-800 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full capitalize"
                                         id="spec">
-                                        <option selected disabled>Select Type</option>
+                                        <option disabled>Select Type</option>
                                         @foreach ($specs as $spec)
                                         <option class="capitalize" @selected($spec->value == $project->spec->value)
                                             value="{{

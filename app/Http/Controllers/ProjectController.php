@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Project;
 use App\Enums\ProjectType;
 use App\Enums\ProjectState;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Enums\Specialization;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rules\Enum;
-
 
 class ProjectController extends Controller
 {
@@ -44,10 +45,11 @@ class ProjectController extends Controller
     public function create()
     {
         $this->authorize('create', Project::class);
+        $repos = Http::get('https://api.github.com/orgs/SPU-EDU/repos')->json();
         $specs = Specialization::cases();
         $types = ProjectType::cases();
         $states = ProjectState::cases();
-        return view('projects.create', compact(['specs', 'types', 'states']));
+        return view('projects.create', compact(['specs', 'types', 'states', 'repos']));
     }
 
     /**
@@ -72,9 +74,16 @@ class ProjectController extends Controller
             'tasks' => 'required|array|min:1',
             'tasks.*' => 'required|string',
         ]);
-
+        if (!$request->repo) {
+            $response = Http::withToken('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')->post('https://api.github.com/orgs/SPU-EDU/repos', [
+                'name' => Str::slug($request->title),
+                'private' => false,
+            ]);
+            $new_repo = $response->json('url');
+        }
         $project = Project::create([
             'title' => $request->title,
+            'url' => $request->repo ?? $new_repo,
             'type' => $request->user()->can('project-create') ? $request->type : $group->project_type,
             'spec' => $request->user()->can('project-create') ? $request->spec : $group->spec,
             'state' => $request->user()->can('project-approve') ? $request->state : ProjectState::Proposition,
@@ -84,8 +93,8 @@ class ProjectController extends Controller
             'supervisor_id' => $request->supervise
         ]);
 
-        if ($request->user()->group) {
-            $request->user()->group->update(['project_id' => $project->id]);
+        if ($group) {
+            $group->update(['project_id' => $project->id]);
         }
 
         return redirect()->route('projects.index')
@@ -102,7 +111,14 @@ class ProjectController extends Controller
     {
         $project = Project::with('group', 'supervisor', 'developers')
             ->find($id);
-        return view('projects.show', compact('project'));
+        $github = Http::withToken('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')->get($project->url)->json();
+        $markdown = ($project->url != null) ? Http::withToken('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')->accept('application/vnd.github.html')->get($project->url . '/readme')->body() : '';
+        $languages = collect(Http::withToken('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')->get($github['languages_url'])->json());
+        $updated_at = $github['updated_at'];
+        if (Carbon::parse($updated_at) >= Carbon::parse($project->updated_at)) {
+            $project->update(['updated_at' => $updated_at]);
+        };
+        return view('projects.show', compact('project', 'markdown', 'github', 'languages'));
     }
 
     /**

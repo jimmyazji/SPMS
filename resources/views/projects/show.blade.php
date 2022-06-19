@@ -9,7 +9,8 @@
                 @csrf
                 <x-modal action="Approve" type="approve">
                     <x-slot name="trigger">
-                        <x-button class="text-xs" type="button" @click="showModal = true" value="Click Here">Approve Project
+                        <x-button class="text-xs" type="button" @click="showModal = true" value="Click Here">Approve
+                            Project
                         </x-button>
                     </x-slot>
                     <x-slot name="title">
@@ -28,7 +29,8 @@
                 @csrf
                 <x-modal action="Disapprove">
                     <x-slot name="trigger">
-                        <x-button class="text-xs bg-red-700 hover:bg-red-500" type="button" @click="showModal = true" value="Click Here">Disapprove Project
+                        <x-button class="text-xs bg-red-700 hover:bg-red-500" type="button" @click="showModal = true"
+                            value="Click Here">Disapprove Project
                         </x-button>
                     </x-slot>
                     <x-slot name="title">
@@ -89,12 +91,9 @@
                     <div class="p-8 bg-white text-gray-800">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Readme.md</h2>
                         <p class="mt-2 text-sm text-gray-700">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, voluptate quia. Delectus
-                            doloribus ipsa fuga consequatur, quidem, dolorum ad eos maxime iure reiciendis porro nihil
-                            culpa nam, eveniet amet tempore.
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Recusandae, temporibus ab nam
-                            tempora facilis autem reiciendis accusamus doloremque, eveniet omnis nihil magnam aspernatur
-                            ipsam exercitationem enim, vel consequatur mollitia quod?
+                            <x-readme>
+                                {!! $markdown !!}
+                            </x-readme>
                         </p>
                     </div>
                 </div>
@@ -114,6 +113,36 @@
                             <h2 class="font-semibold text-base text-gray-800 leading-tight">State:</h2>
                             <span class="text-sm text-gray-700 text-right capitalize">{{ $project->state->value
                                 }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white overflow-hidden shadow-lg rounded-3xl">
+                <div class="p-6 bg-white">
+                    <div class="items-end p-2">
+                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Description</h2>
+                        <p class="text-sm text-gray-700 col-span-2 pt-2">{{ $github['description'] }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white overflow-hidden shadow-lg rounded-3xl">
+                <div class="p-6 bg-white">
+                    <div class="items-end p-2">
+                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Repository
+                        </h2>
+                        <div class="grid grid-cols-2 gap-1 mt-2">
+                            <h2 class="font-semibold text-base text-gray-800 leading-tight">Github:</h2>
+                            <a href="{{ $github['html_url'] }}"
+                                class="text-sm text-indigo-500 hover:text-indigo-700 text-right capitalize">{{
+                                $github['full_name'] }}</a>
+                            <h2 class="font-semibold text-base text-gray-800 leading-tight">Open Issues:</h2>
+                            <span class="text-sm text-gray-700 text-right capitalize">{{ $github['open_issues_count']
+                                }}</span>
+                            <h2 class="font-semibold text-base text-gray-800 leading-tight col-span-2">Used Languages:</h2>
+                            @foreach ($languages as $language => $value)
+                            <span class="text-sm text-gray-700 text-left capitalize">{{ $language }}:</span>
+                            <span class="text-sm text-gray-700 text-right capitalize">{{ round($value/$languages->sum()*100,2).'%' }}</span>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -233,5 +262,6 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </x-app-layout>
