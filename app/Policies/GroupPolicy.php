@@ -2,6 +2,8 @@
 
 namespace App\Policies;
 
+use App\Enums\GroupState;
+use App\Enums\ProjectState;
 use App\Models\User;
 use App\Models\Group;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -12,19 +14,24 @@ class GroupPolicy
 
     public function create(User $user)
     {
-        if ($user->can('group-create') && $user->group_id == null) {
+        if ($user->can('group-create') && $user->groups->isEmpty()) {
             return true;
+        }
+        if ($user->groups->last()) {
+            if ($user->groups->last()->project->state == ProjectState::Complete) {
+                return true;
+            }
         }
     }
     public function edit(User $user, Group $group)
     {
-        if ($user->can('group-edit') || $user->group_id == $group->id) {
+        if ($user->can('group-edit') || $user->group == $group) {
             return true;
         }
     }
     public function destroy(User $user, Group $group)
     {
-        if ($user->can('group-delete') || $user->group_id == $group->id) {
+        if ($user->can('group-delete') || $user->group == $group) {
             return true;
         }
     }

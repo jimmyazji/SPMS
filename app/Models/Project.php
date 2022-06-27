@@ -80,10 +80,7 @@ class Project extends Model
     }
     public function group()
     {
-        return $this->hasOne(Group::class);
+        return $this->hasOne(Group::class)->withDefault();
     }
-    public function developers()
-    {
-        return $this->hasManyThrough(User::class, Group::class);
-    }
+    
 }

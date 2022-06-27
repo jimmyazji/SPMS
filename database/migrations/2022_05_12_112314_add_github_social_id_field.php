@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::table('users', function ($table) {
             $table->string('github_id')->nullable();
-            $table->string('token')->nullable();
+            $table->string('github_token')->nullable();
+            $table->string('github_refresh_token')->nullable();
         });
     }
 

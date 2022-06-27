@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\User;
 use App\Models\Group;
 use App\Enums\GroupState;
 use App\Enums\ProjectType;
-use App\Enums\Specialization;
 use App\Models\GroupRequest;
 use Illuminate\Http\Request;
+use App\Enums\Specialization;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Enum;
+use Laravel\Socialite\Facades\Socialite;
 
 class GroupController extends Controller
 {
@@ -70,27 +72,31 @@ class GroupController extends Controller
     public function store(Request $request)
     {
         $this->authorize('create', Group::class);
+        if (request()->user()->spec === Specialization::None) {
+            return redirect()->back()->with('error', 'Request a specialization before creating a group!');
+        }
+        try {
+            Socialite::driver('github')->userFromToken(auth()->user()->github_token);
+        } catch (Exception) {
+            return redirect()->back()->withErrors('Make sure you\'ve linked your github account before creating a group!')->withInput();
+        }
         $this->validate($request, [
             'state' => [new Enum(GroupState::class)],
             'spec' => [new Enum(Specialization::class)],
             'project_type' => [new Enum(ProjectType::class)],
         ]);
-        if (request()->user()->spec === Specialization::None) {
-            return redirect()->back()->with('error', 'Request a specialization before creating a group!');
-        }
         if (Specialization::from(request()->spec) !== Specialization::None) {
             if (Specialization::from(request()->spec)->name !== request()->user()->spec->name) {
-                return redirect()->back()->with('error', 'Cannot create a group of specialization ' . $request->spec . '!');
+                return redirect()->back()->withError('Cannot create a group of specialization ' . $request->spec . '!')->withInput();
             }
         }
-        $user = $request->user();
         $group = Group::create([
             'state' => $request->state,
             'spec' => $request->spec,
             'project_type' => $request->project_type,
         ]);
-        User::where('id', $user->id)->update(['group_id' => $group->id]);
-        $user->revokePermissionTo('group-create');
+        $request->user()->groups()->attach($group);
+
         return redirect()->route('groups.index')
             ->with('success', 'Group created successfully.');
     }
@@ -139,13 +145,17 @@ class GroupController extends Controller
             'spec' => [new Enum(Specialization::class)],
             'project_type' => [new Enum(ProjectType::class)],
         ]);
-        
+        if (Specialization::from(request()->spec) !== Specialization::None) {
+            if (Specialization::from(request()->spec)->name !== request()->user()->spec->name) {
+                return redirect()->back()->withError('Cannot create a group of specialization ' . $request->spec . '!')->withInput();
+            }
+        }
         $group->update($request->all());
-        
+
         return redirect()->route('groups.index')
-        ->with('success', 'Group updated successfully');
+            ->with('success', 'Group updated successfully');
     }
-    
+
     /**
      * Remove the specified resource from storage.
      *
@@ -162,10 +172,10 @@ class GroupController extends Controller
     public function leaveGroup($id)
     {
         $group = Group::find($id);
-        if (count($group->users) == 1) {
+        if (count($group->developers) == 1) {
             $group->delete();
         }
-        Auth::user()->update(['group_id' => null]);
+        $group->developers()->detach(auth()->user());
         return redirect()->route('groups.index')->with('success', 'Left group successfully');
     }
 }

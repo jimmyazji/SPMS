@@ -91,7 +91,7 @@
                             </div>
                             <div class="text-sm text-gray-500">
                                 @if($user->group)
-                                <a href="{{ route('groups.show',$user->group_id) }}">#{{ $user->group->id }}</a>
+                                <a href="{{ route('groups.show',$user->group) }}">#{{ $user->group->id }}</a>
                                 @else
                                 none
                                 @endif

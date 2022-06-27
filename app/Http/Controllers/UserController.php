@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rules\Enum;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -76,6 +77,9 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
             'avatar' => 'default.jpg'
         ]);
+        if ($request->roles) {
+            Http::withToken(env('GITHUB_TOKEN'))->post('https://api.github.com/orgs/SPU-EDU/invitations', ['email' => $user->email ,'role' => 'direct_member']);
+        }
         $user->assignRole($request->roles);
 
         return redirect()->route('users.index')
@@ -92,12 +96,12 @@ class UserController extends Controller
         $user = User::find($id);
         if ($user->github_id) {
             try {
-                $git = Socialite::driver('github')->userFromToken($user->token);
+                $git = Socialite::driver('github')->userFromToken($user->github_token);
             } catch (Exception) {
                 $git = null;
             }
         } else $git = null;
-        return view('users.show', compact('user','git'));
+        return view('users.show', compact('user', 'git'));
     }
 
     /**
@@ -156,6 +160,9 @@ class UserController extends Controller
         }
         DB::table('model_has_roles')->where('model_id', $id)->delete();
         $user->assignRole($request->roles);
+        if ($request->roles) {
+            Http::withToken(env('GITHUB_TOKEN'))->post('https://api.github.com/orgs/SPU-EDU/invitations', ['email' => $user->email ,'role' => 'direct_member']);
+        }
         return redirect()->route('users.index')
             ->with('success', 'User updated successfully');
     }

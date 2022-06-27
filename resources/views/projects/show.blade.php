@@ -59,26 +59,38 @@
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Project's Proposition</h2>
                         <div class="space-y-4 p-2">
                             <div class="border-b border-gray-300 pb-4">
-                                <h1 class="font-semibold text-base text-gray-800 leading-tight">Aims:</h1>
+                                <h1 class="font-semibold text-base text-gray-800 leading-tight pb-2">Aims:</h1>
                                 <ol class="list-disc list-inside">
                                     @foreach ( json_decode($project->aims) as $aim)
-                                    <li class="text-sm list-item">{{ $aim }}</li>
+                                    <li class="flex justify-between text-center text-sm py-0.5">
+                                        <p><span class="text-xl mr-2">&#8226;</span>{{ $aim->name }}</p>
+                                        <input class="rounded-md text-gray-500" disabled type="checkbox" {{
+                                            $aim->complete ? 'checked' : '' }}/>
+                                    </li>
                                     @endforeach
                                 </ol>
                             </div>
                             <div class="border-b border-gray-300 pb-4">
-                                <h1 class="font-semibold text-base text-gray-800 leading-tight">Objectives:</h1>
+                                <h1 class="font-semibold text-base text-gray-800 leading-tight pb-2">Objectives:</h1>
                                 <ol class="list-disc list-inside">
                                     @foreach ( json_decode($project->objectives) as $objective)
-                                    <li class="text-sm list-item">{{ $objective }}</li>
+                                    <li class="flex justify-between text-center text-sm py-0.5">
+                                        <p><span class="text-xl mr-2">&#8226;</span>{{ $objective->name }}</p>
+                                        <input class="rounded-md text-gray-500" disabled type="checkbox" {{
+                                            $objective->complete ? 'checked' : '' }}></input>
+                                    </li>
                                     @endforeach
                                 </ol>
                             </div>
                             <div class="">
-                                <h1 class="font-semibold text-base text-gray-800 leading-tight">Tasks:</h1>
+                                <h1 class="font-semibold text-base text-gray-800 leading-tight pb-2">Tasks:</h1>
                                 <ol class="list-decimal list-inside">
-                                    @foreach ( json_decode($project->tasks) as $task)
-                                    <li class="text-sm list-item">{{ $task }}</li>
+                                    @foreach ( json_decode($project->tasks) as $key => $task)
+                                    <li class="flex justify-between items-center text-sm py-1.5">{{ $key+1 }}{{ '.
+                                        '.$task->name }}
+                                        <input class="rounded-md text-gray-500" disabled type="checkbox" {{ $task->
+                                        complete ? 'checked' : '' }}></input>
+                                    </li>
                                     @endforeach
                                 </ol>
                             </div>
@@ -90,11 +102,18 @@
                 <div class="bg-white border-b border-gray-200">
                     <div class="p-8 bg-white text-gray-800">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Readme.md</h2>
-                        <p class="mt-2 text-sm text-gray-700">
+                        <div class="mt-2 text-sm text-gray-700">
+                            @if (!is_array($markdown))
                             <x-readme>
-                                {!! $markdown !!}
+                                {!! $markdown ?? 'No repository yet.'!!}
                             </x-readme>
-                        </p>
+
+                            @else
+                            <p class="py-12">
+                                No readme file yet.
+                            </p>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -121,7 +140,8 @@
                 <div class="p-6 bg-white">
                     <div class="items-end p-2">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Description</h2>
-                        <p class="text-sm text-gray-700 col-span-2 pt-2">{{ $github['description'] }}</p>
+                        <p class="text-sm text-gray-700 col-span-2 pt-2">{{ $github['description'] ?? 'No description
+                            yet'}}</p>
                     </div>
                 </div>
             </div>
@@ -132,17 +152,30 @@
                         </h2>
                         <div class="grid grid-cols-2 gap-1 mt-2">
                             <h2 class="font-semibold text-base text-gray-800 leading-tight">Github:</h2>
+                            @if ($github)
                             <a href="{{ $github['html_url'] }}"
                                 class="text-sm text-indigo-500 hover:text-indigo-700 text-right capitalize">{{
                                 $github['full_name'] }}</a>
+                            @else
+                            <span class="text-sm text-gray-700 text-right">
+                                No Repository Yet
+                            </span>
+                            @endif
                             <h2 class="font-semibold text-base text-gray-800 leading-tight">Open Issues:</h2>
-                            <span class="text-sm text-gray-700 text-right capitalize">{{ $github['open_issues_count']
+                            <span class="text-sm text-gray-700 text-right capitalize">{{ $github['open_issues_count'] ??
+                                'no repository yet'
                                 }}</span>
-                            <h2 class="font-semibold text-base text-gray-800 leading-tight col-span-2">Used Languages:</h2>
-                            @foreach ($languages as $language => $value)
+                            <h2 class="font-semibold text-base text-gray-800 leading-tight col-span-2">Used Languages:
+                            </h2>
+                            @forelse ($languages as $language => $value)
                             <span class="text-sm text-gray-700 text-left capitalize">{{ $language }}:</span>
-                            <span class="text-sm text-gray-700 text-right capitalize">{{ round($value/$languages->sum()*100,2).'%' }}</span>
-                            @endforeach
+                            <span class="text-sm text-gray-700 text-right capitalize">{{
+                                round($value/$languages->sum()*100,2).'%' }}</span>
+                            @empty
+                            <span class="text-sm text-gray-700 text-left capitalize">
+                                No Repository Yet
+                            </span>
+                            @endforelse
                         </div>
                     </div>
                 </div>
@@ -205,10 +238,10 @@
                         @endcan
                         @endif
                         <h1 class="font-semibold text-base text-gray-800 leading-tight my-2">Team:</h1>
-                        @forelse ($project->developers as $developer)
+                        @forelse ($project->group->developers as $developer)
                         @once
-                        @if(Auth::user()->group_id == $project->group->id)
-                        <a href="{{ route('projects.unAssignProject',$project->id) }}">
+                        @if(Auth::user()->groups->contains($project->group))
+                        <a href="{{ route('projects.unassign',$project->id) }}">
                             <x-modal action="{{ __('Unassign') }}" type="{{ __('button') }}">
                                 <x-slot name="trigger">
                                     <button @click.prevent="showModal = true"
@@ -230,7 +263,7 @@
                             </x-modal>
                         </a>
                         @else
-                        <a href="{{ route('groupRequests.store',$project->group->id) }}"
+                        <a href="{{ route('requests.store',$project->group->id) }}"
                             class="py-2 bg-gray-50 px-2 flex justify-center rounded-lg font-semibold text-blue-700 border border-gray-300">Send
                             Join Request</a>
                         @endif
@@ -254,7 +287,7 @@
                             </div>
                         </a>
                         @empty
-                        <a href="{{ route('projects.assignProject',$project->id) }}"
+                        <a href="{{ route('projects.assign',$project->id) }}"
                             class="py-2 bg-gray-50 px-2 flex justify-center rounded-lg font-semibold text-blue-700 border border-gray-300">Assign
                             project</a>
                         @endforelse

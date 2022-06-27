@@ -29,7 +29,7 @@
                                         <x-label for="spec" :value="__('Group\'s Specialization')" />
                                         <x-select id="spec" name="spec" class="capitalize mt-1 block w-full">
                                             @foreach($specs as $spec)
-                                            <option class="capitalize" value="{{ $spec->value }}">{{ $spec->value }}
+                                            <option class="capitalize" value="{{ $spec->value }}" @selected($spec->value == old('spec'))>{{ $spec->value }}
                                             </option>
                                             @endforeach
                                         </x-select>

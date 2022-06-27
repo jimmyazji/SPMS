@@ -21,7 +21,7 @@ class GitHubController extends Controller
     public function handleProviderCallback()
     {
         try {
-            $githubUser = Socialite::driver('github')->user();
+            $githubUser = Socialite::driver('github')->stateless()->user();
             $user = User::firstOrCreate(
                 [
                     'email' => $githubUser->getEmail(),
@@ -29,13 +29,15 @@ class GitHubController extends Controller
                 [
                     'first_name' => $githubUser->getName() ?: explode('@',$githubUser->getEmail())[0] ,
                     'github_id' => $githubUser->id,
-                    'token' => $githubUser->token,
+                    'github_token' => $githubUser->token,
+                    'github_refresh_token' => $githubUser->refreshToken,
                     'password' => Hash::make(Str::random(16))
                 ]
             );
             if (!$user->github_id) {
                 $user->github_id = $githubUser->id;
-                $user->token = $githubUser->token;
+                $user->github_token = $githubUser->token;
+                $user->github_refresh_token = $githubUser->token;
                 $user->update();
                 return redirect()->route('profile.edit')->with('success', 'Authenticated with github.');
             }

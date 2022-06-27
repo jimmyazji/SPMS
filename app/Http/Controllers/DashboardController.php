@@ -11,7 +11,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $readme = Http::accept('application/vnd.github.html')->get('https://api.github.com/repos/SPU-EDU/SPMS/readme')->body();
-        return view('dashboard',compact(['readme']));
+        return view('dashboard');
     }
 }

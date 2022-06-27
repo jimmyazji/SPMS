@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\GroupState;
 use Carbon\Carbon;
 use App\Models\Project;
 use App\Enums\ProjectType;
@@ -12,6 +13,7 @@ use App\Enums\Specialization;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rules\Enum;
+use Laravel\Socialite\Facades\Socialite;
 
 class ProjectController extends Controller
 {
@@ -37,6 +39,26 @@ class ProjectController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
+    public function export(Request $request)
+    {
+        return Project::with('group')->latest()
+            ->filter(request(['search', 'spec', 'type', 'state', 'created_from', 'created_to', 'updated_from', 'updated_to']))
+            ->get()->map(function ($project) {
+                return [
+                    'Title' => $project->title,
+                    'Type' => ucfirst($project->type->value),
+                    'Spec' => ucfirst($project->spec->value),
+                    'State' => ucfirst($project->state->value),
+                    'Supervisor' => $project->supervisor->name,
+                    'Team' => $project->group ? $project->group->developers->map(function ($user) {
+                        return ['name' => $user->name];
+                    })->implode('name', ', ') : null,
+                    'Created at' => $project->created_at->format('Y/m/d D'),
+                    'Updated at' => $project->updated_at->format('Y/m/d D'),
+                ];
+            })
+            ->downloadExcel('projects.xlsx', null, true);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -61,7 +83,7 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $this->authorize('create', Project::class);
-        $group = $request->user()->group;
+        $group = $request->user()->groups->last();
         $this->validate($request, [
             'title' => 'required|unique:projects,title',
             'type' => [new Enum(ProjectType::class)],
@@ -74,12 +96,33 @@ class ProjectController extends Controller
             'tasks' => 'required|array|min:1',
             'tasks.*' => 'required|string',
         ]);
+        $aims = collect($request->aims)->transform(function ($aim) {
+            return [
+                'name' => $aim,
+                'complete' => false
+            ];
+        });
+        $objectives = collect($request->objectives)->transform(function ($objective) {
+            return [
+                'name' => $objective,
+                'complete' => false
+            ];
+        });
+        $tasks = collect($request->tasks)->transform(function ($task) {
+            return [
+                'name' => $task,
+                'complete' => false
+            ];
+        });
         if (!$request->repo) {
-            $response = Http::withToken('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')->post('https://api.github.com/orgs/SPU-EDU/repos', [
-                'name' => Str::slug($request->title),
-                'private' => false,
-            ]);
-            $new_repo = $response->json('url');
+            if ($request->state == ProjectState::Incomplete || $request->state == ProjectState::Evaluating) {
+                $response = Http::withToken(env('GITHUB_TOKEN'))->post('https://api.github.com/orgs/SPU-EDU/repos', [
+                    'name' => Str::slug($request->title),
+                    'private' => false,
+                ]);
+                $new_repo = $response->json('url');
+            }
+            $new_repo = null;
         }
         $project = Project::create([
             'title' => $request->title,
@@ -87,9 +130,9 @@ class ProjectController extends Controller
             'type' => $request->user()->can('project-create') ? $request->type : $group->project_type,
             'spec' => $request->user()->can('project-create') ? $request->spec : $group->spec,
             'state' => $request->user()->can('project-approve') ? $request->state : ProjectState::Proposition,
-            'aims' => json_encode($request->aims),
-            'objectives' => json_encode($request->objectives),
-            'tasks' => json_encode($request->tasks),
+            'aims' => json_encode($aims),
+            'objectives' => json_encode($objectives),
+            'tasks' => json_encode($tasks),
             'supervisor_id' => $request->supervise
         ]);
 
@@ -109,15 +152,19 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project = Project::with('group', 'supervisor', 'developers')
+        $project = Project::with('group', 'supervisor')
             ->find($id);
-        $github = Http::withToken('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')->get($project->url)->json();
-        $markdown = ($project->url != null) ? Http::withToken('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')->accept('application/vnd.github.html')->get($project->url . '/readme')->body() : '';
-        $languages = collect(Http::withToken('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')->get($github['languages_url'])->json());
-        $updated_at = $github['updated_at'];
-        if (Carbon::parse($updated_at) >= Carbon::parse($project->updated_at)) {
+        $github = $project->url ? Http::withToken(env('GITHUB_TOKEN'))->get($project->url)->json() : null;
+        $markdown = $project->url ? Http::withToken(env('GITHUB_TOKEN'))->accept('application/vnd.github.html')->get($project->url . '/readme') : null;
+        if ($markdown) {
+            $markdown = $markdown->failed() ? $markdown->json() : $markdown->body();
+        }
+        $languages = $github ? collect(Http::withToken(env('GITHUB_TOKEN'))->get($github['languages_url'])->json()) : [];
+        $updated_at =  $github ? $github['updated_at'] : null;
+        if ($updated_at && (Carbon::parse($updated_at) >= Carbon::parse($project->updated_at))) {
             $project->update(['updated_at' => $updated_at]);
         };
+
         return view('projects.show', compact('project', 'markdown', 'github', 'languages'));
     }
 
@@ -131,10 +178,11 @@ class ProjectController extends Controller
     {
         $project = Project::find($id);
         $this->authorize('edit', $project);
+        $repos = Http::get('https://api.github.com/orgs/SPU-EDU/repos')->json();
         $specs = Specialization::cases();
         $types = ProjectType::cases();
         $states = ProjectState::cases();
-        return view('projects.edit', compact(['project', 'specs', 'types', 'states']));
+        return view('projects.edit', compact(['project', 'specs', 'types', 'states', 'repos']));
     }
 
     /**
@@ -159,15 +207,44 @@ class ProjectController extends Controller
             'tasks' => 'required|array|min:1',
             'tasks.*' => 'required|string',
         ]);
+        $aims = collect($request->aims)->transform(function ($aim) use ($request) {
+            return [
+                'name' => $aim,
+                'complete' => in_array($aim, $request->aims_complete ?? [])
+            ];
+        });
+        $objectives = collect($request->objectives)->transform(function ($objective) use ($request) {
+            return [
+                'name' => $objective,
+                'complete' => in_array($objective, $request->objectives_complete ?? [])
+            ];
+        });
+        $tasks = collect($request->tasks)->transform(function ($task) use ($request) {
+            return [
+                'name' => $task,
+                'complete' => in_array($task, $request->tasks_complete ?? [])
+            ];
+        });
+        if (!$request->repo) {
+            if ($request->state == ProjectState::Incomplete || $request->state == ProjectState::Evaluating) {
+                $response = Http::withToken(env('GITHUB_TOKEN'))->post('https://api.github.com/orgs/SPU-EDU/repos', [
+                    'name' => Str::slug($request->title),
+                    'private' => false,
+                ]);
+                $new_repo = $response->json('url');
+            }
+            $new_repo = null;
+        }
         if ($request->user()->can('project-approve')) {
             $project->update([
                 'title' => $request->title,
                 'type' => $request->type,
                 'spec' => $request->spec,
                 'state' => $request->state,
-                'aims' => json_encode($request->aims),
-                'objectives' => json_encode($request->objectives),
-                'tasks' => json_encode($request->tasks),
+                'url' => $request->repo ?? $new_repo,
+                'aims' => json_encode($aims),
+                'objectives' => json_encode($objectives),
+                'tasks' => json_encode($tasks),
                 'supervisor_id' => $request->supervise,
             ]);
         } else {
@@ -175,9 +252,9 @@ class ProjectController extends Controller
                 'title' => $request->title,
                 'type' => $request->type,
                 'spec' => $request->spec,
-                'aims' => json_encode($request->aims),
-                'objectives' => json_encode($request->objectives),
-                'tasks' => json_encode($request->tasks),
+                'aims' => json_encode($aims),
+                'objectives' => json_encode($objectives),
+                'tasks' => json_encode($tasks),
                 'supervisor_id' => $request->supervise,
             ]);
         }
@@ -202,14 +279,14 @@ class ProjectController extends Controller
     public function assignProject($id)
     {
         $project = Project::find($id);
-        if (!Auth::user()->group) {
+        if (!Auth::user()->groups) {
             return redirect()->back()->with('error', 'You need to join a group before assigning a project');
         }
-        $group = Auth::user()->group;
+        $group = Auth::user()->groups->last();
         if ($group->project_id) {
             return redirect()->back()->with('error', 'You need to abandon your current project before assigning a new one');
         }
-        if ($project->group ?? false) {
+        if ($project->group == null ?? false) {
             return redirect()->back()->with('error', 'A group is already assigned to this project');
         }
         if ($project->spec != Specialization::None && $project->spec != $group->spec) {
@@ -218,7 +295,7 @@ class ProjectController extends Controller
         if ($project->type != $group->project_type) {
             return redirect()->back()->with('error', 'This project is for ' . $project->type->value . ' only');
         }
-        $group->update(['project_id' => $project->id]);
+        $group->project()->associate($project)->save();
         if ($project->supervisor_id) {
             $project->update(['state' => ProjectState::Approving]);
         }
@@ -239,7 +316,9 @@ class ProjectController extends Controller
     public function supervise($id)
     {
         $project = Project::find($id);
-        $project->update(['supervisor_id' => request()->user()->id]);
+        $supervisor = Socialite::driver('github')->userFromToken(request()->user()->github_token)->getNickName();
+        $project->supervisor()->associate(request()->user())->save();
+        Http::withToken(env('GITHUB_TOKEN'))->put($project->url . '/collaborators/' . $supervisor, ['permission' => 'maintain']);
         if ($project->group() ?? false) {
             $project->update(['state' => ProjectState::Approving]);
         }
@@ -260,8 +339,27 @@ class ProjectController extends Controller
                 $project->update(['state' => ProjectState::Complete]);
                 break;
             default:
-                $project->update(['state' => ProjectState::Incomplete]);
+                $maintainers = $project->group->developers->pluck('github_id')->toArray();
+                if (!$project->url) {
+                    $response = Http::withToken(env('GITHUB_TOKEN'))->post('https://api.github.com/orgs/SPU-EDU/repos', [
+                        'name' => Str::slug($project->title),
+                        'private' => false,
+                    ]);
+                } else {
+                    $response = Http::withToken(env('GITHUB_TOKEN'))->get($project->url);
+                }
+                Http::withToken(env('GITHUB_TOKEN'))->post(
+                    'https://api.github.com/orgs/SPU-EDU/teams',
+                    [
+                        'name' => Str::slug($project->title),
+                        'repo_names' => [$response->json('name')],
+                        'permission' => 'push',
+                        'maintainers' => $maintainers,
+                    ]
+                );
+                $project->update(['state' => ProjectState::Incomplete, 'url' => $response->json('url')]);
         }
+        $project->group->update(['state' => GroupState::Full]);
         return redirect()->back()->with('success', 'Project approved successfully');
     }
 

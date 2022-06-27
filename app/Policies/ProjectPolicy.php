@@ -13,7 +13,7 @@ class ProjectPolicy
 
     public function create(User $user)
     {
-        if ($user->group_id != null) {
+        if ($user->group != null) {
             if ($user->group->project_id == null) {
 
                 return true;
@@ -31,7 +31,7 @@ class ProjectPolicy
         if ($user->id == $project->supervisor_id) {
             return true;
         }
-        if ($user->group_id) {
+        if ($user->group) {
             if ($user->group->project_id == $project->id) {
                 if ($project->state == ProjectState::Proposition && $project->state != ProjectState::Rejected) {
                     return true;

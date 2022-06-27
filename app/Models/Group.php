@@ -31,10 +31,10 @@ class Group extends Model
     ];
     public function project()
     {
-        return $this->belongsTo(Project::class, 'project_id');
+        return $this->belongsTo(Project::class)->withDefault();
     }
-    public function users()
+    public function developers()
     {
-        return $this->hasMany(User::class, 'group_id');
+        return $this->belongsToMany(User::class);
     }
 }

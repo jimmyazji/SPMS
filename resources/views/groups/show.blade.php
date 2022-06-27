@@ -12,7 +12,7 @@
             <div class="bg-white overflow-hidden shadow-lg rounded-3xl">
                 <div class="p-8 bg-white border-b border-gray-200">
                     <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-4">Group Members</h2>
-                    @foreach ($group->users as $user)
+                    @foreach ($group->developers as $user)
                     <div
                         class="mt-2 bg-gray-50 px-2 py-2 md:w-72 rounded-lg border border-gray-300 hover:bg-gray-100 mx-auto">
                         <div class="flex items-center">
@@ -33,13 +33,19 @@
                         </div>
                     </div>
                     @endforeach
-                    @if(auth()->user()->group_id != $group->id)
+                    @if(!$group->developers->contains(auth()->user()))
                     @if (count($requested) == 0)
-                    <a href="{{ route('groupRequests.store',$group->id) }}"
+                    @can('create',App\Models\GroupRequest::class)
+                    <a href="{{ route('requests.store',$group->id) }}"
                         class="mt-2 py-2 bg-gray-50 px-2 flex justify-center rounded-lg font-semibold text-blue-700 border border-gray-300">Send
                         join request</a>
                     @else
-                    <form method="POST" action="{{ route('groupRequests.destroy',$group->id) }}">
+                    <span
+                        class="mt-2 py-2 bg-gray-50 px-2 flex justify-center rounded-lg font-semibold text-gray-500 hover:text-gray-700 cursor-pointer border border-gray-300">Send
+                        join request</span>
+                    @endcan
+                    @else
+                    <form method="POST" action="{{ route('requests.destroy',$group->id) }}">
                         @csrf
                         @method('DELETE')
                         <button
@@ -49,7 +55,7 @@
 
                     @endif
                     @else
-                    <a href="{{ route('groups.leaveGroup',$group->id) }}">
+                    <a href="{{ route('groups.leave',$group->id) }}">
                         <x-modal action="{{ __('Leave') }}" type="{{ __('button') }}">
                             <x-slot name="trigger">
                                 <button @click.prevent="showModal = true"
@@ -73,7 +79,7 @@
                 </div>
             </div>
         </div>
-        @if(auth()->user()->group_id == $group->id)
+        @if($group->developers->contains(auth()->user()))
         <div class="flex flex-col items-center ">
             <div class="max-w-7xl w-full">
                 <div class="bg-white overflow-hidden shadow-lg rounded-3xl">
@@ -113,11 +119,11 @@
                                     </svg>
                                 </button>
                                 <div x-show="requestMenu" class="absolute z-50 mt-2 bg-white rounded-lg shadow-lg w-52">
-                                    <a href="{{ route('groupRequests.acceptRequest',$groupRequest->id) }}"
+                                    <a href="{{ route('requests.accept',$groupRequest->id) }}"
                                         class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
                                         Accept request
                                     </a>
-                                    <a href="{{ route('groupRequests.rejectRequest',$groupRequest->id) }}"
+                                    <a href="{{ route('requests.reject',$groupRequest->id) }}"
                                         class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
                                         Reject request
                                     </a>

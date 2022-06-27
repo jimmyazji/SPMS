@@ -219,7 +219,36 @@
                                         class="px-6 py-3 text-left text-xs font-small text-gray-500 uppercase">
                                         Last Updated</th>
                                     <th scope="col"
-                                        class="px-6 py-3 text-left text-xs font-small text-gray-500 uppercase">
+                                        class="px-6 py-3 text-right text-base font-small text-indigo-500 uppercase">
+                                        <form id="search" action="{{ route('projects.export') }}" method="GET"
+                                            role="search">
+                                            @if (request('spec'))
+                                            <input type="hidden" name="spec" value="{{ request('spec') }}">
+                                            @endif
+                                            @if (request('type'))
+                                            <input type="hidden" name="type" value="{{ request('type') }}">
+                                            @endif
+                                            @if (request('state'))
+                                            <input type="hidden" name="state" value="{{ request('state') }}">
+                                            @endif
+                                            @if (request('search'))
+                                            <input type="hidden" name="search" value="{{ request('search') }}">
+                                            @endif
+                                            @if (request('created_from'))
+                                            <input type="hidden" name="created_from" value="{{ request('created_from') }}">
+                                            @endif
+                                            @if (request('created_to'))
+                                            <input type="hidden" name="created_to" value="{{ request('created_to') }}">
+                                            @endif
+                                            @if (request('updated_from'))
+                                            <input type="hidden" name="updated_from" value="{{ request('updated_from') }}">
+                                            @endif
+                                            @if (request('updated_to'))
+                                            <input type="hidden" name="updated_to" value="{{ request('updated_to') }}">
+                                            @endif
+                                            <button class="hover:text-indigo-700" title="Export to excel file">
+                                                <i class="fas fa-file-export"></i>
+                                            </button>
                                     </th>
                                 </tr>
                             </thead>
@@ -249,7 +278,7 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         <div class="flex flex-col justify-start">
-                                            @forelse($project->developers as $user)
+                                            @forelse($project->group->developers as $user)
                                             <a class="text-indigo-500 hover:text-indigo-700"
                                                 href="{{ route('users.show',$user->id)}}">{{ $user->name }}</a>
                                             @empty

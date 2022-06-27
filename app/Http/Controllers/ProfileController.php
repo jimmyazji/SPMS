@@ -25,7 +25,7 @@ class ProfileController extends Controller
         $user = User::find($id);
         if ($user->github_id) {
             try {
-                $git = Socialite::driver('github')->userFromToken($user->token);
+                $git = Socialite::driver('github')->userFromToken($user->github_token);
             } catch (Exception) {
                 $git = null;
             }

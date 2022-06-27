@@ -56,21 +56,21 @@
                                 @forelse ($groups as $group)
                                 <tr class="border-b border-gray-200 align-text-top">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 "><a
-                                            href="{{ route('groups.show',$group) }}">
+                                             class="text-indigo-500 hover:text-indigo-700" href="{{ route('groups.show',$group) }}">
                                             #{{ $group->id }}</a>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         @if($group->project_id)
-                                        <a href="{{ route('projects.show',$group->project->id) }}">{{
+                                        <a class="text-indigo-500 hover:text-indigo-700" href="{{ route('projects.show',$group->project->id) }}">{{
                                             $group->project->title }}</a>
                                         @else
                                         No project yet
                                         @endif
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-500">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-indigo-500">
                                         <div class="flex flex-col justify-start ">
-                                            @foreach($group->users as $user)
-                                            <a class="text-blue-700" href="{{ route('users.show',$user->id)}}">
+                                            @foreach($group->developers as $user)
+                                            <a class="hover:text-indigo-700" href="{{ route('users.show',$user->id)}}">
                                                 {{ $user->name }}
                                             </a>
                                             @endforeach

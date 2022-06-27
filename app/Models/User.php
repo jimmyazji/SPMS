@@ -28,7 +28,6 @@ class User extends Authenticatable
         'password',
         'spec',
         'stdsn',
-        'group_id',
         'avatar',
         'github_id',
         'auth_type',
@@ -80,9 +79,9 @@ class User extends Authenticatable
     {
         return $query->where('id', '!=', $user->id);
     }
-    public function group()
+    public function groups()
     {
-        return $this->belongsTo(Group::class, 'group_id');
+        return $this->belongsToMany(Group::class);
     }
     public function groupRequests()
     {

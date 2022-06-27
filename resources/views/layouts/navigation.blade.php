@@ -15,22 +15,22 @@
                 <!-- Navigation Links -->
                 <div class="hidden sm:-my-px sm:ml-10 sm:flex">
                     @can('user-list')
-                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                    <x-nav-link :href="route('users.index')" :active="str_contains(Route::currentRouteName(), 'users')">
                         {{ __('Users') }}
                     </x-nav-link>
                     @endcan
                     @can('role-list')
-                    <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
+                    <x-nav-link :href="route('roles.index')" :active="str_contains(Route::currentRouteName(), 'roles')">
                         {{ __('Roles') }}
                     </x-nav-link>
                     @endcan
                     @can('group-list')
-                    <x-nav-link :href="route('groups.index')" :active="request()->routeIs('groups.index')">
+                    <x-nav-link :href="route('groups.index')" :active="str_contains(Route::currentRouteName(), 'groups')">
                         {{ __('Groups') }}
                     </x-nav-link>
                     @endcan
                     @can('project-list')
-                    <x-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')">
+                    <x-nav-link :href="route('projects.index')" :active="str_contains(Route::currentRouteName(), 'projects')">
                         {{ __('Projects') }}
                     </x-nav-link>
                     @endcan

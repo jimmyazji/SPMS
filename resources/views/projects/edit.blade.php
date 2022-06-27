@@ -44,6 +44,18 @@
                                         placeholder="Project Title" :value="$project->title" autofocus />
                                 </div>
                                 <div>
+                                    <x-label for="repo" :value="__('Project\'s Repository')" />
+                                    <select name="repo"
+                                        class="block mt-1 text-sm text-gray-800 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full"
+                                        id="repo">
+                                        <option selected value="">Create New</option>
+                                        @foreach ($repos as $repo)
+                                        <option class="capitalize" @selected($repo['url']==$project->url) value="{{
+                                            $repo['url'] }}">{{ $repo['name'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div>
                                     <x-label for="type" :value="__('Project\'s Type')" />
                                     <select name="type"
                                         class="block mt-1 text-sm text-gray-800 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full capitalize"
@@ -73,12 +85,12 @@
                                 <div>
                                     <x-label for="state" :value="__('Project\'s State')" />
                                     <select name="state"
-                                    class="block mt-1 text-sm text-gray-800 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full capitalize"
-                                    id="state">
-                                    <option selected disabled>Select Type</option>
-                                    @foreach ($states as $state)
-                                    <option class="capitalize" @selected($state->value == $project->state->value)
-                                        value="{{
+                                        class="block mt-1 text-sm text-gray-800 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full capitalize"
+                                        id="state">
+                                        <option selected disabled>Select Type</option>
+                                        @foreach ($states as $state)
+                                        <option class="capitalize" @selected($state->value == $project->state->value)
+                                            value="{{
                                             $state->value }}">{{ $state->value }}</option>
                                         @endforeach
                                     </select>
@@ -92,8 +104,11 @@
                                 <template x-for="(aim, index) in aims" :key="index" x-init="initAims()">
                                     <div class="flex justify-center items-center space-x-2">
                                         <span x-text="index+1"></span>
-                                        <x-input class="block mt-1 w-full" type="text" x-model="aims[index]"
+                                        <x-input class="block mt-1 w-full" type="text" x-model="aims[index].name"
                                             name="aims[]" placeholder="Project's Aim" error="aims.*" required />
+                                        <x-input type="checkbox" x-model="aims[index].complete" name="aims_complete[]"
+                                            x-bind:value="aims[index].name" placeholder="Project's task"
+                                            error="aims.*" />
                                         <span title="add aim"
                                             class="w-5 flex justify-center items-center cursor-pointer"
                                             @click="addAimField()"><i class="fa fa-plus"></i></span>
@@ -109,9 +124,12 @@
                                 <template x-for="(objective, index) in objectives" :key="index" x-init="initObj()">
                                     <div class="flex justify-center items-center space-x-2">
                                         <span x-text="index+1"></span>
-                                        <x-input class="block mt-1 w-full" type="text" x-model="objectives[index]"
+                                        <x-input class="block mt-1 w-full" type="text" x-model="objectives[index].name"
                                             name="objectives[]" id="objectives" placeholder="Project's Objective"
                                             error="objectives.*" required />
+                                        <x-input type="checkbox" x-model="objectives[index].complete"
+                                            name="objectives_complete[]" x-bind:value="objectives[index].name"
+                                            placeholder="Project's task" error="objectives.*" />
                                         <span title="add objective"
                                             class="w-5 flex justify-center items-center cursor-pointer"
                                             @click="addObjField()"><i class="fa fa-plus"></i></span>
@@ -127,8 +145,11 @@
                                 <template x-for="(task, index) in tasks" :key="index" x-init="initTasks()">
                                     <div class="flex justify-center items-center space-x-2">
                                         <span x-text="index+1"></span>
-                                        <x-input class="block mt-1 w-full" type="text" x-model="tasks[index]"
-                                            name="tasks[]" placeholder="Project's task" error="tasks.*" required />
+                                        <x-input class="block mt-1 w-full" type="text" x-model="tasks[index].name"
+                                            name="tasks[]" placeholder="Project's task" error="tasks.*" />
+                                        <x-input type="checkbox" x-model="tasks[index].complete" name="tasks_complete[]"
+                                            x-bind:value="tasks[index].name" placeholder="Project's task"
+                                            error="tasks.*" />
                                         <span title="add task"
                                             class="w-5 flex justify-center items-center cursor-pointer"
                                             @click="addTaskField()"><i class="fa fa-plus"></i></span>
