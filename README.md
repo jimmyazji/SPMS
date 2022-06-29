@@ -47,16 +47,10 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
-
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
+Our current era is known as the era of the technological revolution and the explosion of knowledge. The last decade of the twentieth century and the beginning of the twenty-first century witnessed tremendous progress in the field of information technology, and modern technological means have transformed the world into a small global village.
+This development was reflected in many fields, but the field that benefited greatly from it was education; Technology has helped to find many means and tools that facilitated the educational process and made it more in line with the developments of the times, the issue of the presence of technology in the field of education is inevitable, as the field of education witnessed a great boom in the late twentieth century.
+Public and private educational institutions competed to find and provide effective means that help the student to learn easily and provide him with the ability to be creative effectively in study and in his future work. The employment of technology in the educational process facilitates the process of communication and communication between the student and the teacher, as well as facilitating many administrative processes, such as converting some paper processes into electronic ones. This will lead to the development of administrative work, reducing paperwork, and improving services by reducing mobility. Between departments for the circulation of business between employees, and to facilitate access to information at any time and place, and this in turn will lead to an increase in the speed in the completion of work and reduce the costs of administrative work while raising the level of performance in addition to the possibility of overcoming the problem of the geographical and temporal dimensions, developing the work mechanism and keeping pace with developments.
+Based on this point, the project team worked on building an electronic system for managing graduation projects at the Syrian Private University, through which administrative processes such as coordination and supervision of graduation projects were automated and creating a more interactive and developed environment in line with the university’s goals and orientations towards keeping pace with development and using technology in the service of education and make it more efficient and effective.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -66,14 +60,11 @@ Use the `BLANK_README.md` to get started.
 
 This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
-* [Next.js](https://nextjs.org/)
-* [React.js](https://reactjs.org/)
-* [Vue.js](https://vuejs.org/)
-* [Angular](https://angular.io/)
-* [Svelte](https://svelte.dev/)
 * [Laravel](https://laravel.com)
-* [Bootstrap](https://getbootstrap.com)
+* [TailwindCss](https://tailwindcss.com/)
 * [JQuery](https://jquery.com)
+* [AlpineJs](https://alpinejs.dev/)
+* [Rest API](https://docs.github.com/en/rest)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
