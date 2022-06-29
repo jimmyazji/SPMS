@@ -94,7 +94,7 @@ Make sure you have all the prerequisites before moving to the next section.
 
 ### Installation
 
-_Below is how you install and setup up your own version of the app. 
+_Below is how you install and setup up your own version of the app._ 
 
 1. Clone the repo
    ```sh
