@@ -2,14 +2,14 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="public/images/SPU.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/SPU-EDU/SPMS">
+    <img src="/public/images/SPU.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Students Project Management System</h3>
 
   <p align="center">
-    An awesome way jumpstart your projects!
+    An awesome way to manage your student's projects!
     <br />
     <a href="https://github.com/SPU-EDU/SPMS/issues">Report Bug</a>
     ·
