@@ -3,8 +3,8 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight px-4">
             {{ $project->title }}
         </h2>
-        @can('project-approve')
         <div class="flex space-x-2">
+            @can('project-approve')
             <form method="GET" action="{{route('projects.approve', $project->id)}}">
                 @csrf
                 <x-modal action="Approve" type="approve">
@@ -45,8 +45,30 @@
                     </x-slot>
                 </x-modal>
             </form>
+            @endcan
+            @can('complete',$project)
+            <form method="GET" action="{{route('projects.complete', $project->id)}}">
+                @csrf
+                <x-modal action="complete">
+                    <x-slot name="trigger">
+                        <x-button class="text-xs" type="button" @click="showModal = true" value="Click Here">Complete
+                            Project
+                        </x-button>
+                    </x-slot>
+                    <x-slot name="title">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                            Complete Project
+                        </h3>
+                    </x-slot>
+                    <x-slot name="content">
+                        <p class="text-sm text-gray-500">
+                            Are you sure you want to complete {{ $project->title }}?
+                        </p>
+                    </x-slot>
+                </x-modal>
+            </form>
+            @endcan
         </div>
-        @endcan
     </x-slot>
     <div class="max-w-7xl mx-auto">
         <x-flash-message />
@@ -153,7 +175,7 @@
                         <div class="grid grid-cols-2 gap-1 mt-2">
                             <h2 class="font-semibold text-base text-gray-800 leading-tight">Github:</h2>
                             @if ($github)
-                            <a href="{{ $github['html_url'] }}"
+                            <a href="{{ $github['html_url'] }}" target="_blank"
                                 class="text-sm text-indigo-500 hover:text-indigo-700 text-right capitalize">{{
                                 $github['full_name'] }}</a>
                             @else
@@ -240,7 +262,8 @@
                         <h1 class="font-semibold text-base text-gray-800 leading-tight my-2">Team:</h1>
                         @forelse ($project->group->developers as $developer)
                         @once
-                        @if(Auth::user()->groups->contains($project->group))
+                        @if(auth()->user()->groups->contains($project->group) || $project->supervisor == auth()->user()
+                        || auth()->user()->can('project-edit'))
                         <a href="{{ route('projects.unassign',$project->id) }}">
                             <x-modal action="{{ __('Unassign') }}" type="{{ __('button') }}">
                                 <x-slot name="trigger">

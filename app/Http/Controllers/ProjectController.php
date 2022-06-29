@@ -160,9 +160,9 @@ class ProjectController extends Controller
             $markdown = $markdown->failed() ? $markdown->json() : $markdown->body();
         }
         $languages = $github ? collect(Http::withToken(env('GITHUB_TOKEN'))->get($github['languages_url'])->json()) : [];
-        $updated_at =  $github ? $github['updated_at'] : null;
+        $updated_at =  $github ? $github['pushed_at'] : null;
         if ($updated_at && (Carbon::parse($updated_at) >= Carbon::parse($project->updated_at))) {
-            $project->update(['updated_at' => $updated_at]);
+            $project->touch();
         };
 
         return view('projects.show', compact('project', 'markdown', 'github', 'languages'));
@@ -272,6 +272,9 @@ class ProjectController extends Controller
     {
         $project = Project::find($id);
         $this->authorize('destroy', $project);
+        if($project->supervisor && auth()->user() != $project->supervisor){
+            return redirect()->back()->withErrors('Cannot delete project, only this project\'s supervisor can delete this project');
+        }
         $project->delete();
         return redirect()->route('projects.index')
             ->with('success', 'Project deleted successfully');

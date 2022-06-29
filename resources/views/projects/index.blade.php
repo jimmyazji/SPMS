@@ -188,7 +188,7 @@
             </form>
         </div>
     </x-slot>
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-screen">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="flex flex-col">
             <div class="-my-2 overflow-x-auto scrollbar-none xl:overflow-x-visible sm:-mx-6 lg:-mx-8">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">

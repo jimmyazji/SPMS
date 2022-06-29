@@ -32,7 +32,7 @@ class ProjectPolicy
             return true;
         }
         if ($user->group) {
-            if ($user->group->project_id == $project->id) {
+            if ($user->group->project == $project) {
                 if ($project->state == ProjectState::Proposition && $project->state != ProjectState::Rejected) {
                     return true;
                 }
@@ -47,10 +47,13 @@ class ProjectPolicy
     }
     public function complete(User $user, Project $project)
     {
-        if ($user->group) {
-            if ($user->group->project_id = $project->id && $project->state == ProjectState::Incomplete) {
+        if ($user->groups()->latest()) {
+            if (($user->groups->last()->project = $project) && ($project->state == ProjectState::Incomplete)) {
                 return true;
             }
+        }
+        if ($project->supervisor_id && $project->supervisor = $user) {
+            return true;
         }
     }
 }
