@@ -75,15 +75,22 @@ This section should list any major frameworks/libraries used to bootstrap your p
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+Make sure you have all the prerequisites and either pull the project using your favorite tool or download it manually.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
+Make sure you have all the prerequisites before moving to the next section.
+* npm^8.1.0
   ```sh
-  npm install npm@latest -g
+  sudo apt install nodejs.
+  ```
+* php^8.1.5
+  ```sh
+  sudo apt-get install php
+  ```
+* composer^2.1.11
+  ```sh
+  php composer-setup.php --install-dir=bin
   ```
 
 ### Installation
