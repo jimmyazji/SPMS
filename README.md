@@ -97,20 +97,42 @@ Make sure you have all the prerequisites before moving to the next section.
 
 _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/SPU-EDU/SPMS.git
    ```
-3. Install NPM packages
+   Or you can download the files manually.
+
+2. Install NPM packages
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+3. Install Composer packages
+   ```sh
+   Composer install && Composer update
+   ```
+4. Copy .env.example file to .env on the root folder.
+   ```sh
+   cp .env.example .env
    ```
 
+5. Open your .env file and change the database name (DB_DATABASE) to whatever you have, username (DB_USERNAME) and password (DB_PASSWORD) field correspond to your configuration add (GITHUB_ID), (GITHUB_SECRET), (GITHUB_URL), (GITHUB_TOKEN) From your github.
+
+6. Generate a key.
+   ```sh
+   php artisan key:generate
+   ```
+
+7. Migrate database.
+   ```sh
+   php artisan php artisan migrate --seed
+   ```
+8. Serve project.
+   ```sh
+   php artisan serve
+   ```
+Now you should be able to login with the default administrator account jimmyyazji98@gmail.com and password 12345678 which you can change later.
+   
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
