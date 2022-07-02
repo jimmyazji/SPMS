@@ -69,8 +69,8 @@ class UserController extends Controller
             'password' => 'min:8|same:confirm-password',
         ]);
         $user = User::create([
-            'first_name' => ucfirst(strtolower($request->first_name)),
-            'last_name' => ucfirst(strtolower($request->last_name)),
+            'first_name' => ucwords(strtolower($request->first_name)),
+            'last_name' => ucwords(strtolower($request->last_name)),
             'stdsn' => $request->serial_number,
             'spec' => $request->spec,
             'email' => strtolower($request->email),
@@ -141,8 +141,8 @@ class UserController extends Controller
         $input = $request->all();
         if (!empty($input['password'])) {
             $user->update([
-                'first_name' => ucfirst(strtolower($request->first_name)),
-                'last_name' => ucfirst(strtolower($request->last_name)),
+                'first_name' => ucwords(strtolower($request->first_name)),
+                'last_name' => ucwords(strtolower($request->last_name)),
                 'stdsn' => $request->serial_number,
                 'spec' => $request->spec,
                 'email' => strtolower($request->email),
@@ -151,8 +151,8 @@ class UserController extends Controller
         } else {
             $input = Arr::except($input, array('password'));
             $user->update([
-                'first_name' => ucfirst(strtolower($request->first_name)),
-                'last_name' => ucfirst(strtolower($request->last_name)),
+                'first_name' => ucwords(strtolower($request->first_name)),
+                'last_name' => ucwords(strtolower($request->last_name)),
                 'stdsn' => $request->serial_number,
                 'spec' => $request->spec,
                 'email' => strtolower($request->email),

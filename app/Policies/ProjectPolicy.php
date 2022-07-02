@@ -28,7 +28,7 @@ class ProjectPolicy
         if ($user->can('project-edit')) {
             return true;
         }
-        if ($user->id == $project->supervisor_id) {
+        if ($user = $project->supervisor) {
             return true;
         }
         if ($user->group) {

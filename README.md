@@ -3,7 +3,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/SPU-EDU/SPMS">
-    <img src="/SPU.png" alt="SPU" width="180" height="160">
+    <img src="./SPU.png" alt="SPU" width="180" height="160">
   </a>
 
   <h3 align="center">Students Project Management System</h3>
