@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Specialization;
+use App\Pivots\GroupUser;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -81,7 +82,7 @@ class User extends Authenticatable
     }
     public function groups()
     {
-        return $this->belongsToMany(Group::class);
+        return $this->belongsToMany(Group::class)->using(GroupUser::class);
     }
     public function getGroupAttribute()
     {

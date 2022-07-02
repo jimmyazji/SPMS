@@ -38,9 +38,6 @@ class ProjectObserver
     public function deleted(Project $project)
     {
         $response = Http::withToken(env('GITHUB_TOKEN'))->delete($project->url);
-        if($response->failed()){
-            dd($response->json());
-        }
     }
 
     /**

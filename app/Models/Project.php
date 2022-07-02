@@ -7,6 +7,7 @@ use App\Models\Group;
 use App\Enums\ProjectType;
 use App\Enums\ProjectState;
 use App\Enums\Specialization;
+use App\Pivots\GroupUser;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -43,6 +44,12 @@ class Project extends Model
         $query->when($filters['search'] ?? false, fn ($query, $search) =>
         $query->where(
             fn ($query) => $query->where('title', 'LIKE', '%' . $search . '%')
+                ->orWhereHas('supervisor', fn ($query) => $query->where('first_name', 'like', '%' . $search . '%')
+                    ->orWhere('first_name', 'like', '%' . $search . '%')
+                    ->orWhereRaw("concat(first_name,' ',last_name) like '%{$search}%'"))
+                ->orWhereHas('group', fn ($query) => $query->whereHas('developers', fn ($query) => $query->where('first_name', 'like', '%' . $search . '%')
+                    ->orWhere('first_name', 'like', '%' . $search . '%')
+                    ->orWhereRaw("concat(first_name,' ',last_name) like '%{$search}%'")))
         ))
             ->when(
                 $filters['type'] ?? false,
@@ -76,11 +83,14 @@ class Project extends Model
 
     public function supervisor()
     {
-        return $this->belongsTo(User::class, 'supervisor_id', 'id');
+        return $this->belongsTo(User::class, 'supervisor_id', 'id')->withDefault();
     }
     public function group()
     {
         return $this->hasOne(Group::class)->withDefault();
     }
-    
+    public function getDevelopersAttribute()
+    {
+        return $this->group->load('developers')->developers;
+    }
 }

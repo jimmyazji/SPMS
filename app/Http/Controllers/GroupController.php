@@ -34,16 +34,8 @@ class GroupController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $groups = Group::with('project')
-            ->where([
-                ['id', '!=', Null],
-                [function ($query) use ($request) {
-                    if (($term = $request->term)) {
-                        $query->orWhere('id', 'LIKE', '%' . $term . '%')
-                            ->orWhere('name', 'LIKE', '%' . $term . '%')->load('users')->get();
-                    }
-                }]
-            ])->latest()->paginate(15)->withQueryString();
+        $groups = Group::with('project','developers')
+            ->filter(request(['search']))->latest()->paginate(15)->withQueryString();
         return view('groups.index', compact('groups'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }

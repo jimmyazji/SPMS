@@ -208,7 +208,7 @@
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Development Group
                         </h2>
                         <h1 class="font-semibold text-base text-gray-800 leading-tight my-2">Supervisor:</h1>
-                        @if ($project->supervisor)
+                        @if ($project->supervisor_id)
                         <a href="{{ route('users.show',$project->supervisor->id) }}">
                             <div class="mt-1 bg-gray-50 px-1 py-1 rounded-lg border border-gray-300 hover:bg-gray-100">
                                 <div class="flex items-center">

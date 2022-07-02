@@ -152,6 +152,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
+
         $project = Project::with('group', 'supervisor')
             ->find($id);
         $github = $project->url ? Http::withToken(env('GITHUB_TOKEN'))->get($project->url)->json() : null;
@@ -245,7 +246,6 @@ class ProjectController extends Controller
                 'aims' => json_encode($aims),
                 'objectives' => json_encode($objectives),
                 'tasks' => json_encode($tasks),
-                'supervisor_id' => $request->supervise,
             ]);
         } else {
             $project->update([
@@ -255,8 +255,10 @@ class ProjectController extends Controller
                 'aims' => json_encode($aims),
                 'objectives' => json_encode($objectives),
                 'tasks' => json_encode($tasks),
-                'supervisor_id' => $request->supervise,
             ]);
+        }
+        if($request->supervise = true && !$project->supervisor){
+            $project->supervisor()->associate(auth()->user())->save();
         }
         return redirect()->route('projects.index')
             ->with('success', 'Project updated successfully');
@@ -319,9 +321,11 @@ class ProjectController extends Controller
     public function supervise($id)
     {
         $project = Project::find($id);
-        $supervisor = Socialite::driver('github')->userFromToken(request()->user()->github_token)->getNickName();
+        if (request()->user()->github_token) {
+            $supervisor = Socialite::driver('github')->userFromToken(request()->user()->github_token)->getNickName();
+            Http::withToken(env('GITHUB_TOKEN'))->put($project->url . '/collaborators/' . $supervisor, ['permission' => 'maintain']);
+        }
         $project->supervisor()->associate(request()->user())->save();
-        Http::withToken(env('GITHUB_TOKEN'))->put($project->url . '/collaborators/' . $supervisor, ['permission' => 'maintain']);
         if ($project->group() ?? false) {
             $project->update(['state' => ProjectState::Approving]);
         }
@@ -375,18 +379,18 @@ class ProjectController extends Controller
     public function complete(Project $project)
     {
         $this->authorize('complete', $project);
-        if($project->state == ProjectState::Evaluating){
+        if ($project->state == ProjectState::Evaluating) {
             return redirect()->back()->withErrors('Project under evaluation already.');
         }
         $sha = Http::withToken(env('GITHUB_TOKEN'))->get($project->url . '/git/refs/heads')->json('0')['object']['sha'];
         $response = Http::withToken(env('GITHUB_TOKEN'))->post(
             $project->url . '/git/refs',
             [
-                'ref' => 'refs/heads/'.$project->type->value,
+                'ref' => 'refs/heads/' . $project->type->value,
                 'sha' => $sha
             ]
         );
-        if($response->failed()){
+        if ($response->failed()) {
             return redirect()->back()->withErrors('Something went wrong, please try again later.');
         }
         $project->update(['state' => ProjectState::Evaluating]);

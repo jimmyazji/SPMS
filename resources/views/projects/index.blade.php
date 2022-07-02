@@ -267,7 +267,7 @@
                                         {{ $project->spec->value }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        @if($project->supervisor)
+                                        @if($project->supervisor_id)
                                         <a class="text-indigo-500 hover:text-indigo-700"
                                             href="{{ route('users.show',$project->supervisor_id)}}">{{
                                             $project->supervisor->first_name }}

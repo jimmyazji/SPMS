@@ -8,7 +8,7 @@ use App\Enums\Specialization;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-
+use App\Pivots\GroupUser;
 
 class Group extends Model
 {
@@ -29,12 +29,25 @@ class Group extends Model
         'spec' => Specialization::class,
         'project_type' => ProjectType::class
     ];
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when(
+            $filters['search'] ?? false,
+            fn ($query, $search) =>
+            $query->where('id', '=', $search)
+                ->orWherehas('developers', fn ($query) =>
+                $query->where('first_name', 'LIKE', '%' . $search . '%')
+                ->orWhere('last_name', 'LIKE', '%' . $search . '%')
+                ->orWhere('last_name', 'LIKE', '%' . $search . '%')
+                ->orWhereRaw("concat(first_name,' ',last_name) like '%{$search}%'"))
+        );
+    }
     public function project()
     {
         return $this->belongsTo(Project::class)->withDefault();
     }
     public function developers()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->using(GroupUser::class);
     }
 }

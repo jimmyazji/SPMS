@@ -28,7 +28,7 @@ class ProjectPolicy
         if ($user->can('project-edit')) {
             return true;
         }
-        if ($user = $project->supervisor) {
+        if ($project->supervisor->id == $user->id) {
             return true;
         }
         if ($user->group) {
@@ -47,15 +47,16 @@ class ProjectPolicy
     }
     public function complete(User $user, Project $project)
     {
-        if ($project->state == ProjectState::Incomplete) {
-            if ($user->groups()->latest()) {
-                if (($user->project = $project) && ($project->state == ProjectState::Incomplete)) {
-                    return true;
-                }
-            }
-            if ($project->supervisor_id && $project->supervisor = $user) {
+        if ($project->state != ProjectState::Incomplete) {
+        return false;
+        }
+        if ($user->groups()->latest()) {
+            if (($user->project = $project) && ($project->state == ProjectState::Incomplete)) {
                 return true;
             }
+        }
+        if ($project->supervisor_id && $project->supervisor = $user) {
+            return true;
         }
     }
 }

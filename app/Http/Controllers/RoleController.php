@@ -34,8 +34,8 @@ class RoleController extends Controller
         $roles = Role::where([
             ['name','!=',Null],
             [function ($query) use ($request){
-                if (($term = $request->term)){
-                    $query->orWhere('name' , 'LIKE' , '%' . $term .'%')->get();
+                if (($search = $request->search)){
+                    $query->orWhere('name' , 'LIKE' , '%' . $search .'%')->get();
                 }
             }]
         ])
