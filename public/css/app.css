@@ -1197,9 +1197,6 @@ select {
 .h-full {
   height: 100%;
 }
-.h-14 {
-  height: 3.5rem;
-}
 .h-56 {
   height: 14rem;
 }
@@ -2859,8 +2856,8 @@ select {
     margin-left: 1rem;
   }
 
-  .md\:ml-10 {
-    margin-left: 2.5rem;
+  .md\:ml-6 {
+    margin-left: 1.5rem;
   }
 
   .md\:mt-16 {

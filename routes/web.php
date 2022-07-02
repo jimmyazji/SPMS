@@ -53,7 +53,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('projects/{project:id}/unsupervise', [ProjectController::class, 'unsupervise'])->name('projects.unsupervise');
     Route::get('projects/{project:id}/approve', [ProjectController::class, 'approve'])->name('projects.approve');
     Route::get('projects/{project:id}/disapprove', [ProjectController::class, 'disapprove'])->name('projects.disapprove');
-    Route::get('projects/{project:id}/complete', [ProjectController::class, 'approve'])->name('projects.complete');
+    Route::get('projects/{project:id}/complete', [ProjectController::class, 'complete'])->name('projects.complete');
 });
 
 require __DIR__ . '/auth.php';

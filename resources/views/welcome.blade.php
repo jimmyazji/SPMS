@@ -12,6 +12,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="icon" href="{!! asset('images/favicon.ico') !!}" />
+
 </head>
 
 <body>
@@ -29,9 +31,8 @@
                             <div class="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
                                 <div class="flex items-center justify-between w-full md:w-auto">
                                     <a href="{{ url('/') }}">
-                                        <span class="sr-only">Workflow</span>
                                         <x-application-logo
-                                            class="block h-14 w-auto fill-current text-gray-500 hover:text-gray-300 transition duration-150 ease-in-out" />
+                                            class="h-16 w-auto fill-current text-gray-500 hover:text-gray-300 transition duration-150 ease-in-out" />
                                     </a>
                                     <div class="-mr-2 flex items-center md:hidden">
                                         <button type="button"
@@ -47,23 +48,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="hidden md:block md:ml-10 md:pr-4">
-                                <a href="#"
-                                    class="font-bold text-gray-500 hover:text-gray-900 px-3 py-2 rounded-full hover:bg-gray-100">Product</a>
+                            <div class="hidden md:block md:ml-6 md:pr-4">
+                                <a href="https://www.spu.edu.sy/"
+                                    class="font-bold text-gray-500 hover:text-gray-900 px-3 py-2 rounded-full hover:bg-gray-100">Home</a>
+                                <a href="https://github.com/SPU-EDU/SPMS"
+                                    class="font-bold text-gray-500 hover:text-gray-900 px-3 py-2 rounded-full hover:bg-gray-100">Repository</a>
 
-                                <a href="#"
-                                    class="font-bold text-gray-500 hover:text-gray-900 px-3 py-2 rounded-full hover:bg-gray-100">Features</a>
+                                <a href="https://github.com/SPU-EDU/SPMS/issues"
+                                    class="font-bold text-gray-500 hover:text-gray-900 px-3 py-2 rounded-full hover:bg-gray-100">Issues</a>
 
-                                <a href="#"
-                                    class="font-bold text-gray-500 hover:text-gray-900 px-3 py-2 rounded-full hover:bg-gray-100">Marketplace</a>
+                                <a href="https://github.com/SPU-EDU/SPMS/issues"
+                                    class="font-bold text-gray-500 hover:text-gray-900 px-3 py-2 rounded-full hover:bg-gray-100">Suggestions</a>
 
-                                <a href="#"
-                                    class="font-bold text-gray-500 hover:text-gray-900 px-3 py-2 rounded-full hover:bg-gray-100">Company</a>
                                 @auth
                                 <a href="{{ route('dashboard') }}"
-                                    class="font-bold text-indigo-600 px-3 py-2 rounded-full hover:bg-gray-100 hover:text-indigo-500">Log
-                                    in</a>
-                                    @endauth
+                                    class="font-bold text-indigo-600 px-2 py-2 rounded-full hover:bg-gray-100 hover:text-indigo-500">Dashboard</a>
+                                @endauth
                                 @guest
                                 <a href="{{ route('login') }}"
                                     class="font-bold text-indigo-600 px-3 py-2 rounded-full hover:bg-gray-100 hover:text-indigo-500">Log

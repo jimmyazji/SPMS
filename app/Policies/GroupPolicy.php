@@ -17,8 +17,8 @@ class GroupPolicy
         if ($user->can('group-create') && $user->groups->isEmpty()) {
             return true;
         }
-        if ($user->groups->last()) {
-            if ($user->groups->last()->project->state == ProjectState::Complete) {
+        if ($user->group) {
+            if ($user->project->state == ProjectState::Complete) {
                 return true;
             }
         }

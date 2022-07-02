@@ -14,7 +14,7 @@ class ProjectPolicy
     public function create(User $user)
     {
         if ($user->group != null) {
-            if ($user->group->project_id == null) {
+            if ($user->project_id == null) {
 
                 return true;
             }
@@ -32,7 +32,7 @@ class ProjectPolicy
             return true;
         }
         if ($user->group) {
-            if ($user->group->project == $project) {
+            if ($user->project == $project) {
                 if ($project->state == ProjectState::Proposition && $project->state != ProjectState::Rejected) {
                     return true;
                 }
@@ -41,19 +41,21 @@ class ProjectPolicy
     }
     public function destroy(User $user, Project $project)
     {
-        if ($user->can('project-delete') || $user->group->project_id == $project->id) {
+        if ($user->can('project-delete') || $user->project_id == $project->id) {
             return true;
         }
     }
     public function complete(User $user, Project $project)
     {
-        if ($user->groups()->latest()) {
-            if (($user->groups->last()->project = $project) && ($project->state == ProjectState::Incomplete)) {
+        if ($project->state == ProjectState::Incomplete) {
+            if ($user->groups()->latest()) {
+                if (($user->project = $project) && ($project->state == ProjectState::Incomplete)) {
+                    return true;
+                }
+            }
+            if ($project->supervisor_id && $project->supervisor = $user) {
                 return true;
             }
-        }
-        if ($project->supervisor_id && $project->supervisor = $user) {
-            return true;
         }
     }
 }

@@ -83,6 +83,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Group::class);
     }
+    public function getGroupAttribute()
+    {
+        return $this->groups->last();
+    }
+    public function getProjectAttribute()
+    {
+        return $this->group->project;
+    }
     public function groupRequests()
     {
         return $this->hasMany(GroupRequest::class, 'id', 'sender_id');

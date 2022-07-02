@@ -21,13 +21,13 @@ class GroupRequestPolicy
      */
     public function create(User $user)
     {
-        if (!$user->groups->last()) {
+        if (!$user->group) {
             return true;
         }
-        if (!$user->groups->last()->project) {
+        if (!$user->project) {
             return false;
         }
-        if ($user->groups->last()->project->state == ProjectState::Complete) {
+        if ($user->project->state == ProjectState::Complete) {
         return true;
         }
     }

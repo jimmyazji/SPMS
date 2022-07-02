@@ -47,7 +47,7 @@
             </form>
             @endcan
             @can('complete',$project)
-            <form method="GET" action="{{route('projects.complete', $project->id)}}">
+            <form method="GET" action="{{route('projects.complete', $project)}}">
                 @csrf
                 <x-modal action="complete">
                     <x-slot name="trigger">

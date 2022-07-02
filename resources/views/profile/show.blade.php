@@ -91,7 +91,7 @@
                             </div>
                             <div class="text-sm text-gray-500">
                                 @if($user->group)
-                                <a href="{{ route('groups.show',$user->group) }}">#{{ $user->group->id }}</a>
+                                <a class="text-indigo-500 hover:text-indigo-700" href="{{ route('groups.show',$user->group) }}">#{{ $user->group->id }}</a>
                                 @else
                                 none
                                 @endif
@@ -112,9 +112,9 @@
                             </div>
                             <div class="text-sm text-gray-500">
                                 @if($user->group)
-                                @if ($user->group->project)
-                                <a href="{{ route('projects.show',$user->group->project_id) }}">
-                                    {{ $user->group->project->title }}
+                                @if ($user->project)
+                                <a class="text-indigo-500 hover:text-indigo-700" href="{{ route('projects.show',$user->project) }}">
+                                    {{ $user->project->title }}
                                 </a>
                                 @else
                                 none
