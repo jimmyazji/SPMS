@@ -59,4 +59,8 @@ class ProjectPolicy
             return true;
         }
     }
+    public function export(User $user)
+    {
+        return $user->can('project-export');
+    }
 }

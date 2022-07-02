@@ -41,6 +41,7 @@ class ProjectController extends Controller
 
     public function export(Request $request)
     {
+        $this->authorize('export',Project::class);
         return Project::with('group')->latest()
             ->filter(request(['search', 'spec', 'type', 'state', 'created_from', 'created_to', 'updated_from', 'updated_to']))
             ->get()->map(function ($project) {

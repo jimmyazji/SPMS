@@ -29,6 +29,7 @@ class PermissionTableSeeder extends Seeder
             'project-delete',
             'project-supervise',
             'project-approve',
+            'project-export',
             'user-list',
             'user-create',
             'user-edit',
