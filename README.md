@@ -11,7 +11,7 @@
   <p align="center">
     An awesome way to manage your student's projects!
     <br />
-    <a href="https://github.com/SPU-EDU/SPMS/issues">Report Bug</a>
+    <a href="https://github.com/SPU-EDU/SPMS/issues">Report Bugs</a>
     ·
     <a href="https://github.com/SPU-EDU/SPMS/issues">Request Feature</a>
   </p>
@@ -140,7 +140,7 @@ Now you should be able to login with the default administrator account jimmyyazj
 ## Usage
 
 Create a new user, give them permission to create a group, create a group the create a project and all your work will be uploaded to github.
-_For more details on how to use the project, please refer to the Documentation.
+_For more details on how to use the project, please refer to the Documentation._
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

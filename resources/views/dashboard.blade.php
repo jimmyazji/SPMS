@@ -9,9 +9,9 @@
             <x-flash-message />
             <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg">
                 <article class="min-w-full p-6 bg-white border-b">
+                    <h2>You're logged in!</h2>
                 </article>
             </div>
         </div>
     </div>
 </x-app-layout>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown-light.css">
