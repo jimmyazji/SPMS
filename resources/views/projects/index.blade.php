@@ -313,11 +313,11 @@
                         </table>
                     </div>
                 </div>
-                @if ($projects->hasMorePages())
                 <div class="py-8">
+                    @if ($projects->hasMorePages())
                     {!! $projects->links() !!}
+                    @endif
                 </div>
-                @endif
             </div>
         </div>
     </div>

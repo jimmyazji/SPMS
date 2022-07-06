@@ -84,8 +84,8 @@
                                 <h1 class="font-semibold text-base text-gray-800 leading-tight pb-2">Aims:</h1>
                                 <ol class="list-disc list-inside">
                                     @foreach ( json_decode($project->aims) as $aim)
-                                    <li class="flex justify-between text-center text-sm py-0.5">
-                                        <p><span class="text-xl mr-2">&#8226;</span>{{ $aim->name }}</p>
+                                    <li class="flex justify-between items-center text-sm py-0.5">
+                                        <span class="text-sm align-middle">&#8226;{{ ' '.$aim->name }}</span>
                                         <input class="rounded-md text-gray-500" disabled type="checkbox" {{
                                             $aim->complete ? 'checked' : '' }}/>
                                     </li>
@@ -97,7 +97,7 @@
                                 <ol class="list-disc list-inside">
                                     @foreach ( json_decode($project->objectives) as $objective)
                                     <li class="flex justify-between text-center text-sm py-0.5">
-                                        <p><span class="text-xl mr-2">&#8226;</span>{{ $objective->name }}</p>
+                                        <span class="text-sm align-middle">&#8226;{{ ' '.$objective->name }}</span>
                                         <input class="rounded-md text-gray-500" disabled type="checkbox" {{
                                             $objective->complete ? 'checked' : '' }}></input>
                                     </li>
@@ -108,8 +108,8 @@
                                 <h1 class="font-semibold text-base text-gray-800 leading-tight pb-2">Tasks:</h1>
                                 <ol class="list-decimal list-inside">
                                     @foreach ( json_decode($project->tasks) as $key => $task)
-                                    <li class="flex justify-between items-center text-sm py-1.5">{{ $key+1 }}{{ '.
-                                        '.$task->name }}
+                                    <li class="flex justify-between items-center text-sm py-1.5">
+                                        <span class="text-sm align-middle">{{ $key+1 }}{{ '. '.$task->name }}</span>
                                         <input class="rounded-md text-gray-500" disabled type="checkbox" {{ $task->
                                         complete ? 'checked' : '' }}></input>
                                     </li>
@@ -318,6 +318,5 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </x-app-layout>

@@ -29,7 +29,8 @@ return new class extends Migration
     {
         Schema::table('users', function ($table) {
             $table->dropColumn('github_id');
-           $table->dropColumn('token');
-         });
+            $table->dropColumn('github_token');
+            $table->dropColumn('github_refresh_token');
+        });
     }
 };
