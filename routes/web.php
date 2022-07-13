@@ -47,10 +47,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('groups/{group:id}/leave', [GroupController::class, 'leaveGroup'])->name('groups.leave');
     Route::resource('projects', ProjectController::class);
     Route::get('export.projects', [ProjectController::class, 'export'])->name('projects.export');
-    Route::get('projects/{project:id}/assign', [ProjectController::class, 'assignProject'])->name('projects.assign');
-    Route::get('projects/{project:id}/unassign', [ProjectController::class, 'unAssignProject'])->name('projects.unassign');
+    Route::get('projects/{project:id}/assign', [ProjectController::class, 'assign'])->name('projects.assign');
+    Route::get('projects/{project:id}/unassign', [ProjectController::class, 'unassign'])->name('projects.unassign');
     Route::get('projects/{project:id}/supervise', [ProjectController::class, 'supervise'])->name('projects.supervise');
-    Route::get('projects/{project:id}/unsupervise', [ProjectController::class, 'unsupervise'])->name('projects.unsupervise');
+    Route::get('projects/{project:id}/abandon', [ProjectController::class, 'abandon'])->name('projects.abandon');
     Route::get('projects/{project:id}/approve', [ProjectController::class, 'approve'])->name('projects.approve');
     Route::get('projects/{project:id}/disapprove', [ProjectController::class, 'disapprove'])->name('projects.disapprove');
     Route::get('projects/{project:id}/complete', [ProjectController::class, 'complete'])->name('projects.complete');

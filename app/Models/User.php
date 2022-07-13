@@ -31,7 +31,8 @@ class User extends Authenticatable
         'stdsn',
         'avatar',
         'github_id',
-        'auth_type',
+        'github_token',
+        'github_refresh_token',
     ];
 
     /**

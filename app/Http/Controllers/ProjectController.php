@@ -282,7 +282,7 @@ class ProjectController extends Controller
         return redirect()->route('projects.index')
             ->with('success', 'Project deleted successfully');
     }
-    public function assignProject($id)
+    public function assign($id)
     {
         $project = Project::find($id);
         if (!Auth::user()->groups) {
@@ -307,7 +307,7 @@ class ProjectController extends Controller
         }
         return redirect()->back()->with('success', 'Project assigned successfully');
     }
-    public function unAssignProject($id)
+    public function unassign($id)
     {
 
         $project = Project::find($id);
@@ -332,7 +332,7 @@ class ProjectController extends Controller
         }
         return redirect()->back()->with('success', 'Assigned supervisor successfully');
     }
-    public function unsupervise($id)
+    public function abandon($id)
     {
         Project::find($id)->update(['supervisor_id' => null, 'state' => ProjectState::Proposition]);
         return redirect()->back()->with('success', 'Unassigned supervisor successfully');

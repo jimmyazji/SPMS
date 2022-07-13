@@ -228,7 +228,7 @@
                             </div>
                         </a>
                         @if ($project->supervisor_id == Auth::id())
-                        <a href="{{ route('projects.unsupervise',$project->id) }}">
+                        <a href="{{ route('projects.abandon',$project->id) }}">
                             <x-modal action="{{ __('Abandon') }}" type="{{ __('button') }}">
                                 <x-slot name="trigger">
                                     <button @click.prevent="showModal = true"
