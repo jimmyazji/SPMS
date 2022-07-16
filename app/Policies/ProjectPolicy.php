@@ -48,7 +48,7 @@ class ProjectPolicy
     public function complete(User $user, Project $project)
     {
         if ($project->state != ProjectState::Incomplete) {
-        return false;
+            return false;
         }
         if ($user->groups()->latest()) {
             if (($user->project = $project) && ($project->state == ProjectState::Incomplete)) {
@@ -62,5 +62,15 @@ class ProjectPolicy
     public function export(User $user)
     {
         return $user->can('project-export');
+    }
+    public function sync(User $user,Project $project)
+    {
+        if ($user->can('project-approve')) return true;
+        if ($user->group) {
+            if ($user->group->project == $project) {
+                return true;
+            }
+        }
+        if($user->id = $project->supervisor_id) return true;
     }
 }

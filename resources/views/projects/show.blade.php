@@ -78,7 +78,12 @@
             <div class="bg-white overflow-hidden shadow-lg rounded-3xl">
                 <div class="bg-white border-b border-gray-200">
                     <div class="p-8 bg-white text-gray-800">
-                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Project's Proposition</h2>
+                        <div class="flex justify-between">
+                            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Project's Proposition</h2>
+                            @can('sync',$project)
+                            <a class="text-green-600 hover:text-green-400 mr-2" href="{{ route('projects.sync',$project) }}"><i class="fas fa-sync-alt"></i></a>
+                            @endcan
+                        </div>
                         <div class="space-y-4 p-2">
                             <div class="border-b border-gray-300 pb-4">
                                 <h1 class="font-semibold text-base text-gray-800 leading-tight pb-2">Aims:</h1>
@@ -127,7 +132,7 @@
                         <div class="mt-2 text-sm text-gray-700">
                             @if (!is_array($markdown))
                             <x-readme>
-                                {!! $markdown ?? 'No repository yet.'!!}
+                                {!! $markdown ?? 'NA.'!!}
                             </x-readme>
 
                             @else
@@ -180,12 +185,12 @@
                                 $github['full_name'] }}</a>
                             @else
                             <span class="text-sm text-gray-700 text-right">
-                                No Repository Yet
+                                NA
                             </span>
                             @endif
                             <h2 class="font-semibold text-base text-gray-800 leading-tight">Open Issues:</h2>
                             <span class="text-sm text-gray-700 text-right capitalize">{{ $github['open_issues_count'] ??
-                                'no repository yet'
+                                'NA'
                                 }}</span>
                             <h2 class="font-semibold text-base text-gray-800 leading-tight col-span-2">Used Languages:
                             </h2>
@@ -195,7 +200,7 @@
                                 round($value/$languages->sum()*100,2).'%' }}</span>
                             @empty
                             <span class="text-sm text-gray-700 text-left capitalize">
-                                No Repository Yet
+                                NA
                             </span>
                             @endforelse
                         </div>

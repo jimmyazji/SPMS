@@ -10,6 +10,7 @@ use App\Enums\ProjectState;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Enums\Specialization;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rules\Enum;
@@ -41,7 +42,7 @@ class ProjectController extends Controller
 
     public function export(Request $request)
     {
-        $this->authorize('export',Project::class);
+        $this->authorize('export', Project::class);
         return Project::with('group')->latest()
             ->filter(request(['search', 'spec', 'type', 'state', 'created_from', 'created_to', 'updated_from', 'updated_to']))
             ->get()->map(function ($project) {
@@ -153,20 +154,20 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-
         $project = Project::with('group', 'supervisor')
             ->find($id);
-        $github = $project->url ? Http::withToken(env('GITHUB_TOKEN'))->get($project->url)->json() : null;
-        $markdown = $project->url ? Http::withToken(env('GITHUB_TOKEN'))->accept('application/vnd.github.html')->get($project->url . '/readme') : null;
-        if ($markdown) {
-            $markdown = $markdown->failed() ? $markdown->json() : $markdown->body();
+        try {
+            Http::withToken(env('GITHUB_TOKEN'))->get($project->url)->json();
+        } catch (Exception) {
+            $github = cache()->get('github' . $id);
+            $markdown = cache()->get('markdown' . $id, '<p class="text-red-700">Could not connect to GitHub servers at this moment please try again later!</p>');
+            $languages = cache()->get("languages. $id", []);
+            return view('projects.show', compact('project', 'markdown', 'github', 'languages'));
         }
-        $languages = $github ? collect(Http::withToken(env('GITHUB_TOKEN'))->get($github['languages_url'])->json()) : [];
-        $updated_at =  $github ? $github['pushed_at'] : null;
-        if ($updated_at && (Carbon::parse($updated_at) >= Carbon::parse($project->updated_at))) {
-            $project->touch();
-        };
-
+        $github = cache()->remember('github' . $project->id, 21600, fn () => $project->url ? Http::withToken(env('GITHUB_TOKEN'))->get($project->url)->json() : null);
+        $markdown = $project->url ? Http::withToken(env('GITHUB_TOKEN'))->accept('application/vnd.github.html')->get($project->url . '/readme') : null;
+        $markdown = cache()->remember('markdown' . $project->id, 21600, fn () => $markdown->failed() ? $markdown->json() : $markdown->body());
+        $languages = cache()->remember("languages . $project->id", 21600, fn () => $github ? collect(Http::withToken(env('GITHUB_TOKEN'))->get($github['languages_url'])->json()) : []);
         return view('projects.show', compact('project', 'markdown', 'github', 'languages'));
     }
 
@@ -258,7 +259,7 @@ class ProjectController extends Controller
                 'tasks' => json_encode($tasks),
             ]);
         }
-        if($request->supervise = true && !$project->supervisor){
+        if ($request->supervise = true && !$project->supervisor) {
             $project->supervisor()->associate(auth()->user())->save();
         }
         return redirect()->route('projects.index')
@@ -396,5 +397,24 @@ class ProjectController extends Controller
         }
         $project->update(['state' => ProjectState::Evaluating]);
         return redirect()->back()->with('success', 'Completed successfully, awaiting evaluation');
+    }
+    public function sync($id)
+    {
+        $project = Project::find($id);
+        $this->authorize('sync', $project);
+        cache()->forget('github' . $project->id);
+        cache()->forget('markdown' . $project->id);
+        cache()->forget("languages.$project->id");
+        try{
+            $github = Http::withToken(env('GITHUB_TOKEN'))->get($project->url)->json();
+            $updated_at =  $github ? $github['pushed_at'] : null;
+        if ($updated_at && (Carbon::parse($updated_at) >= Carbon::parse($project->updated_at))) {
+            $project->touch();
+        };
+        }
+        catch(Exception){
+            return redirect()->route('projects.show', $project)->with('error','Could not connect to the GitHub Servers');
+        }
+        return redirect()->route('projects.show', $project);
     }
 }
