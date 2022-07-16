@@ -381,19 +381,16 @@ class ProjectController extends Controller
     public function complete(Project $project)
     {
         $this->authorize('complete', $project);
-        if ($project->state == ProjectState::Evaluating) {
-            return redirect()->back()->withErrors('Project under evaluation already.');
-        }
         $sha = Http::withToken(env('GITHUB_TOKEN'))->get($project->url . '/git/refs/heads')->json('0')['object']['sha'];
         $response = Http::withToken(env('GITHUB_TOKEN'))->post(
             $project->url . '/git/refs',
             [
-                'ref' => 'refs/heads/' . $project->type->value,
+                'ref' => 'refs/heads/' . str()->slug($project->type->value),
                 'sha' => $sha
             ]
         );
         if ($response->failed()) {
-            return redirect()->back()->withErrors('Something went wrong, please try again later.');
+            return redirect()->back()->withErrors($response->json());
         }
         $project->update(['state' => ProjectState::Evaluating]);
         return redirect()->back()->with('success', 'Completed successfully, awaiting evaluation');
