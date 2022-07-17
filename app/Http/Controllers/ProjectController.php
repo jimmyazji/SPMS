@@ -350,10 +350,14 @@ class ProjectController extends Controller
             default:
                 $maintainers = $project->group->developers->pluck('github_id')->toArray();
                 if (!$project->url) {
-                    $response = Http::withToken(env('GITHUB_TOKEN'))->post('https://api.github.com/orgs/SPU-EDU/repos', [
-                        'name' => Str::slug($project->title),
-                        'private' => false,
-                    ]);
+                    try {
+                        $response = Http::withToken(env('GITHUB_TOKEN'))->post('https://api.github.com/orgs/SPU-EDU/repos', [
+                            'name' => Str::slug($project->title),
+                            'private' => false,
+                        ]);
+                    } catch (Exception) {
+                        return redirect()->back()->withErrors('Could not reach the GitHub servers at the moment please try again later!');
+                    }
                 } else {
                     $response = Http::withToken(env('GITHUB_TOKEN'))->get($project->url);
                 }
@@ -402,15 +406,14 @@ class ProjectController extends Controller
         cache()->forget('github' . $project->id);
         cache()->forget('markdown' . $project->id);
         cache()->forget("languages.$project->id");
-        try{
+        try {
             $github = Http::withToken(env('GITHUB_TOKEN'))->get($project->url)->json();
             $updated_at =  $github ? $github['pushed_at'] : null;
-        if ($updated_at && (Carbon::parse($updated_at) >= Carbon::parse($project->updated_at))) {
-            $project->touch();
-        };
-        }
-        catch(Exception){
-            return redirect()->route('projects.show', $project)->with('error','Could not connect to the GitHub Servers');
+            if ($updated_at && (Carbon::parse($updated_at) >= Carbon::parse($project->updated_at))) {
+                $project->touch();
+            };
+        } catch (Exception) {
+            return redirect()->route('projects.show', $project)->with('error', 'Could not connect to the GitHub Servers');
         }
         return redirect()->route('projects.show', $project);
     }

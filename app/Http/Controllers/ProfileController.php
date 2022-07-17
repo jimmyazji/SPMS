@@ -25,11 +25,11 @@ class ProfileController extends Controller
         $user = User::find($id);
         if ($user->github_id) {
             try {
-                $git = Socialite::driver('github')->userFromToken($user->github_token);
+                $git = cache()->remember('git' . $id, 21600, fn () => Socialite::driver('github')->userFromToken($user->github_token));
             } catch (Exception) {
                 $git = null;
             }
-        } else $git= null;
+        } else $git = null;
         return view('profile.show', compact('user', 'git'));
     }
 

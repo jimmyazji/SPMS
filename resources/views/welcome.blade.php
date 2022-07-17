@@ -127,13 +127,12 @@
                             <span class="block text-indigo-600 xl:inline">graduation project</span>
                         </h1>
                         <p
-                            class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore necessitatibus blanditiis
-                            in doloremque suscipit nobis, amet explicabo quod iusto molestiae reiciendis magni! Omnis
-                            incidunt voluptate odit maxime possimus modi harum, quidem vitae laudantium minima doloribus
-                            ratione eum et ipsum esse deserunt. quia
-                            eligendi, eos libero saepe ab, exercitationem amet. Et reprehenderit at corrupti facere
-                            excepturi? </p>
+                            class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0 min-h-full py-11">
+                            All the tools you need to create the best projects and manage them with little to no
+                            effort!
+                            <br /> Created for the students of the Syrian Private University to help ease the process
+                            of creating managing and viewing projects!
+                        </p>
                         <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                             <div class="rounded-md shadow">
                                 <a href="{{ route('register') }}"
