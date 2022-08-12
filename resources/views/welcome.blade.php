@@ -130,7 +130,7 @@
                             class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0 min-h-full py-11">
                             All the tools you need to create the best projects and manage them with little to no
                             effort!
-                            <br /> Created for the students of the Syrian Private University to help ease the process
+                            <br /> Created for the students of the Damascus University to help ease the process
                             of creating managing and viewing projects!
                         </p>
                         <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">

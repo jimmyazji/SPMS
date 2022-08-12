@@ -1,7 +1,7 @@
 {
-    "name": "spu-edu/spms",
+    "name": "du-edu/spms",
     "type": "project",
-    "description": "Students Project Management System project for the graduation project of Jimmy Yazji and Omran Al-Khaledy 2021-2022 under the supervision of Dr. Eng. Akram Massouh.",
+    "description": "Students Project Management System project for the graduation project of Ibrahem Alnasser 2021-2022 under the supervision of Dr. Eng. Bassem Kosayba.",
     "keywords": [
         "framework",
         "laravel"

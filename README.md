@@ -51,7 +51,7 @@ This development was reflected in many fields, but the field that benefited grea
 <br/>
 Public and private educational institutions competed to find and provide effective means that help the student to learn easily and provide him with the ability to be creative effectively in study and in his future work. The employment of technology in the educational process facilitates the process of communication and communication between the student and the teacher, as well as facilitating many administrative processes, such as converting some paper processes into electronic ones. This will lead to the development of administrative work, reducing paperwork, and improving services by reducing mobility. Between departments for the circulation of business between employees, and to facilitate access to information at any time and place, and this in turn will lead to an increase in the speed in the completion of work and reduce the costs of administrative work while raising the level of performance in addition to the possibility of overcoming the problem of the geographical and temporal dimensions, developing the work mechanism and keeping pace with developments.
 <br/>
-Based on this point, the project team worked on building an electronic system for managing graduation projects at the Syrian Private University, through which administrative processes such as coordination and supervision of graduation projects were automated and creating a more interactive and developed environment in line with the university’s goals and orientations towards keeping pace with development and using technology in the service of education and make it more efficient and effective.
+Based on this point, the project team worked on building an electronic system for managing graduation projects at the Damascus University, through which administrative processes such as coordination and supervision of graduation projects were automated and creating a more interactive and developed environment in line with the university’s goals and orientations towards keeping pace with development and using technology in the service of education and make it more efficient and effective.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -130,7 +130,7 @@ _Below is how you install and setup up your own version of the app._
    ```sh
    php artisan serve
    ```
-Now you should be able to login with the default administrator account jimmyyazji98@gmail.com and password 12345678 which you can change later.
+Now you should be able to login with the default administrator account ibrahemalnasser3@gmail.com and password 12345678 which you can change later.
    
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -146,7 +146,7 @@ _For more details on how to use the project, please refer to the Documentation._
 
 ## Contact
 
-Jimmy Yazji - [@{github}](#) - {email}
+Ibrahem Al Nasser - {ibrahemalnasser3@gmail.com}
 
 Project Link: [https://github.com/SPU-EDU/SPMS](https://github.com/SPU-EDU/SPMS)
 
