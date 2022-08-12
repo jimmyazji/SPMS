@@ -146,7 +146,7 @@ _For more details on how to use the project, please refer to the Documentation._
 
 ## Contact
 
-Ibrahem Al Nasser - {ibrahemalnasser3@gmail.com}
+Ibrahem Al Nasser - ibrahemalnasser3@gmail.com
 
 Project Link: [https://github.com/SPU-EDU/SPMS](https://github.com/SPU-EDU/SPMS)
 
