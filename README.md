@@ -146,7 +146,7 @@ _For more details on how to use the project, please refer to the Documentation._
 
 ## Contact
 
-Jimmy Yazji - [@jimmyazji](https://twitter.com/jimmyazji) - jimmyyazji98@gmail.com
+Jimmy Yazji - [@{github}](#) - {email}
 
 Project Link: [https://github.com/SPU-EDU/SPMS](https://github.com/SPU-EDU/SPMS)
 

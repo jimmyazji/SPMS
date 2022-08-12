@@ -2,8 +2,9 @@
     <div
         class="max-w-7xl px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
         <div class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
-            <a href="https://www.spu.edu.sy/index.php?&lang=2" class="flex title-font  items-center md:justify-start justify-center text-white font-bold">
-                <img src="\images\SPU.png" alt="SPU Syrian Private University">
+            <a href="http://www.damascusuniversity.edu.sy/"
+                class="flex title-font  items-center md:justify-start justify-center text-white font-bold">
+                <img src="\images\Logo.png" alt="Damascus University">
             </a>
         </div>
         <div class="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
@@ -79,18 +80,16 @@
     </div>
     <div class="bg-gray-800">
         <div class="max-w-7xl mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
-            <p class="text-gray-300 text-sm text-center sm:text-left">© 2021 Syrian Private University —
-                <a href="https://github.com/jimmyazji" rel="noopener noreferrer" class="text-gray-200 ml-1"
-                    target="_blank">@jimmyazji</a>
+            <p class="text-gray-300 text-sm text-center sm:text-left">© 2022 Damascus University
             </p>
             <span class="inline-flex sm:ml-auto sm:mt-0 mt-2 justify-center sm:justify-start">
-                <a href="https://www.facebook.com/SPUpage.sy/?ref=bookmarks" class="text-gray-300">
+                <a href="" class="text-gray-300">
                     <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         class="w-5 h-5" viewBox="0 0 24 24">
                         <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
                     </svg>
                 </a>
-                <a href="https://twitter.com/SyrianPrivate" class="ml-3 text-gray-300">
+                <a href="" class="ml-3 text-gray-300">
                     <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         class="w-5 h-5" viewBox="0 0 24 24">
                         <path
@@ -98,7 +97,7 @@
                         </path>
                     </svg>
                 </a>
-                <a href="https://www.instagram.com/spu_syrian_private_university/" class="ml-3 text-gray-300">
+                <a href="" class="ml-3 text-gray-300">
                     <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                         stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
                         <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
