@@ -51,13 +51,13 @@
                             <div class="hidden md:block md:ml-6 md:pr-4">
                                 <a href="https://www.spu.edu.sy/"
                                     class="font-bold text-gray-500 hover:text-gray-900 px-3 py-2 rounded-full hover:bg-gray-100">Home</a>
-                                <a href="https://github.com/SPU-EDU/SPMS"
+                                <a href="https://github.com/DU-EDU-SY/SPMS"
                                     class="font-bold text-gray-500 hover:text-gray-900 px-3 py-2 rounded-full hover:bg-gray-100">Repository</a>
 
-                                <a href="https://github.com/SPU-EDU/SPMS/issues"
+                                <a href="https://github.com/DU-EDU-SY/SPMS/issues"
                                     class="font-bold text-gray-500 hover:text-gray-900 px-3 py-2 rounded-full hover:bg-gray-100">Issues</a>
 
-                                <a href="https://github.com/SPU-EDU/SPMS/issues"
+                                <a href="https://github.com/DU-EDU-SY/SPMS/issues"
                                     class="font-bold text-gray-500 hover:text-gray-900 px-3 py-2 rounded-full hover:bg-gray-100">Suggestions</a>
 
                                 @auth

@@ -2,8 +2,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/SPU-EDU/SPMS">
-    <img src="./SPU.png" alt="SPU" width="180" height="160">
+  <a href="https://github.com/DU-EDU-SY/SPMS">
+    <img src="./Logo.png" alt="Damascus University" width="180" height="160">
   </a>
 
   <h3 align="center">Students Project Management System</h3>
@@ -11,9 +11,9 @@
   <p align="center">
     An awesome way to manage your student's projects!
     <br />
-    <a href="https://github.com/SPU-EDU/SPMS/issues">Report Bugs</a>
+    <a href="https://github.com/DU-EDU-SY/SPMS/issues">Report Bugs</a>
     ·
-    <a href="https://github.com/SPU-EDU/SPMS/issues">Request Feature</a>
+    <a href="https://github.com/DU-EDU-SY/SPMS/issues">Request Feature</a>
   </p>
 </div>
 
@@ -98,7 +98,7 @@ _Below is how you install and setup up your own version of the app._
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/SPU-EDU/SPMS.git
+   git clone https://github.com/DU-EDU-SY/SPMS.git
    ```
    Or you can download the files manually.
 
@@ -148,6 +148,6 @@ _For more details on how to use the project, please refer to the Documentation._
 
 Ibrahem Al Nasser - ibrahemalnasser3@gmail.com
 
-Project Link: [https://github.com/SPU-EDU/SPMS](https://github.com/SPU-EDU/SPMS)
+Project Link: [https://github.com/DU-EDU-SY/SPMS](https://github.com/DU-EDU-SY/SPMS)
 
 <p align="right">(<a href="#top">back to top</a>)</p>

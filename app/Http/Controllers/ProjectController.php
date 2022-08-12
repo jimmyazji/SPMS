@@ -69,7 +69,7 @@ class ProjectController extends Controller
     public function create()
     {
         $this->authorize('create', Project::class);
-        $repos = Http::get('https://api.github.com/orgs/SPU-EDU/repos')->json();
+        $repos = Http::get(env('GITHUB_ORG').'/repos')->json();
         $specs = Specialization::cases();
         $types = ProjectType::cases();
         $states = ProjectState::cases();
@@ -118,7 +118,7 @@ class ProjectController extends Controller
         });
         if (!$request->repo) {
             if ($request->state == ProjectState::Incomplete || $request->state == ProjectState::Evaluating) {
-                $response = Http::withToken(env('GITHUB_TOKEN'))->post('https://api.github.com/orgs/SPU-EDU/repos', [
+                $response = Http::withToken(env('GITHUB_TOKEN'))->post(env('GITHUB_ORG').'/repos', [
                     'name' => Str::slug($request->title),
                     'private' => false,
                 ]);
@@ -181,7 +181,7 @@ class ProjectController extends Controller
     {
         $project = Project::find($id);
         $this->authorize('edit', $project);
-        $repos = Http::get('https://api.github.com/orgs/SPU-EDU/repos')->json();
+        $repos = Http::get(env('GITHUB_ORG').'/repos')->json();
         $specs = Specialization::cases();
         $types = ProjectType::cases();
         $states = ProjectState::cases();
@@ -230,7 +230,7 @@ class ProjectController extends Controller
         });
         if (!$request->repo) {
             if ($request->state == ProjectState::Incomplete || $request->state == ProjectState::Evaluating) {
-                $response = Http::withToken(env('GITHUB_TOKEN'))->post('https://api.github.com/orgs/SPU-EDU/repos', [
+                $response = Http::withToken(env('GITHUB_TOKEN'))->post(env('GITHUB_ORG').'/repos', [
                     'name' => Str::slug($request->title),
                     'private' => false,
                 ]);
@@ -351,7 +351,7 @@ class ProjectController extends Controller
                 $maintainers = $project->group->developers->pluck('github_id')->toArray();
                 if (!$project->url) {
                     try {
-                        $response = Http::withToken(env('GITHUB_TOKEN'))->post('https://api.github.com/orgs/SPU-EDU/repos', [
+                        $response = Http::withToken(env('GITHUB_TOKEN'))->post(env('GITHUB_ORG').'/repos', [
                             'name' => Str::slug($project->title),
                             'private' => false,
                         ]);
@@ -362,7 +362,7 @@ class ProjectController extends Controller
                     $response = Http::withToken(env('GITHUB_TOKEN'))->get($project->url);
                 }
                 Http::withToken(env('GITHUB_TOKEN'))->post(
-                    'https://api.github.com/orgs/SPU-EDU/teams',
+                    env('GITHUB_ORG').'/teams',
                     [
                         'name' => Str::slug($project->title),
                         'repo_names' => [$response->json('name')],
