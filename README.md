@@ -146,8 +146,8 @@ _For more details on how to use the project, please refer to the Documentation._
 
 ## Contact
 
-Ibrahem Al Nasser - ibrahemalnasser3@gmail.com
+Eng. Jimmy Yazji - jimmyyazji98@gmail.com
 
-Project Link: [https://github.com/DU-EDU-SY/SPMS](https://github.com/DU-EDU-SY/SPMS)
+Project Link: [https://github.com/jimmyyazji/SPMS](https://github.com/jimmyyazji/SPMS)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
